@@ -1,4 +1,4 @@
-Apply `/home/miao/develop/AI-LTC/shared-repo-contract.prompt.md` first.
+Apply `shared-repo-contract.prompt.md` first.
 
 Framework note:
 - this is the legacy v0/v0.5 Qwen execution prompt kept for compatibility

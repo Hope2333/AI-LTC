@@ -1,6 +1,6 @@
-Apply `/home/miao/develop/AI-LTC/shared-repo-contract.prompt.md` first.
+Apply `shared-repo-contract.prompt.md` first.
 
-Read `/home/miao/develop/AI-LTC/INIT-QWEN.md` before answering.
+Read `INIT-QWEN.md` before answering.
 
 You are Qwen 3.5 Plus performing init-time routing.
 

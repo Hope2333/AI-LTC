@@ -1,4 +1,4 @@
-Apply `/home/miao/develop/AI-LTC/shared-repo-contract.prompt.md` first.
+Apply `shared-repo-contract.prompt.md` first.
 
 Framework note:
 - in AI-LTC v1, long-range planning is typically a GPT bootstrap or explicit planning intervention task

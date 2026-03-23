@@ -7,7 +7,7 @@ This guide explains how to copy `project-template/` into a new repository with m
 From the target repository root:
 
 ```sh
-cp -R /home/miao/develop/AI-LTC/examples/collaboration-system/project-template/. .
+cp -R ./examples/collaboration-system/project-template/. /path/to/target-repo/
 ```
 
 Then immediately:
@@ -22,7 +22,7 @@ Then immediately:
 From the target repository root:
 
 ```sh
-/home/miao/develop/AI-LTC/examples/collaboration-system/copy-into-new-repo.sh .
+./examples/collaboration-system/copy-into-new-repo.sh /path/to/target-repo
 ```
 
 The script only copies the template skeleton.

@@ -1,4 +1,4 @@
-Apply `/home/miao/develop/AI-LTC/shared-repo-contract.prompt.md` first.
+Apply `shared-repo-contract.prompt.md` first.
 
 You are Qwen 3.5 Plus acting as the lower-cost execution AI.
 

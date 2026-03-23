@@ -10,6 +10,10 @@ AI-LTC 是一套面向长期 AI 辅助开发的可复用协作框架。
 
 这个仓库的目标不是单纯堆提示词，而是提供一套可以移植到其他项目中的长期协作脚手架。
 
+公开前说明：
+- v1 主线文档和 prompt 现在尽量避免本地私有路径假设
+- `archive/v0/` 继续作为历史归档保留
+
 ## 一键部署到 GitHub
 
 仓库命名 / 说明建议：
@@ -19,7 +23,7 @@ AI-LTC 是一套面向长期 AI 辅助开发的可复用协作框架。
 在当前目录使用 `gh` 一键部署：
 
 ```sh
-cd /home/miao/develop/AI-LTC
+cd AI-LTC
 git init -b main
 git add .
 git commit -m "Initial AI-LTC v1 framework."
@@ -46,10 +50,10 @@ Initialize this directory as a git repository, create a GitHub repo with gh, use
 - 旧框架已归档到 `archive/v0/`
 
 来源：
-- 源仓库：`/home/miao/develop/enve`
-- 源文档：`docs/ai-collaboration.md`
-- 人类入口：`docs/ai-workbench.md`
-- relay 入口：`docs/ai-relay.md`
+- 来源基础：从一个长期真实项目中提炼并泛化
+- 核心协议来源：`docs/ai-collaboration.md`
+- 人类入口模式：`docs/ai-workbench.md`
+- relay 入口模式：`docs/ai-relay.md`
 
 ## 现在的结构
 
@@ -59,6 +63,7 @@ Initialize this directory as a git repository, create a GitHub repo with gh, use
 v1 还新增了：
 - `FRAMEWORK-V1.md`
 - `INIT-QWEN.md`
+- `USE-CASES.md`
 - `00_HANDOFF.template.md`
 - `ESCALATION_REQUEST.template.md`
 - `gpt-bootstrap-architect.prompt.md`
@@ -168,6 +173,7 @@ v1 还新增了：
   Qwen 遇到死锁、重复 blocker、逻辑卡死时发给 GPT 的定点求助模板。
 
 - `INIT-QWEN.md`
+- `USE-CASES.md`
   给 Qwen 3.5 Plus 的 init 文档。
   用于在框架部署完毕后，判断项目属于全新、半道加入还是混沌状态，并推荐后续模型和 prompt。
 
@@ -219,10 +225,11 @@ v1 还新增了：
   人类每轮附加要求模板。
 
 另外，`examples/collaboration-system/` 提供了一套可复制到其他项目的最小协作系统骨架。
+同时新增了 `USE-CASES.md`，用于公开说明常见使用场景。
 它现在也已经升级到 v1 的 GPT/Qwen 分阶段框架。
 并新增了 `ROLE-QUICK-REFERENCE.md`，便于快速选角色。
 
 ## 备注
 
 这些文件是提取副本，便于在仓库外复用。
-真正的仓库内源头仍然是：`/home/miao/develop/enve/docs/ai-collaboration.md`、`/home/miao/develop/enve/docs/ai-workbench.md`、`/home/miao/develop/enve/docs/ai-relay.md`，以及由它们指向的本地 `.ai/` lane 文件。
+这些文件是可复用模板。复制到其他仓库后，应以目标仓库自己的 `docs/` 文件和本地 `.ai/` lane 文件作为源头。

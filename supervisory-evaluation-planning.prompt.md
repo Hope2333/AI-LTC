@@ -1,4 +1,4 @@
-Apply `/home/miao/develop/AI-LTC/shared-repo-contract.prompt.md` first.
+Apply `shared-repo-contract.prompt.md` first.
 
 Framework note:
 - in AI-LTC v1, this is no longer the default always-on operator prompt

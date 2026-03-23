@@ -1,4 +1,4 @@
-Apply `/home/miao/develop/AI-LTC/shared-repo-contract.prompt.md` first.
+Apply `shared-repo-contract.prompt.md` first.
 
 You are resuming an already-active lower-cost execution session.
 

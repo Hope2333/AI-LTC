@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-SOURCE_DIR="/home/miao/develop/AI-LTC/examples/collaboration-system/project-template"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+SOURCE_DIR="$SCRIPT_DIR/project-template"
 TARGET_DIR="${1:-}"
 
 if [[ -z "$TARGET_DIR" ]]; then
@@ -17,5 +18,5 @@ fi
 cp -R "$SOURCE_DIR"/. "$TARGET_DIR"/
 
 echo "Copied collaboration-system template into: $TARGET_DIR"
-echo "Next: open /home/miao/develop/AI-LTC/examples/collaboration-system/bootstrap-checklist.md"
+echo "Next: open $SCRIPT_DIR/bootstrap-checklist.md"
 echo "Then rewrite 00_HANDOFF.md and the placeholder files under .ai/active-lane/."

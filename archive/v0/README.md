@@ -2,7 +2,7 @@
 
 Extracted prompt templates for collaboration, checkpoint review, and long-range planning.
 
-Source repository: `/home/miao/develop/enve`
+Source basis: generalized from a long-running real repository before being cleaned for reuse
 Source documents:
 - `docs/ai-collaboration.md`
 - `docs/ai-workbench.md`
@@ -65,4 +65,4 @@ Project default:
 - keep local builds short and scoped for sanity checks, blocker isolation, and minimal repros
 
 Note:
-These are extracted copies for reuse. The repository-side source of truth remains the `docs/` files inside `enve` plus the local-only `.ai/` lane files resolved through `docs/ai-relay.md`.
+These files are meant for reuse. Once copied into another repository, that repository's own `docs/` files and local-only `.ai/` lane files become the source of truth.

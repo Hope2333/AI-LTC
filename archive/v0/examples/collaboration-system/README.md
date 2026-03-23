@@ -1,6 +1,6 @@
 # Collaboration System Example
 
-This example extracts the stable AI collaboration protocol from `enve` into a copyable project skeleton.
+This example extracts a stabilized AI collaboration protocol into a copyable project skeleton.
 
 Use it when you want to bootstrap another repository with:
 - a relay entrypoint
@@ -44,6 +44,6 @@ Use `bootstrap-checklist.md` before the first real AI run in the target reposito
 
 ## What Not To Copy Blindly
 
-- do not copy live lane state from `enve`
+- do not copy live lane state from the source project
 - do not copy project-specific commit IDs, run IDs, or blockers into a new repository
 - do not treat the placeholder active lane as real state; rewrite it for the target project

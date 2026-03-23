@@ -3,10 +3,10 @@
 这个目录用于存放 AI 协作、阶段复盘、战略复盘、长期规划相关的提示词模板。
 
 来源：
-- 源仓库：`/home/miao/develop/enve`
-- 源文档：`docs/ai-collaboration.md`
-- 人类入口：`docs/ai-workbench.md`
-- relay 入口：`docs/ai-relay.md`
+- 来源基础：较早的提取状态，仅用于历史归档
+- 核心协议来源：`docs/ai-collaboration.md`
+- 人类入口模式：`docs/ai-workbench.md`
+- relay 入口模式：`docs/ai-relay.md`
 
 ## 现在的结构
 
@@ -110,4 +110,4 @@
 ## 备注
 
 这些文件是提取副本，便于在仓库外复用。
-真正的仓库内源头仍然是：`/home/miao/develop/enve/docs/ai-collaboration.md`、`/home/miao/develop/enve/docs/ai-workbench.md`、`/home/miao/develop/enve/docs/ai-relay.md`，以及由它们指向的本地 `.ai/` lane 文件。
+这些文件是可复用模板。复制到其他仓库后，应以目标仓库自己的 `docs/` 文件和本地 `.ai/` lane 文件作为源头。

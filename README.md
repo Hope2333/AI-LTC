@@ -10,6 +10,10 @@ It packages a practical operating model for staged GPT/Qwen collaboration:
 
 This repository is meant to be copied, adapted, and used as a planning-and-execution scaffold for other projects, not just as a prompt dump.
 
+Public-ready note:
+- v1 now avoids local-only path assumptions in the mainline docs and prompts
+- archived v0 remains preserved as historical reference
+
 ## One-Click GitHub Deployment
 
 Repository naming / description suggestion:
@@ -19,7 +23,7 @@ Repository naming / description suggestion:
 One-click deploy with `gh` from this directory:
 
 ```sh
-cd /home/miao/develop/AI-LTC
+cd AI-LTC
 git init -b main
 git add .
 git commit -m "Initial AI-LTC v1 framework."
@@ -44,7 +48,7 @@ This directory now follows the v1 operating model:
   - execution
 - older flat prompts and conventions are archived under `archive/v0/`
 
-Source repository: `/home/miao/develop/enve`
+Source basis: generalized from a long-running real repository before being cleaned for reuse
 Source documents:
 - `docs/ai-collaboration.md`
 - `docs/ai-workbench.md`
@@ -54,6 +58,7 @@ Files:
 - `archive/v0/`
 - `FRAMEWORK-V1.md`
 - `INIT-QWEN.md`
+- `USE-CASES.md`
 - `examples/collaboration-system/`
 - `examples/collaboration-system/ROLE-QUICK-REFERENCE.md`
 - `examples/collaboration-system/bootstrap-checklist.md`
@@ -135,6 +140,7 @@ Standard status fields:
 - `Next Action`
 
 A copyable collaboration-system example lives under `examples/collaboration-system/`.
+A public-facing use-case guide now lives in `USE-CASES.md`.
 That example has now been upgraded to the v1 GPT/Qwen staged framework.
 It now also includes `ROLE-QUICK-REFERENCE.md` for fast operator selection.
 
@@ -147,4 +153,4 @@ Project default:
 - keep local builds short and scoped for sanity checks, blocker isolation, and minimal repros
 
 Note:
-These are extracted copies for reuse. The repository-side source of truth remains the `docs/` files inside `enve` plus the local-only `.ai/` lane files resolved through `docs/ai-relay.md`.
+These files are meant for reuse. Once copied into another repository, that repository's own `docs/` files and local-only `.ai/` lane files become the source of truth.

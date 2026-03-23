@@ -3,7 +3,7 @@
 - Template name: `collaboration-system`
 - Current version: `1.0.0`
 - Status: `active`
-- Compatibility note: derived from the stabilized AI collaboration protocol in `/home/miao/develop/enve`
+- Compatibility note: derived from a stabilized real-project AI collaboration protocol and then generalized for reuse
 
 ## Versioning Rule
 

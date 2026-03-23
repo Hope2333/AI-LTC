@@ -1,4 +1,4 @@
-Apply `/home/miao/develop/AI-LTC/shared-repo-contract.prompt.md` first.
+Apply `shared-repo-contract.prompt.md` first.
 
 Framework note:
 - in AI-LTC v1, prefer `qwen-supervisory-generalist.prompt.md` for the default ongoing supervisory role
