@@ -1,0 +1,220 @@
+# AI-LTC 模板说明
+
+AI-LTC = `AI-LongTimeCoding(plan)`。
+
+## 一键部署到 GitHub
+
+仓库命名 / 说明建议：
+- 仓库名：`AI-LTC`
+- 描述：`AI-LongTimeCoding(plan)`
+
+在当前目录使用 `gh` 一键部署：
+
+```sh
+cd /home/miao/develop/AI-LTC
+git init
+git add .
+git commit -m "Initial AI-LTC v1 framework."
+gh repo create AI-LTC --private --source=. --remote=origin --push --description "AI-LongTimeCoding(plan)"
+```
+
+可复用提示词：
+
+```text
+Initialize this directory as a git repository, create a GitHub repo with gh, use the repo name `AI-LTC`, set the description to `AI-LongTimeCoding(plan)`, add the files, create the first commit, set `origin`, and push the current branch.
+```
+
+当前框架版本：`v1`
+
+这个目录现在采用 v1 协作模型：
+- GPT 默认不常驻，只在你明确需要时出现
+- GPT 主要扮演：
+  - 初期总架构师
+  - 后期优化师 / 审计员
+- Qwen 作为默认主力，负责：
+  - 主评估
+  - 主监督
+  - 主执行
+- 旧框架已归档到 `archive/v0/`
+
+来源：
+- 源仓库：`/home/miao/develop/enve`
+- 源文档：`docs/ai-collaboration.md`
+- 人类入口：`docs/ai-workbench.md`
+- relay 入口：`docs/ai-relay.md`
+
+## 现在的结构
+
+为了减少重复和后续漂移，公共前置约束已经抽到：
+- `shared-repo-contract.prompt.md`
+
+v1 还新增了：
+- `FRAMEWORK-V1.md`
+- `INIT-QWEN.md`
+- `00_HANDOFF.template.md`
+- `ESCALATION_REQUEST.template.md`
+- `gpt-bootstrap-architect.prompt.md`
+- `gpt-optimizer-auditor.prompt.md`
+- `qwen-init-routing.prompt.md`
+- `qwen-generalist-autopilot.prompt.md`
+- `qwen-supervisory-generalist.prompt.md`
+
+## 推荐使用方式
+
+1. 先贴 `shared-repo-contract.prompt.md`
+2. 再按阶段选角色：
+   - 如果 Qwen 需要先判断项目当前是“全新 / 半道加入 / 混沌状态”，先用 `qwen-init-routing.prompt.md`
+   - 项目初期或大重构起步：`gpt-bootstrap-architect.prompt.md`
+   - 正常推进期默认：`qwen-generalist-autopilot.prompt.md`
+   - Qwen 主导的检查/监督/节点评估：`qwen-supervisory-generalist.prompt.md`
+   - 只有明确需要时才用：`gpt-optimizer-auditor.prompt.md`
+3. GPT 完成骨架后，用 `00_HANDOFF.template.md` 生成 `00_HANDOFF.md`
+4. Qwen 遇到死锁或反复报错时，用 `ESCALATION_REQUEST.template.md` 生成 `ESCALATION_REQUEST.md` 并触发 `@ARCHITECT_HELP`
+5. 如果只是想让执行中的 AI 稳定续跑，可改用 `continue-execution.prompt.md`
+6. 需要时最后追加 `human-addendum.template.md`
+
+## v1 核心逻辑
+
+- 贵脑做设计，快手做执行，按需请专家
+- GPT 定上限，Qwen 扩规模
+- GPT 不全程围观，只在明确场景短暂介入
+- 如果框架已经部署好，但项目状态还不明确，可先让 Qwen 用 `qwen-init-routing.prompt.md` 做一次初始分流
+
+## 角色分工
+
+- GPT 初期：
+  - 总架构师
+  - 深度思考、定规范、搭骨架
+  - 完工即退场
+
+- Qwen 中期：
+  - 全能工程师
+  - 主评估、主监督、主执行
+  - 在实战中动态补文档、补结构
+
+- GPT 后期：
+  - 优化师 / 审计员
+  - 只在瓶颈、重构、专项审计时短暂唤醒
+
+## shared header 包含的内容
+
+- 统一 read order：先读 `AGENTS.md`、`.ai/README.md`、`docs/ai-relay.md`、`docs/ai-collaboration.md`，再读 active lane docs
+- `.ai/` 是本地私有 active lane state
+- 如果 `.ai/` 缺失，要先重建最小本地工作区
+- `docs/modernization/*` 同名文件只算 bridge notes，不覆盖 `.ai/` active state
+- 默认不进入提交范围：`.omx/`、`.ai/`、`.sisyphus/`、`AGENTS.md`
+- 有统一的 bounded-pass、反循环、结构化输出约束
+- 有统一的构建偏好：能用 GitHub Actions 做干净验证时，优先用 GitHub Actions
+- 有统一的固定退出语句模板，便于程序解析
+- 有统一的状态字段模板，便于程序稳定取值
+- 有 v1 交接清单协议：`00_HANDOFF.md`
+- 有 v1 升级机制：`@ARCHITECT_HELP` + `ESCALATION_REQUEST.md`
+- 有 v1 文档自进化规则：Qwen 可直接更新文档，但要留下更新标记
+
+## 固定退出语句
+
+- `STOP_NO_NEW_EVIDENCE`
+- `STOP_REPEATED_BLOCKER`
+- `STOP_BOUNDED_PASS_EXHAUSTED`
+- `STOP_WAIT_NO_PROGRESS`
+- `STOP_REVIEW_GATE_REACHED`
+
+这些短语用于无新证据、重复 blocker、bounded pass 用尽、等待无进展、到达 review gate 时的统一退出。
+
+## 固定状态字段
+
+- `Status`
+- `Decision`
+- `Stop Reason`
+- `Next Action`
+
+这些字段用于让 execution / checkpoint / planning 输出更接近稳定协议。
+
+## 文件说明
+
+- `examples/collaboration-system/`
+  一个可复制到其他项目的协作系统模板示例。
+
+- `examples/collaboration-system/bootstrap-checklist.md`
+  复制到新项目后第一天应该修改什么的检查清单。
+
+- `examples/collaboration-system/install-example.md`
+  复制模板到新项目时的安装说明。
+
+- `examples/collaboration-system/copy-into-new-repo.sh`
+  一个最小复制脚本，用于把模板骨架复制到新仓库。
+
+- `examples/collaboration-system/VERSION.md`
+  这套模板自己的版本信息。
+
+- `examples/collaboration-system/CHANGELOG.md`
+  这套模板自己的变更记录。
+
+- `shared-repo-contract.prompt.md`
+  所有角色 prompt 的公共前置说明。
+
+- `00_HANDOFF.template.md`
+  GPT 向 Qwen 交接时必须生成的交接清单模板。
+
+- `ESCALATION_REQUEST.template.md`
+  Qwen 遇到死锁、重复 blocker、逻辑卡死时发给 GPT 的定点求助模板。
+
+- `INIT-QWEN.md`
+  给 Qwen 3.5 Plus 的 init 文档。
+  用于在框架部署完毕后，判断项目属于全新、半道加入还是混沌状态，并推荐后续模型和 prompt。
+
+- `gpt-bootstrap-architect.prompt.md`
+  GPT 初期架构师 prompt。
+
+- `gpt-optimizer-auditor.prompt.md`
+  GPT 优化师 / 审计员 prompt。
+
+- `qwen-generalist-autopilot.prompt.md`
+  Qwen 全能工程师 prompt。
+  是 v1 默认主力。
+
+- `qwen-supervisory-generalist.prompt.md`
+  Qwen 主监督 / 主评估 prompt。
+  用于让 Qwen 也能承担 checkpoint、lane 判断和节点评审。
+
+- `qwen-init-routing.prompt.md`
+  Qwen 3.5 Plus 的 init 分流 prompt。
+  用于在接管前先评估项目状态，并推荐接下来应使用的模型和 prompt 组合。
+
+- `lower-cost-execution.prompt.md`
+  旧通用执行版，保留兼容性。
+  现在明确要求：尽量优先窄的 GitHub Actions 构建/验证路径，本地构建主要用于快速 sanity 和 blocker 隔离。
+  同时要求在提前停止时输出固定 `Stop Reason`，并尽量提供固定状态字段。
+
+- `qwen-lower-cost-autopilot.prompt.md`
+  旧版 Qwen 强化执行 prompt，保留兼容性。
+  v1 默认更推荐 `qwen-generalist-autopilot.prompt.md`。
+  现在也明确限制了单次 pass、等待次数、循环风险，并把 GitHub Actions 设为优先证明路径。
+  同时要求在停止时输出固定 `Stop Reason`，并尽量提供固定状态字段。
+
+- `checkpoint-review.prompt.md`
+  轻量监督复盘。
+
+- `supervisory-evaluation-planning.prompt.md`
+  常规“评估 + 规划”。
+
+- `strategic-checkpoint-long-horizon.prompt.md`
+  既看当前状态，也看 lane / phase / roadmap 的战略复盘。
+
+- `long-range-planning.prompt.md`
+  长期 / 超长期规划。
+
+- `continue-execution.prompt.md`
+  用于代替只发 `continue.` 的续跑提示词。
+
+- `human-addendum.template.md`
+  人类每轮附加要求模板。
+
+另外，`examples/collaboration-system/` 提供了一套可复制到其他项目的最小协作系统骨架。
+它现在也已经升级到 v1 的 GPT/Qwen 分阶段框架。
+并新增了 `ROLE-QUICK-REFERENCE.md`，便于快速选角色。
+
+## 备注
+
+这些文件是提取副本，便于在仓库外复用。
+真正的仓库内源头仍然是：`/home/miao/develop/enve/docs/ai-collaboration.md`、`/home/miao/develop/enve/docs/ai-workbench.md`、`/home/miao/develop/enve/docs/ai-relay.md`，以及由它们指向的本地 `.ai/` lane 文件。
