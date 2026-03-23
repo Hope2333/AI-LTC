@@ -2,6 +2,14 @@
 
 AI-LTC = `AI-LongTimeCoding(plan)`.
 
+AI-LTC is a reusable collaboration framework for long-horizon AI-assisted software work.
+It packages a practical operating model for staged GPT/Qwen collaboration:
+- GPT defines architecture and intervenes only when high-cost design or optimization is justified
+- Qwen handles the default day-to-day supervision, execution, and bounded iteration
+- handoff, escalation, relay, and self-evolving-doc rules are made explicit so multi-session work can continue without rebuilding context each time
+
+This repository is meant to be copied, adapted, and used as a planning-and-execution scaffold for other projects, not just as a prompt dump.
+
 ## One-Click GitHub Deployment
 
 Repository naming / description suggestion:
