@@ -20,7 +20,7 @@ One-click deploy with `gh` from this directory:
 
 ```sh
 cd /home/miao/develop/AI-LTC
-git init
+git init -b main
 git add .
 git commit -m "Initial AI-LTC v1 framework."
 gh repo create AI-LTC --private --source=. --remote=origin --push --description "AI-LongTimeCoding(plan)"

@@ -20,7 +20,7 @@ AI-LTC 是一套面向长期 AI 辅助开发的可复用协作框架。
 
 ```sh
 cd /home/miao/develop/AI-LTC
-git init
+git init -b main
 git add .
 git commit -m "Initial AI-LTC v1 framework."
 gh repo create AI-LTC --private --source=. --remote=origin --push --description "AI-LongTimeCoding(plan)"
