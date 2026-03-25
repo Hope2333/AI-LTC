@@ -58,6 +58,7 @@ Source documents:
 Files:
 - `archive/v0/`
 - `FRAMEWORK-V1.md`
+- `ARCHITECTURE-LAYERS.md`
 - `INIT-QWEN.md`
 - `USE-CASES.md`
 - `examples/collaboration-system/`
@@ -150,6 +151,11 @@ A copyable collaboration-system example lives under `examples/collaboration-syst
 A public-facing use-case guide now lives in `USE-CASES.md`.
 That example has now been upgraded to the v1 GPT/Qwen staged framework.
 It now also includes `ROLE-QUICK-REFERENCE.md` for fast operator selection.
+
+Architecture reading order:
+- `FRAMEWORK-V1.md`
+- `ARCHITECTURE-LAYERS.md`
+- `INIT-QWEN.md`
 
 Project default:
 - for ongoing repository work, prefer `qwen-generalist-autopilot.prompt.md`

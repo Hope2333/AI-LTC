@@ -63,6 +63,7 @@ Initialize this directory as a git repository, create a GitHub repo with gh, use
 
 v1 还新增了：
 - `FRAMEWORK-V1.md`
+- `ARCHITECTURE-LAYERS.md`
 - `INIT-QWEN.md`
 - `USE-CASES.md`
 - `AI-LTC-INIT-QUESTIONNAIRE.template.md`
@@ -89,6 +90,12 @@ v1 还新增了：
 5. Qwen 遇到死锁或反复报错时，用 `ESCALATION_REQUEST.template.md` 生成 `ESCALATION_REQUEST.md` 并触发 `@ARCHITECT_HELP`
 6. 如果只是想让执行中的 AI 稳定续跑，可改用 `continue-execution.prompt.md`
 7. 需要时最后追加 `human-addendum.template.md`
+
+## 架构阅读顺序
+
+- `FRAMEWORK-V1.md`
+- `ARCHITECTURE-LAYERS.md`
+- `INIT-QWEN.md`
 
 ## v1 核心逻辑
 

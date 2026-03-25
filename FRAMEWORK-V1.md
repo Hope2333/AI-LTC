@@ -37,6 +37,12 @@ Mandatory micro-controls:
   - add a note:
     - `// Updated by Qwen on YYYY-MM-DD: <reason>`
 
+Architecture layering:
+- Static = reusable framework constitution
+- Dynamic = live target-repository state
+- Self-Evolving = framework pieces improved from real use
+- see `ARCHITECTURE-LAYERS.md` for the full mapping
+
 Default policy:
 - for ongoing repos, default to Qwen first
 - use GPT only when:
