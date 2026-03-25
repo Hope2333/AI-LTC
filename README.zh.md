@@ -251,6 +251,9 @@ v1 还新增了：
   用于代替只发 `continue.` 的续跑提示词。
 
 - `human-addendum.template.md`
+- `scripts/init_validator.py`
+- `scripts/resolver_validator.py`
+- `scripts/state_pack_generator.py`
   人类每轮附加要求模板。
 
 另外，`examples/collaboration-system/` 提供了一套可复制到其他项目的最小协作系统骨架。
@@ -267,3 +270,8 @@ v1 还新增了：
 这些文件是可复用模板。复制到其他仓库后，应以目标仓库自己的 `docs/` 文件和本地 `.ai/` lane 文件作为源头。
 不要在目标项目里把 AI-LTC 根目录绝对路径散写进多个 `.ai` 文件；应集中写到 `.ai/system/ai-ltc-config.json`。
 默认 resolver 策略应是：本地 AI-LTC 仓库优先，远端 `https://github.com/Hope2333/AI-LTC` 作为后备，Qwen 仅在必要时才刷新本地副本。
+
+轻量工具：
+- 用 `python3 scripts/init_validator.py /path/to/target-repo` 校验 init 状态
+- 用 `python3 scripts/resolver_validator.py /path/to/target-repo` 校验 resolver 配置
+- 用 `python3 scripts/state_pack_generator.py /path/to/target-repo` 生成紧凑 state pack

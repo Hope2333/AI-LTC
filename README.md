@@ -89,6 +89,9 @@ Files:
 - `long-range-planning.prompt.md`
 - `continue-execution.prompt.md`
 - `human-addendum.template.md`
+- `scripts/init_validator.py`
+- `scripts/resolver_validator.py`
+- `scripts/state_pack_generator.py`
 
 Recommended composition:
 1. Apply `shared-repo-contract.prompt.md`
@@ -176,6 +179,11 @@ Project default:
 - keep local builds short and scoped for sanity checks, blocker isolation, and minimal repros
 - do not hardcode AI-LTC local filesystem paths into project prompts or `.ai` files; resolve them through init config instead
 - default resolver policy: prefer the local AI-LTC checkout first, fall back to `https://github.com/Hope2333/AI-LTC`, and let Qwen refresh the local checkout only when needed
+
+Lightweight tooling:
+- validate init state with `python3 scripts/init_validator.py /path/to/target-repo`
+- validate resolver config with `python3 scripts/resolver_validator.py /path/to/target-repo`
+- generate a compact state pack with `python3 scripts/state_pack_generator.py /path/to/target-repo`
 
 Note:
 These files are meant for reuse. Once copied into another repository, that repository's own `docs/` files and local-only `.ai/` lane files become the source of truth.
