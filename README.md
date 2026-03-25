@@ -63,6 +63,7 @@ Files:
 - `INIT-RECIPES.md`
 - `UPGRADE-MATRIX.md`
 - `FORMAT-STRATEGY.md`
+- `TOOLS.md`
 - `INIT-QWEN.md`
 - `USE-CASES.md`
 - `examples/collaboration-system/`
@@ -94,6 +95,7 @@ Files:
 - `scripts/resolver_validator.py`
 - `scripts/upgrade_validator.py`
 - `scripts/state_pack_generator.py`
+- `scripts/state_pack_validator.py`
 
 Recommended composition:
 1. Apply `shared-repo-contract.prompt.md`
@@ -160,6 +162,7 @@ A public-facing use-case and routing guide now lives in `USE-CASES.md`.
 An init recipes guide now lives in `INIT-RECIPES.md`.
 A framework upgrade matrix now lives in `UPGRADE-MATRIX.md`.
 A format and language strategy guide now lives in `FORMAT-STRATEGY.md`.
+A tooling guide now lives in `TOOLS.md`.
 A token and context strategy guide now lives in `TOKEN-CONTEXT-STRATEGY.md`.
 That example has now been upgraded to the v1 GPT/Qwen staged framework.
 It now also includes `ROLE-QUICK-REFERENCE.md` for fast operator selection.
@@ -171,6 +174,7 @@ Architecture reading order:
 - `INIT-RECIPES.md`
 - `UPGRADE-MATRIX.md`
 - `FORMAT-STRATEGY.md`
+- `TOOLS.md`
 - `TOKEN-CONTEXT-STRATEGY.md`
 - `INIT-QWEN.md`
 
@@ -189,6 +193,7 @@ Lightweight tooling:
 - validate resolver config with `python3 scripts/resolver_validator.py /path/to/target-repo`
 - validate upgrade classification with `python3 scripts/upgrade_validator.py /path/to/target-repo --target-version v1.7.0`
 - generate a compact state pack with `python3 scripts/state_pack_generator.py /path/to/target-repo`
+- validate a compact state pack with `python3 scripts/state_pack_validator.py /path/to/state-pack.md`
 
 Note:
 These files are meant for reuse. Once copied into another repository, that repository's own `docs/` files and local-only `.ai/` lane files become the source of truth.

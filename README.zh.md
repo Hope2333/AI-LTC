@@ -68,6 +68,7 @@ v1 还新增了：
 - `INIT-RECIPES.md`
 - `UPGRADE-MATRIX.md`
 - `FORMAT-STRATEGY.md`
+- `TOOLS.md`
 - `TOKEN-CONTEXT-STRATEGY.md`
 - `INIT-QWEN.md`
 - `USE-CASES.md`
@@ -102,7 +103,9 @@ v1 还新增了：
 - `ARCHITECTURE-LAYERS.md`
 - `STATE-FLOWS.md`
 - `INIT-RECIPES.md`
+- `UPGRADE-MATRIX.md`
 - `FORMAT-STRATEGY.md`
+- `TOOLS.md`
 - `TOKEN-CONTEXT-STRATEGY.md`
 - `INIT-QWEN.md`
 
@@ -256,6 +259,7 @@ v1 还新增了：
 - `scripts/resolver_validator.py`
 - `scripts/upgrade_validator.py`
 - `scripts/state_pack_generator.py`
+- `scripts/state_pack_validator.py`
   人类每轮附加要求模板。
 
 另外，`examples/collaboration-system/` 提供了一套可复制到其他项目的最小协作系统骨架。
@@ -263,6 +267,7 @@ v1 还新增了：
 同时新增了 `INIT-RECIPES.md`，用于标准化 fresh init / update / upgrade / resume 与骨架复制策略。
 同时新增了 `UPGRADE-MATRIX.md`，用于标准化升级判定矩阵与 rc 发布纪律。
 同时新增了 `FORMAT-STRATEGY.md`，用于正式说明 markdown / YAML / JSON / CSV / mixed 的分层策略，以及语言策略。
+同时新增了 `TOOLS.md`，用于集中说明当前 validator / generator 工具层。
 同时新增了 `TOKEN-CONTEXT-STRATEGY.md`，用于正式说明 token、context、配额与长会话节省策略。
 它现在也已经升级到 v1 的 GPT/Qwen 分阶段框架。
 并新增了 `ROLE-QUICK-REFERENCE.md`，便于快速选角色。
@@ -273,6 +278,13 @@ v1 还新增了：
 这些文件是可复用模板。复制到其他仓库后，应以目标仓库自己的 `docs/` 文件和本地 `.ai/` lane 文件作为源头。
 不要在目标项目里把 AI-LTC 根目录绝对路径散写进多个 `.ai` 文件；应集中写到 `.ai/system/ai-ltc-config.json`。
 默认 resolver 策略应是：本地 AI-LTC 仓库优先，远端 `https://github.com/Hope2333/AI-LTC` 作为后备，Qwen 仅在必要时才刷新本地副本。
+
+轻量工具：
+- 用 `python3 scripts/init_validator.py /path/to/target-repo` 校验 init 状态
+- 用 `python3 scripts/resolver_validator.py /path/to/target-repo` 校验 resolver 配置
+- 用 `python3 scripts/upgrade_validator.py /path/to/target-repo --target-version v1.8.1` 校验升级分类
+- 用 `python3 scripts/state_pack_generator.py /path/to/target-repo` 生成紧凑 state pack
+- 用 `python3 scripts/state_pack_validator.py /path/to/state-pack.md` 校验 state pack
 
 轻量工具：
 - 用 `python3 scripts/init_validator.py /path/to/target-repo` 校验 init 状态
