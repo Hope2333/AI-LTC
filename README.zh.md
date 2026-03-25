@@ -246,7 +246,7 @@ v1 还新增了：
   人类每轮附加要求模板。
 
 另外，`examples/collaboration-system/` 提供了一套可复制到其他项目的最小协作系统骨架。
-同时新增了 `USE-CASES.md`，用于公开说明常见使用场景。
+同时新增了 `USE-CASES.md`，用于公开说明常见使用场景，并作为更系统的场景路由入口。
 它现在也已经升级到 v1 的 GPT/Qwen 分阶段框架。
 并新增了 `ROLE-QUICK-REFERENCE.md`，便于快速选角色。
 
