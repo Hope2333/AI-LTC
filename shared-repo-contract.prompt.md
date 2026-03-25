@@ -1,5 +1,7 @@
 Read `AGENTS.md`, `.ai/README.md`, `docs/ai-relay.md`, and `docs/ai-collaboration.md` first.
 Then read the active lane handoff/status/roadmap docs listed in `docs/ai-relay.md`.
+If `.ai/system/ai-ltc-config.json` exists, read it before assuming any AI-LTC source location.
+If the repository is a fresh AI-LTC deployment or a `v0 -> v1` upgrade, run init routing before assuming the prompt source is fully configured.
 
 Framework v1 role default:
 - GPT is not the default always-on operator
@@ -17,6 +19,10 @@ Shared lane rules:
 - follow only one extra hop of referenced docs unless a referenced document is clearly sequencing-critical
 - when `00_HANDOFF.md` exists in the workspace root or active lane directory, read it before starting execution
 - when `ESCALATION_REQUEST.md` exists and you are the explicitly-invoked architect/optimizer, use it as the first problem summary instead of re-deriving the whole situation
+- when `.ai/system/ai-ltc-config.json` exists, treat it as the authoritative AI-LTC resolver config
+- do not hardcode AI-LTC local paths into prompts, lane docs, or copied templates when a resolver config can be used instead
+- prefer the configured local AI-LTC checkout first, then the configured remote fallback
+- allow Qwen to refresh the local AI-LTC checkout only when the config allows it and the current task actually needs the refresh
 
 Shared language and identifier contract:
 - keep file paths, commit IDs, workflow IDs, and code identifiers in their original English form

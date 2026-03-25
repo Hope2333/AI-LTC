@@ -1,0 +1,18 @@
+{
+  "schema_version": "1",
+  "framework_version": "v1",
+  "source_mode": "local_path",
+  "source_priority": ["local_path", "git_repo"],
+  "local_root": "",
+  "repo_url": "https://github.com/Hope2333/AI-LTC",
+  "repo_ref": "main",
+  "cloud_reference": "",
+  "allow_qwen_refresh_local": true,
+  "project_state": "midstream",
+  "default_operator_model": "qwen-3.5-plus",
+  "default_operator_prompt": "qwen-generalist-autopilot.prompt.md",
+  "supervisory_prompt": "qwen-supervisory-generalist.prompt.md",
+  "architect_prompt": "gpt-bootstrap-architect.prompt.md",
+  "auditor_prompt": "gpt-optimizer-auditor.prompt.md",
+  "resolver_note": "Fill only the fields used by this target repository. Keep this file local-only under .ai/system/."
+}

@@ -13,6 +13,7 @@ AI-LTC 是一套面向长期 AI 辅助开发的可复用协作框架。
 公开前说明：
 - v1 主线文档和 prompt 现在尽量避免本地私有路径假设
 - `archive/v0/` 继续作为历史归档保留
+- GitHub 仓库 `Hope2333/AI-LTC` 当前作为规范远端备份，后续在进一步检查和整理后计划开放给公众
 
 ## 一键部署到 GitHub
 
@@ -64,6 +65,8 @@ v1 还新增了：
 - `FRAMEWORK-V1.md`
 - `INIT-QWEN.md`
 - `USE-CASES.md`
+- `AI-LTC-INIT-QUESTIONNAIRE.template.md`
+- `ai-ltc-config.template.json`
 - `00_HANDOFF.template.md`
 - `ESCALATION_REQUEST.template.md`
 - `gpt-bootstrap-architect.prompt.md`
@@ -75,16 +78,17 @@ v1 还新增了：
 ## 推荐使用方式
 
 1. 先贴 `shared-repo-contract.prompt.md`
-2. 再按阶段选角色：
-   - 如果 Qwen 需要先判断项目当前是“全新 / 半道加入 / 混沌状态”，先用 `qwen-init-routing.prompt.md`
+2. 如果目标项目是 `v0 -> v1` 升级，或还没有 init resolver config，先用 `qwen-init-routing.prompt.md`
+3. 再按阶段选角色：
+   - 如果 Qwen 需要先判断项目当前是“全新 / 半道加入 / 混沌状态”，并确认 AI-LTC 来源模式，先用 `qwen-init-routing.prompt.md`
    - 项目初期或大重构起步：`gpt-bootstrap-architect.prompt.md`
    - 正常推进期默认：`qwen-generalist-autopilot.prompt.md`
    - Qwen 主导的检查/监督/节点评估：`qwen-supervisory-generalist.prompt.md`
    - 只有明确需要时才用：`gpt-optimizer-auditor.prompt.md`
-3. GPT 完成骨架后，用 `00_HANDOFF.template.md` 生成 `00_HANDOFF.md`
-4. Qwen 遇到死锁或反复报错时，用 `ESCALATION_REQUEST.template.md` 生成 `ESCALATION_REQUEST.md` 并触发 `@ARCHITECT_HELP`
-5. 如果只是想让执行中的 AI 稳定续跑，可改用 `continue-execution.prompt.md`
-6. 需要时最后追加 `human-addendum.template.md`
+4. GPT 完成骨架后，用 `00_HANDOFF.template.md` 生成 `00_HANDOFF.md`
+5. Qwen 遇到死锁或反复报错时，用 `ESCALATION_REQUEST.template.md` 生成 `ESCALATION_REQUEST.md` 并触发 `@ARCHITECT_HELP`
+6. 如果只是想让执行中的 AI 稳定续跑，可改用 `continue-execution.prompt.md`
+7. 需要时最后追加 `human-addendum.template.md`
 
 ## v1 核心逻辑
 
@@ -92,6 +96,7 @@ v1 还新增了：
 - GPT 定上限，Qwen 扩规模
 - GPT 不全程围观，只在明确场景短暂介入
 - 如果框架已经部署好，但项目状态还不明确，可先让 Qwen 用 `qwen-init-routing.prompt.md` 做一次初始分流
+- 如果项目是从 `v0` 升到 `v1`，则建议把 Qwen init 视为半强制迁移步骤
 
 ## 角色分工
 
@@ -123,6 +128,8 @@ v1 还新增了：
 - 有 v1 交接清单协议：`00_HANDOFF.md`
 - 有 v1 升级机制：`@ARCHITECT_HELP` + `ESCALATION_REQUEST.md`
 - 有 v1 文档自进化规则：Qwen 可直接更新文档，但要留下更新标记
+- 有 init 时的 resolver config：`.ai/system/ai-ltc-config.json`
+- 有 init 问答模板：`AI-LTC-INIT-QUESTIONNAIRE.template.md`
 
 ## 固定退出语句
 
@@ -166,6 +173,14 @@ v1 还新增了：
 - `shared-repo-contract.prompt.md`
   所有角色 prompt 的公共前置说明。
 
+- `AI-LTC-INIT-QUESTIONNAIRE.template.md`
+  init 阶段给 Qwen 的最小问答模板。
+  用于确认 AI-LTC 来源模式、本地位址或云 repo、项目状态和默认模型。
+
+- `ai-ltc-config.template.json`
+  AI-LTC resolver 配置模板。
+  复制到目标项目后，应落在 `.ai/system/ai-ltc-config.json`。
+
 - `00_HANDOFF.template.md`
   GPT 向 Qwen 交接时必须生成的交接清单模板。
 
@@ -173,7 +188,6 @@ v1 还新增了：
   Qwen 遇到死锁、重复 blocker、逻辑卡死时发给 GPT 的定点求助模板。
 
 - `INIT-QWEN.md`
-- `USE-CASES.md`
   给 Qwen 3.5 Plus 的 init 文档。
   用于在框架部署完毕后，判断项目属于全新、半道加入还是混沌状态，并推荐后续模型和 prompt。
 
@@ -193,7 +207,7 @@ v1 还新增了：
 
 - `qwen-init-routing.prompt.md`
   Qwen 3.5 Plus 的 init 分流 prompt。
-  用于在接管前先评估项目状态，并推荐接下来应使用的模型和 prompt 组合。
+  用于在接管前先评估项目状态，确认 AI-LTC 来源模式，并推荐接下来应使用的模型和 prompt 组合。
 
 - `lower-cost-execution.prompt.md`
   旧通用执行版，保留兼容性。
@@ -233,3 +247,5 @@ v1 还新增了：
 
 这些文件是提取副本，便于在仓库外复用。
 这些文件是可复用模板。复制到其他仓库后，应以目标仓库自己的 `docs/` 文件和本地 `.ai/` lane 文件作为源头。
+不要在目标项目里把 AI-LTC 根目录绝对路径散写进多个 `.ai` 文件；应集中写到 `.ai/system/ai-ltc-config.json`。
+默认 resolver 策略应是：本地 AI-LTC 仓库优先，远端 `https://github.com/Hope2333/AI-LTC` 作为后备，Qwen 仅在必要时才刷新本地副本。

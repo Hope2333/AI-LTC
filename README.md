@@ -13,6 +13,7 @@ This repository is meant to be copied, adapted, and used as a planning-and-execu
 Public-ready note:
 - v1 now avoids local-only path assumptions in the mainline docs and prompts
 - archived v0 remains preserved as historical reference
+- GitHub repo `Hope2333/AI-LTC` is currently the canonical remote backup and is planned for later public release after further review
 
 ## One-Click GitHub Deployment
 
@@ -67,6 +68,8 @@ Files:
 - `examples/collaboration-system/VERSION.md`
 - `examples/collaboration-system/CHANGELOG.md`
 - `shared-repo-contract.prompt.md`
+- `AI-LTC-INIT-QUESTIONNAIRE.template.md`
+- `ai-ltc-config.template.json`
 - `00_HANDOFF.template.md`
 - `ESCALATION_REQUEST.template.md`
 - `gpt-bootstrap-architect.prompt.md`
@@ -85,16 +88,17 @@ Files:
 
 Recommended composition:
 1. Apply `shared-repo-contract.prompt.md`
-2. Choose the v1 role prompt:
-   - `qwen-init-routing.prompt.md` when Qwen must first classify the project and recommend the next model/prompt
+2. If the target repo is upgrading from v0 or has no init resolver config, run `qwen-init-routing.prompt.md`
+3. Choose the v1 role prompt:
+   - `qwen-init-routing.prompt.md` when Qwen must first classify the project, confirm AI-LTC source mode, and recommend the next model/prompt
    - `gpt-bootstrap-architect.prompt.md` for early architecture / framework setup
    - `qwen-generalist-autopilot.prompt.md` for normal day-to-day work
    - `qwen-supervisory-generalist.prompt.md` for Qwen-led checkpoints / sequencing
    - `gpt-optimizer-auditor.prompt.md` only when explicitly needed
-3. Use `00_HANDOFF.template.md` when GPT hands work to Qwen
-4. Use `ESCALATION_REQUEST.template.md` when Qwen triggers `@ARCHITECT_HELP`
-5. Use `continue-execution.prompt.md` when you want a stronger replacement for a bare `continue.` during an active execution session
-6. Optionally append `human-addendum.template.md`
+4. Use `00_HANDOFF.template.md` when GPT hands work to Qwen
+5. Use `ESCALATION_REQUEST.template.md` when Qwen triggers `@ARCHITECT_HELP`
+6. Use `continue-execution.prompt.md` when you want a stronger replacement for a bare `continue.` during an active execution session
+7. Optionally append `human-addendum.template.md`
 
 v1 core logic:
 - expensive brain does design
@@ -110,6 +114,7 @@ Default policy:
 - GPT should not hover continuously over active delivery
 - exception: for a new or ambiguous project at the very beginning, prefer GPT first for the initial long-range system design
 - if Qwen is taking over after framework deployment, let it run `qwen-init-routing.prompt.md` first to classify the project as `greenfield`, `midstream`, or `chaotic`
+- if the project is a v0-to-v1 migration, or if no resolver config exists, treat Qwen init as required
 
 Shared contract covers:
 - read order through `docs/ai-relay.md`
@@ -125,6 +130,8 @@ Shared contract covers:
 - v1 handoff protocol via `00_HANDOFF.md`
 - v1 escalation trigger via `@ARCHITECT_HELP` and `ESCALATION_REQUEST.md`
 - self-evolving docs rule for Qwen-updated lane / framework docs
+- init-time resolver config via `.ai/system/ai-ltc-config.json`
+- question-window style init intake via `AI-LTC-INIT-QUESTIONNAIRE.template.md`
 
 Standard stop phrases:
 - `STOP_NO_NEW_EVIDENCE`
@@ -151,6 +158,8 @@ Project default:
 - use `gpt-optimizer-auditor.prompt.md` only for explicit optimization, audit, refactor, or escalation work
 - prefer narrow GitHub Actions validation over long local full builds when both can prove the same point
 - keep local builds short and scoped for sanity checks, blocker isolation, and minimal repros
+- do not hardcode AI-LTC local filesystem paths into project prompts or `.ai` files; resolve them through init config instead
+- default resolver policy: prefer the local AI-LTC checkout first, fall back to `https://github.com/Hope2333/AI-LTC`, and let Qwen refresh the local checkout only when needed
 
 Note:
 These files are meant for reuse. Once copied into another repository, that repository's own `docs/` files and local-only `.ai/` lane files become the source of truth.
