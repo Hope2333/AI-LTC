@@ -2,6 +2,10 @@
 
 AI-LTC = `AI-LongTimeCoding(plan)`。
 
+## 一句话价值主张
+
+长期 AI 协作脚手架
+
 AI-LTC 是一套面向长期 AI 辅助开发的可复用协作框架。
 它把分阶段的 GPT / Qwen 协作方式沉淀成一套可以复制、改造、持续演化的工作骨架：
 - GPT 负责高成本的架构设计，以及按需介入的优化 / 审计
@@ -14,6 +18,54 @@ AI-LTC 是一套面向长期 AI 辅助开发的可复用协作框架。
 - v1 主线文档和 prompt 现在尽量避免本地私有路径假设
 - `archive/v0/` 继续作为历史归档保留
 - GitHub 仓库 `Hope2333/AI-LTC` 当前作为规范远端备份，后续在进一步检查和整理后计划开放给公众
+
+## 四层架构图
+
+```text
+Layer 0: Shared Contract
+  -> 公共规则、停止信号、状态字段、范围护栏
+
+Layer 1: Role Prompts
+  -> GPT 架构师 / 优化师，Qwen init / 执行 / 监督
+
+Layer 2: Skeleton And Relay Surface
+  -> 可复用 docs/、.ai/、模板与示例结构
+
+Layer 3: Runtime Working State
+  -> active lane 文档、handoff、escalation、resolver、init 状态
+```
+
+## A-B-O 生命周期
+
+- `Architect`
+  - `GPT-5.4` 负责起步架构、骨架与交接。
+- `Builder`
+  - `Qwen 3.5 Plus` 负责日常执行、监督与 bounded iteration。
+- `Optimizer`
+  - `GPT-5.4` 只在专项审计、重构或硬阻塞时回场。
+
+## 快速开始
+
+1. 把框架或 example skeleton 复制进目标仓库。
+2. 运行 `qwen-init-routing.prompt.md`，先建立 resolver、语言和 init 状态。
+3. 用 `qwen-generalist-autopilot.prompt.md` 进入正常执行。
+
+## 成本效益对比
+
+| 指标 | 传统高成本流 | AI-LTC 分阶段流 | 效果 |
+| --- | --- | --- | --- |
+| 主力模型成本 | 全程高 | 默认低 | 日常成本更低 |
+| 推进速度 | 较慢 | 更快 | 更适合多轮 bounded 推进 |
+| 人工干预 | 更频繁 | 更少 | handoff / escalation 更清晰 |
+| 上下文重建 | 更频繁 | 更少 | 状态保存在文件里 |
+
+## 与现有框架对比
+
+| 框架 | 主模型策略 | 状态风格 | AI-LTC 差异 |
+| --- | --- | --- | --- |
+| LangGraph | 图 / 状态编排 | workflow-centric | 更强调可读 relay 与阶段分工 |
+| CrewAI | 团队角色 | role/task-centric | 更强调长期 handoff 与 init / upgrade 纪律 |
+| AI-LTC | GPT/Qwen 生命周期分工 | docs + prompts + tools | 更偏长期仓库协作 |
 
 ## 一键部署到 GitHub
 
@@ -36,6 +88,22 @@ gh repo create AI-LTC --private --source=. --remote=origin --push --description 
 ```text
 Initialize this directory as a git repository, create a GitHub repo with gh, use the repo name `AI-LTC`, set the description to `AI-LongTimeCoding(plan)`, add the files, create the first commit, set `origin`, and push the current branch.
 ```
+
+## 许可证
+
+本项目使用 `MIT` 许可证。
+详见 [LICENSE](LICENSE)。
+
+## 社区贡献
+
+贡献说明见 [CONTRIBUTING.md](CONTRIBUTING.md)。
+优先欢迎小而清晰的改进。
+
+## 社区入口
+
+- Issues：使用 GitHub Issues
+- Discussions：建议作为第一公开社区入口
+- Discord / 微信群：暂未配置
 
 当前框架版本：`v1`
 

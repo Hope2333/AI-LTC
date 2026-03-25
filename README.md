@@ -2,6 +2,10 @@
 
 AI-LTC = `AI-LongTimeCoding(plan)`.
 
+## One-Line Value
+
+Long-horizon AI collaboration scaffold.
+
 AI-LTC is a reusable collaboration framework for long-horizon AI-assisted software work.
 It packages a practical operating model for staged GPT/Qwen collaboration:
 - GPT defines architecture and intervenes only when high-cost design or optimization is justified
@@ -14,6 +18,54 @@ Public-ready note:
 - v1 now avoids local-only path assumptions in the mainline docs and prompts
 - archived v0 remains preserved as historical reference
 - GitHub repo `Hope2333/AI-LTC` is currently the canonical remote backup and is planned for later public release after further review
+
+## Four-Layer Architecture
+
+```text
+Layer 0: Shared Contract
+  -> common rules, stop phrases, status fields, scope guards
+
+Layer 1: Role Prompts
+  -> GPT architect / optimizer, Qwen init / execution / supervision
+
+Layer 2: Skeleton And Relay Surface
+  -> reusable docs/, .ai/, templates, example repository structure
+
+Layer 3: Runtime Working State
+  -> active lane docs, handoff, escalation, resolver, init state
+```
+
+## A-B-O Lifecycle
+
+- `Architect`
+  - `GPT-5.4` defines the initial ceiling, skeleton, and handoff.
+- `Builder`
+  - `Qwen 3.5 Plus` owns day-to-day execution, supervision, and bounded iteration.
+- `Optimizer`
+  - `GPT-5.4` returns only for narrow audits, redesigns, or hard blockers.
+
+## Quick Start
+
+1. Copy the framework or example skeleton into a target repository.
+2. Run `qwen-init-routing.prompt.md` to establish resolver, language, and init state.
+3. Continue with `qwen-generalist-autopilot.prompt.md` for normal work.
+
+## Cost And Efficiency
+
+| Metric | Traditional high-cost flow | AI-LTC staged flow | Effect |
+| --- | --- | --- | --- |
+| Main operator cost | High all the time | Low by default | lower routine spend |
+| Delivery speed | Slower | Faster | more bounded iterations |
+| Human intervention | Frequent | Lower | clearer handoff and escalation |
+| Context rebuild | Frequent | Reduced | state carried in files |
+
+## Comparison
+
+| Framework | Main model strategy | State style | AI-LTC difference |
+| --- | --- | --- | --- |
+| LangGraph | graph/state orchestration | workflow-centric | stronger human-readable relay + staged model split |
+| CrewAI | role teams | role/task-centric | stronger long-horizon handoff + upgrade/init discipline |
+| AI-LTC | staged GPT/Qwen lifecycle | docs + prompts + tools | optimized for long-running repo work |
 
 ## One-Click GitHub Deployment
 
@@ -36,6 +88,22 @@ Reusable AI prompt for deployment:
 ```text
 Initialize this directory as a git repository, create a GitHub repo with gh, use the repo name `AI-LTC`, set the description to `AI-LongTimeCoding(plan)`, add the files, create the first commit, set `origin`, and push the current branch.
 ```
+
+## License
+
+This project uses the `MIT` license.
+See [LICENSE](LICENSE).
+
+## Contributing
+
+Contribution guidance lives in [CONTRIBUTING.md](CONTRIBUTING.md).
+Small, focused improvements are preferred.
+
+## Community
+
+- Issues: use GitHub Issues
+- Discussions: recommended as the first public community surface
+- Discord / WeChat: not configured yet
 
 Current framework version: `v1`
 
