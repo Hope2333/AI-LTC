@@ -9,6 +9,9 @@ Role model:
 - GPT = architect or optimizer/auditor
 - Qwen = default generalist operator
 
+State-flow reference:
+- see `STATE-FLOWS.md` for the explicit `init -> handoff -> execution -> escalation -> optimizer return` route
+
 Lifecycle:
 1. Initial phase
    - GPT acts as architect

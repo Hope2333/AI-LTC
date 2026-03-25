@@ -64,6 +64,7 @@ Initialize this directory as a git repository, create a GitHub repo with gh, use
 v1 还新增了：
 - `FRAMEWORK-V1.md`
 - `ARCHITECTURE-LAYERS.md`
+- `STATE-FLOWS.md`
 - `INIT-QWEN.md`
 - `USE-CASES.md`
 - `AI-LTC-INIT-QUESTIONNAIRE.template.md`
@@ -95,6 +96,7 @@ v1 还新增了：
 
 - `FRAMEWORK-V1.md`
 - `ARCHITECTURE-LAYERS.md`
+- `STATE-FLOWS.md`
 - `INIT-QWEN.md`
 
 ## v1 核心逻辑

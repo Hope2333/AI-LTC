@@ -81,6 +81,12 @@ Properties:
 - should be updated from repeated evidence, not impulse edits
 - acts as the bridge between framework theory and execution reality
 
+## State Flow Reference
+
+- `STATE-FLOWS.md` explains how work moves through `init`, `handoff-ready`, `execution`, `review-gate`, `escalation`, `optimizer-intervention`, `optimizer-return`, and `checkpoint-closeout`.
+- Layer definitions explain where information lives.
+- `STATE-FLOWS.md` explains when control should move between those layers and between GPT and Qwen.
+
 ## Four Operating Layers
 
 ### Layer 0: Shared Contract

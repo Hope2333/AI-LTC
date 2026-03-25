@@ -59,6 +59,7 @@ Files:
 - `archive/v0/`
 - `FRAMEWORK-V1.md`
 - `ARCHITECTURE-LAYERS.md`
+- `STATE-FLOWS.md`
 - `INIT-QWEN.md`
 - `USE-CASES.md`
 - `examples/collaboration-system/`
@@ -155,6 +156,7 @@ It now also includes `ROLE-QUICK-REFERENCE.md` for fast operator selection.
 Architecture reading order:
 - `FRAMEWORK-V1.md`
 - `ARCHITECTURE-LAYERS.md`
+- `STATE-FLOWS.md`
 - `INIT-QWEN.md`
 
 Project default:
