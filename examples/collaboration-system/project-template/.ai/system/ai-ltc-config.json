@@ -12,6 +12,7 @@
   "working_language": "English",
   "human_summary_language": "Chinese",
   "human_input_language_policy": "auto-detect",
+  "skeleton_status": "copied",
   "default_operator_model": "qwen-3.5-plus",
   "default_operator_prompt": "qwen-generalist-autopilot.prompt.md",
   "supervisory_prompt": "qwen-supervisory-generalist.prompt.md",

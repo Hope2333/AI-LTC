@@ -27,7 +27,8 @@ Shared lane rules:
 Shared language and identifier contract:
 - keep file paths, commit IDs, workflow IDs, and code identifiers in their original English form
 - use English for relay-file updates, task instructions, commands, and technical evidence unless a role-specific prompt narrows this further
-- use Chinese for human-facing summaries, evaluations, planning output, and final wrap-ups unless a role-specific prompt narrows this further
+- use the configured `human_summary_language` from `.ai/system/ai-ltc-config.json` for human-facing summaries, evaluations, planning output, and final wrap-ups when available
+- if the repository is still in init and no language is configured yet, ask for the human-facing output language first
 
 Shared scope and commit guardrails:
 - stay inside the active lane unless the active lane docs clearly say the lane changed

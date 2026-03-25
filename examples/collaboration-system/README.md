@@ -15,6 +15,7 @@ Use it when you want to bootstrap another repository with:
 - an escalation protocol
 - an init resolver config instead of hardcoded framework paths
 - a local-first / remote-fallback AI-LTC source policy
+- a language policy example for human-facing output and input handling
 
 ## Contents
 
@@ -30,6 +31,7 @@ Use it when you want to bootstrap another repository with:
 - `project-template/.ai/README.md`
 - `project-template/.ai/system/ai-ltc-config.json`
 - `project-template/.ai/system/init-status.md`
+- `project-template/.ai/system/language-policy.example.md`
 - `project-template/.ai/active-lane/ai-handoff.md`
 - `project-template/.ai/active-lane/current-status.md`
 - `project-template/.ai/active-lane/roadmap.md`

@@ -5,11 +5,30 @@ Purpose:
 - Qwen should use it to classify the project state, confirm the AI-LTC source resolver, and recommend the next model + prompt combination
 - for `v0 -> v1` upgrades, treat this init step as a semi-required migration pass
 
+Init state model:
+- `NULL`
+  - init has not been completed
+  - the repository needs a full init
+- `INITING`
+  - init is in progress
+  - if the previous init was interrupted, resume instead of restarting blindly
+- `VERSION`
+  - AI-LTC is already installed
+  - determine whether the next action is update, upgrade, or normal execution
+
+Init order:
+1. ask for the human-facing output language first
+2. determine whether the target repository needs the initial skeleton copied or refreshed
+3. write or update `.ai/system/init-status.md`
+4. write or update `.ai/system/ai-ltc-config.json`
+5. continue the rest of init routing and model selection
+
 When init is required:
 - the project is a fresh AI-LTC deployment
 - the project is upgrading from `v0` to `v1`
 - `.ai/system/ai-ltc-config.json` does not exist
 - `.ai/system/ai-ltc-config.json` exists but is incomplete, stale, or points to a missing source
+- `.ai/system/init-status.md` is `NULL` or `INITING`
 
 Project-state classification:
 - `greenfield`
@@ -40,15 +59,16 @@ Default source preference:
 - allow Qwen to refresh the local checkout from the remote only when the local copy is missing, stale, or required for the current task
 
 Init questionnaire expectations:
-- keep the intake small: 3 to 5 answers
+- keep the intake small: 4 to 6 answers
 - ask only for:
+  - human-facing summary language first
   - source mode
   - local root or repo URL/ref when applicable
   - project state
   - default operator model
   - whether GPT bootstrap is needed now
   - optionally whether Qwen may refresh the local AI-LTC checkout from the remote when required
-  - human-facing summary language and human-input language policy
+  - human-input language policy
 - store answers in one place, not across many lane docs
 
 Resolver rule:
@@ -62,6 +82,7 @@ Expected init artifacts:
 - `.ai/system/ai-ltc-config.json`
 - `.ai/system/init-status.md`
 - optionally `.ai/system/model-routing.md`
+- optionally a copied or refreshed initial skeleton if the target repository did not already contain one
 
 Default recommendation logic:
 - if `greenfield`:
@@ -79,9 +100,11 @@ Default recommendation logic:
 Expected Qwen init output:
 - `Status`
 - `Decision`
+- `Init State`
 - `Project State`
 - `AI-LTC Source Mode`
 - `Resolver Config Status`
+- `Skeleton Status`
 - `Why This State`
 - `Recommended Model`
 - `Recommended Prompt Stack`
@@ -114,3 +137,5 @@ Guardrails:
   - or a true escalation exists
 - Qwen should not spray absolute AI-LTC paths into multiple docs
 - if the source mode is unresolved, finish resolver setup before normal execution starts
+- if init status is `INITING`, resume from the recorded step instead of restarting blindly
+- if the target repository lacks the AI-LTC skeleton, copy the initial skeleton before normal init routing continues
