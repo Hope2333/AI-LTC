@@ -66,6 +66,7 @@ v1 还新增了：
 - `ARCHITECTURE-LAYERS.md`
 - `STATE-FLOWS.md`
 - `INIT-RECIPES.md`
+- `UPGRADE-MATRIX.md`
 - `FORMAT-STRATEGY.md`
 - `TOKEN-CONTEXT-STRATEGY.md`
 - `INIT-QWEN.md`
@@ -253,12 +254,14 @@ v1 还新增了：
 - `human-addendum.template.md`
 - `scripts/init_validator.py`
 - `scripts/resolver_validator.py`
+- `scripts/upgrade_validator.py`
 - `scripts/state_pack_generator.py`
   人类每轮附加要求模板。
 
 另外，`examples/collaboration-system/` 提供了一套可复制到其他项目的最小协作系统骨架。
 同时新增了 `USE-CASES.md`，用于公开说明常见使用场景，并作为更系统的场景路由入口。
 同时新增了 `INIT-RECIPES.md`，用于标准化 fresh init / update / upgrade / resume 与骨架复制策略。
+同时新增了 `UPGRADE-MATRIX.md`，用于标准化升级判定矩阵与 rc 发布纪律。
 同时新增了 `FORMAT-STRATEGY.md`，用于正式说明 markdown / YAML / JSON / CSV / mixed 的分层策略，以及语言策略。
 同时新增了 `TOKEN-CONTEXT-STRATEGY.md`，用于正式说明 token、context、配额与长会话节省策略。
 它现在也已经升级到 v1 的 GPT/Qwen 分阶段框架。
@@ -274,4 +277,5 @@ v1 还新增了：
 轻量工具：
 - 用 `python3 scripts/init_validator.py /path/to/target-repo` 校验 init 状态
 - 用 `python3 scripts/resolver_validator.py /path/to/target-repo` 校验 resolver 配置
+- 用 `python3 scripts/upgrade_validator.py /path/to/target-repo --target-version v1.7.0` 校验升级分类
 - 用 `python3 scripts/state_pack_generator.py /path/to/target-repo` 生成紧凑 state pack

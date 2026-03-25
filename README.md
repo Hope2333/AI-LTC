@@ -61,6 +61,7 @@ Files:
 - `ARCHITECTURE-LAYERS.md`
 - `STATE-FLOWS.md`
 - `INIT-RECIPES.md`
+- `UPGRADE-MATRIX.md`
 - `FORMAT-STRATEGY.md`
 - `INIT-QWEN.md`
 - `USE-CASES.md`
@@ -91,6 +92,7 @@ Files:
 - `human-addendum.template.md`
 - `scripts/init_validator.py`
 - `scripts/resolver_validator.py`
+- `scripts/upgrade_validator.py`
 - `scripts/state_pack_generator.py`
 
 Recommended composition:
@@ -156,6 +158,7 @@ Standard status fields:
 A copyable collaboration-system example lives under `examples/collaboration-system/`.
 A public-facing use-case and routing guide now lives in `USE-CASES.md`.
 An init recipes guide now lives in `INIT-RECIPES.md`.
+A framework upgrade matrix now lives in `UPGRADE-MATRIX.md`.
 A format and language strategy guide now lives in `FORMAT-STRATEGY.md`.
 A token and context strategy guide now lives in `TOKEN-CONTEXT-STRATEGY.md`.
 That example has now been upgraded to the v1 GPT/Qwen staged framework.
@@ -166,6 +169,7 @@ Architecture reading order:
 - `ARCHITECTURE-LAYERS.md`
 - `STATE-FLOWS.md`
 - `INIT-RECIPES.md`
+- `UPGRADE-MATRIX.md`
 - `FORMAT-STRATEGY.md`
 - `TOKEN-CONTEXT-STRATEGY.md`
 - `INIT-QWEN.md`
@@ -183,6 +187,7 @@ Project default:
 Lightweight tooling:
 - validate init state with `python3 scripts/init_validator.py /path/to/target-repo`
 - validate resolver config with `python3 scripts/resolver_validator.py /path/to/target-repo`
+- validate upgrade classification with `python3 scripts/upgrade_validator.py /path/to/target-repo --target-version v1.7.0`
 - generate a compact state pack with `python3 scripts/state_pack_generator.py /path/to/target-repo`
 
 Note:
