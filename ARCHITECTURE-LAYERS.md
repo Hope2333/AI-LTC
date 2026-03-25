@@ -181,6 +181,9 @@ Change class:
 - optional automation around init generation, handoff validation, and escalation packaging
 - stronger incident-library and case-study structure
 - broader public-facing compatibility and governance documents
+- token and context optimization rules for long sessions, including quota-aware prompt routing and compression discipline
+- a structured-format strategy that clarifies when to use markdown only and when to add YAML, JSON, CSV, or mixed artifacts for machine-readable state
+- a language strategy that preserves human readability while minimizing token waste, with explicit rules for English technical payloads versus Chinese human-facing summaries
 
 ## Recommended Rule Of Thumb
 
