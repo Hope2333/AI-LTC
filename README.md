@@ -152,6 +152,7 @@ Standard status fields:
 A copyable collaboration-system example lives under `examples/collaboration-system/`.
 A public-facing use-case and routing guide now lives in `USE-CASES.md`.
 A format and language strategy guide now lives in `FORMAT-STRATEGY.md`.
+A token and context strategy guide now lives in `TOKEN-CONTEXT-STRATEGY.md`.
 That example has now been upgraded to the v1 GPT/Qwen staged framework.
 It now also includes `ROLE-QUICK-REFERENCE.md` for fast operator selection.
 
@@ -160,6 +161,7 @@ Architecture reading order:
 - `ARCHITECTURE-LAYERS.md`
 - `STATE-FLOWS.md`
 - `FORMAT-STRATEGY.md`
+- `TOKEN-CONTEXT-STRATEGY.md`
 - `INIT-QWEN.md`
 
 Project default:

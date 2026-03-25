@@ -23,6 +23,7 @@ Typical files:
 - `ESCALATION_REQUEST.template.md`
 - `USE-CASES.md`
 - `FORMAT-STRATEGY.md`
+- `TOKEN-CONTEXT-STRATEGY.md`
 - `ROLE-QUICK-REFERENCE.md`
 - `LICENSE`
 - `CONTRIBUTING.md`
@@ -74,6 +75,7 @@ Typical files:
 - `AI-LTC-INIT-QUESTIONNAIRE.template.md`
 - `ai-ltc-config.template.json`
 - `FORMAT-STRATEGY.md`
+- `TOKEN-CONTEXT-STRATEGY.md`
 - `examples/collaboration-system/`
 - `VERSION.md`
 - `CHANGELOG.md`
@@ -174,6 +176,8 @@ Change class:
 - centralized resolver config via `.ai/system/ai-ltc-config.json`
 - local-first and remote-fallback AI-LTC source policy
 - reusable example skeleton
+- format and language strategy docs
+- token and context strategy docs
 
 ### Candidate For v2 Or Later
 
@@ -183,9 +187,9 @@ Change class:
 - optional automation around init generation, handoff validation, and escalation packaging
 - stronger incident-library and case-study structure
 - broader public-facing compatibility and governance documents
-- token and context optimization rules for long sessions, including quota-aware prompt routing and compression discipline
-- a structured-format strategy that clarifies when to use markdown only and when to add YAML, JSON, CSV, or mixed artifacts for machine-readable state
-- a language strategy that preserves human readability while minimizing token waste, with explicit rules for English technical payloads versus Chinese human-facing summaries
+- quota-aware automation instead of documentation-only guidance
+- more evidence-driven structured-format defaults by project type
+- stronger language routing profiles beyond the current working-English baseline
 
 ## Recommended Rule Of Thumb
 
