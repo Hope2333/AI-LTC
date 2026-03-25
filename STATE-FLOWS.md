@@ -18,6 +18,7 @@ init
 
 This is not a strict BPMN engine.
 It is the default operating state machine for long-horizon AI collaboration.
+See `INIT-RECIPES.md` for the concrete rules that distinguish fresh init, resume init, update, and upgrade.
 
 ## State 1: init
 

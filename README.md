@@ -60,6 +60,7 @@ Files:
 - `FRAMEWORK-V1.md`
 - `ARCHITECTURE-LAYERS.md`
 - `STATE-FLOWS.md`
+- `INIT-RECIPES.md`
 - `FORMAT-STRATEGY.md`
 - `INIT-QWEN.md`
 - `USE-CASES.md`
@@ -151,6 +152,7 @@ Standard status fields:
 
 A copyable collaboration-system example lives under `examples/collaboration-system/`.
 A public-facing use-case and routing guide now lives in `USE-CASES.md`.
+An init recipes guide now lives in `INIT-RECIPES.md`.
 A format and language strategy guide now lives in `FORMAT-STRATEGY.md`.
 A token and context strategy guide now lives in `TOKEN-CONTEXT-STRATEGY.md`.
 That example has now been upgraded to the v1 GPT/Qwen staged framework.
@@ -160,6 +162,7 @@ Architecture reading order:
 - `FRAMEWORK-V1.md`
 - `ARCHITECTURE-LAYERS.md`
 - `STATE-FLOWS.md`
+- `INIT-RECIPES.md`
 - `FORMAT-STRATEGY.md`
 - `TOKEN-CONTEXT-STRATEGY.md`
 - `INIT-QWEN.md`
