@@ -7,7 +7,7 @@ import sys
 from pathlib import Path
 
 
-VALID_STATUSES = {"NULL", "INITING", "VERSION"}
+VALID_STATUSES = {"UNINITIALIZED", "INITING", "INSTALLED"}
 REQUIRED_KEYS = ("Status", "Decision", "Stop Reason", "Next Action")
 
 
@@ -57,14 +57,14 @@ def main() -> int:
                 f"invalid Status value: {status!r}; expected one of {sorted(VALID_STATUSES)}"
             )
 
-        if status == "VERSION" and not config_path.exists():
+        if status == "INSTALLED" and not config_path.exists():
             errors.append(
-                "Status is VERSION but .ai/system/ai-ltc-config.json is missing"
+                "Status is INSTALLED but .ai/system/ai-ltc-config.json is missing"
             )
 
-        if status == "NULL" and config_path.exists():
+        if status == "UNINITIALIZED" and config_path.exists():
             warnings.append(
-                "Status is NULL but resolver config exists; verify whether init should already be VERSION"
+                "Status is UNINITIALIZED but resolver config exists; verify whether init should already be INSTALLED"
             )
 
     if warnings:

@@ -25,7 +25,7 @@ Your job:
 - if both local and remote are possible, prefer local first and record the remote as fallback
 - configure human-facing summary language and human-input language policy during init
 - determine whether the initial AI-LTC skeleton must be copied or refreshed before full init continues
-- update `.ai/system/init-status.md` through `NULL`, `INITING`, or `VERSION`
+- update `.ai/system/init-status.md` through `UNINITIALIZED`, `INITING`, or `INSTALLED`
 
 Safety limits:
 - perform exactly one init-routing pass
@@ -56,6 +56,6 @@ Decision rules:
 - recommend GPT first only for `greenfield` or real architecture-heavy ambiguity
 - if chaos is present but still classifiable, prefer a short Qwen cleanup before escalating
 - do not hardcode an AI-LTC absolute path into the recommendation; refer to `.ai/system/ai-ltc-config.json` when applicable
-- if `.ai/system/init-status.md` is `NULL`, begin full init
+- if `.ai/system/init-status.md` is `UNINITIALIZED`, begin full init
 - if `.ai/system/init-status.md` is `INITING`, continue the interrupted init
-- if `.ai/system/init-status.md` is `VERSION`, decide whether to update, upgrade, or continue execution
+- if `.ai/system/init-status.md` is `INSTALLED`, decide whether to update, upgrade, or continue execution

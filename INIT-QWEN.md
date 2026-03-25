@@ -6,13 +6,13 @@ Purpose:
 - for `v0 -> v1` upgrades, treat this init step as a semi-required migration pass
 
 Init state model:
-- `NULL`
+- `UNINITIALIZED`
   - init has not been completed
   - the repository needs a full init
 - `INITING`
   - init is in progress
   - if the previous init was interrupted, resume instead of restarting blindly
-- `VERSION`
+- `INSTALLED`
   - AI-LTC is already installed
   - determine whether the next action is update, upgrade, or normal execution
 
@@ -28,7 +28,7 @@ When init is required:
 - the project is upgrading from `v0` to `v1`
 - `.ai/system/ai-ltc-config.json` does not exist
 - `.ai/system/ai-ltc-config.json` exists but is incomplete, stale, or points to a missing source
-- `.ai/system/init-status.md` is `NULL` or `INITING`
+- `.ai/system/init-status.md` is `UNINITIALIZED` or `INITING`
 
 Project-state classification:
 - `greenfield`

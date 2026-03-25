@@ -8,7 +8,7 @@ import sys
 from pathlib import Path
 
 
-VALID_STATUSES = {"NULL", "INITING", "VERSION"}
+VALID_STATUSES = {"UNINITIALIZED", "INITING", "INSTALLED"}
 
 
 def parse_kv_markdown(path: Path) -> dict[str, str]:
@@ -33,11 +33,11 @@ def load_json(path: Path) -> dict:
 
 
 def classify_mode(status: str, config_exists: bool, current_version: str, target_version: str) -> str:
-    if status in {"", "NULL"}:
+    if status in {"", "UNINITIALIZED"}:
         return "Fresh Init"
     if status == "INITING":
         return "Resume Init"
-    if status == "VERSION":
+    if status == "INSTALLED":
         if not current_version or not target_version:
             return "Normal Execution"
         current_major = current_version.split(".", 1)[0]
@@ -87,8 +87,8 @@ def main() -> int:
     target_version = args.target_version.strip()
     config_exists = config_path.exists()
 
-    if status == "VERSION" and not config_exists:
-        errors.append("Status is VERSION but resolver config is missing")
+    if status == "INSTALLED" and not config_exists:
+        errors.append("Status is INSTALLED but resolver config is missing")
 
     if config_exists:
         if cfg.get("working_language") != "English":
@@ -102,14 +102,14 @@ def main() -> int:
     if mode == "Unknown":
         errors.append("could not classify repository into a valid init/update/upgrade mode")
 
-    if status == "NULL" and config_exists:
+    if status == "UNINITIALIZED" and config_exists:
         warnings.append(
-            "Status is NULL but resolver config exists; verify whether the repository should actually be INITING or VERSION"
+            "Status is UNINITIALIZED but resolver config exists; verify whether the repository should actually be INITING or INSTALLED"
         )
 
-    if status == "VERSION" and not current_version:
+    if status == "INSTALLED" and not current_version:
         warnings.append(
-            "Status is VERSION but framework_version is empty; upgrade classification will be weaker"
+            "Status is INSTALLED but framework_version is empty; upgrade classification will be weaker"
         )
 
     if warnings:

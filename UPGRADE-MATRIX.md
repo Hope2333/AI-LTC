@@ -9,11 +9,11 @@ It is the companion to `INIT-RECIPES.md`.
 
 | Current State | Installed Version | Target Version | Recommended Mode | Skeleton Action | Notes |
 | --- | --- | --- | --- | --- | --- |
-| `NULL` | none | any v1 | `Fresh Init` | full copy | repository has no usable AI-LTC surface |
+| `UNINITIALIZED` | none | any v1 | `Fresh Init` | full copy | repository has no usable AI-LTC surface |
 | `INITING` | partial | same target | `Resume Init` | partial or none | continue interrupted init, do not restart blindly |
-| `VERSION` | same major/minor line | newer patch/minor on same line | `Update` | partial refresh | preserve live lane state |
-| `VERSION` | older line | newer incompatible line | `Upgrade` | selective replacement | preserve live lane state, migrate config fields |
-| `VERSION` | same line and no framework delta needed | same line | `Normal Execution` | none | skip init/update logic entirely |
+| `INSTALLED` | same major/minor line | newer patch/minor on same line | `Update` | partial refresh | preserve live lane state |
+| `INSTALLED` | older line | newer incompatible line | `Upgrade` | selective replacement | preserve live lane state, migrate config fields |
+| `INSTALLED` | same line and no framework delta needed | same line | `Normal Execution` | none | skip init/update logic entirely |
 
 ## Compatibility Intention
 
@@ -128,14 +128,14 @@ If AI-LTC needs a major-line cut:
 
 ### Example 3: Existing v1 Repo, New Tooling
 
-- current status: `VERSION`
+- current status: `INSTALLED`
 - installed line: `v1.6.0`
 - target line: `v1.7.0`
 - result: `Update`
 
 ### Example 4: Future Major Line
 
-- current status: `VERSION`
+- current status: `INSTALLED`
 - installed line: `v1.9.x`
 - target line: `v2.0.0-rc1`
 - result: `Upgrade`

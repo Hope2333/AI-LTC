@@ -101,11 +101,11 @@ Expected result:
 Use `.ai/system/init-status.md` as the first init control file.
 
 Standard values:
-- `NULL`
+- `UNINITIALIZED`
   - AI-LTC not initialized yet
 - `INITING`
   - init in progress
-- `VERSION`
+- `INSTALLED`
   - installed and versioned; next action is update, upgrade, or normal execution
 
 Recommended fields:
@@ -180,9 +180,9 @@ Do not do this when:
 
 - No config + no status file: `Fresh Init`
 - `Status: INITING`: `Resume Init`
-- `Status: VERSION` + same framework line: `Update`
-- `Status: VERSION` + framework jump or migration needed: `Upgrade`
-- `Status: VERSION` + no framework action needed: skip init and continue normal execution
+- `Status: INSTALLED` + same framework line: `Update`
+- `Status: INSTALLED` + framework jump or migration needed: `Upgrade`
+- `Status: INSTALLED` + no framework action needed: skip init and continue normal execution
 
 ## Guardrails
 
