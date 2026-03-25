@@ -1,4 +1,5 @@
 # AI-LTC Templates
+ [中文版简介](README.zh.md)
 
 AI-LTC = `AI-LongTimeCoding(plan)`.
 
