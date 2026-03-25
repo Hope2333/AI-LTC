@@ -6,8 +6,8 @@ Purpose:
 - use the answers to populate `.ai/system/ai-ltc-config.json`
 
 Question cap:
-- ask at most 5 answers
-- prefer 3 to 4 when possible
+- ask at most 6 answers
+- prefer 4 to 5 when possible
 
 Suggested questions:
 1. `AI-LTC Source Mode`
@@ -32,6 +32,11 @@ Suggested questions:
 5. `Default Operator Model And GPT Bootstrap Need`
 - usually `qwen-3.5-plus`
 - whether GPT bootstrap is needed now
+
+6. `Human-Facing Language Policy`
+- summary language for human-facing output
+- input language policy for human requests
+- working language remains English
 
 Writeback rule:
 - after the questionnaire, write one resolver config file:

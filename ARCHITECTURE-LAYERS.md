@@ -22,6 +22,7 @@ Typical files:
 - `00_HANDOFF.template.md`
 - `ESCALATION_REQUEST.template.md`
 - `USE-CASES.md`
+- `FORMAT-STRATEGY.md`
 - `ROLE-QUICK-REFERENCE.md`
 - `LICENSE`
 - `CONTRIBUTING.md`
@@ -72,6 +73,7 @@ Typical files:
 - `gpt-optimizer-auditor.prompt.md`
 - `AI-LTC-INIT-QUESTIONNAIRE.template.md`
 - `ai-ltc-config.template.json`
+- `FORMAT-STRATEGY.md`
 - `examples/collaboration-system/`
 - `VERSION.md`
 - `CHANGELOG.md`

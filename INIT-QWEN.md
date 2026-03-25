@@ -48,6 +48,7 @@ Init questionnaire expectations:
   - default operator model
   - whether GPT bootstrap is needed now
   - optionally whether Qwen may refresh the local AI-LTC checkout from the remote when required
+  - human-facing summary language and human-input language policy
 - store answers in one place, not across many lane docs
 
 Resolver rule:
@@ -55,6 +56,7 @@ Resolver rule:
 - write a single resolver config at `.ai/system/ai-ltc-config.json`
 - other docs should point to the resolver, not to the raw path
 - store both the preferred local source and the fallback remote source in the resolver when available
+- store the language policy in the resolver config rather than in scattered prompts
 
 Expected init artifacts:
 - `.ai/system/ai-ltc-config.json`

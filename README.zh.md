@@ -65,6 +65,7 @@ v1 还新增了：
 - `FRAMEWORK-V1.md`
 - `ARCHITECTURE-LAYERS.md`
 - `STATE-FLOWS.md`
+- `FORMAT-STRATEGY.md`
 - `INIT-QWEN.md`
 - `USE-CASES.md`
 - `AI-LTC-INIT-QUESTIONNAIRE.template.md`
@@ -97,6 +98,7 @@ v1 还新增了：
 - `FRAMEWORK-V1.md`
 - `ARCHITECTURE-LAYERS.md`
 - `STATE-FLOWS.md`
+- `FORMAT-STRATEGY.md`
 - `INIT-QWEN.md`
 
 ## v1 核心逻辑
@@ -249,6 +251,7 @@ v1 还新增了：
 
 另外，`examples/collaboration-system/` 提供了一套可复制到其他项目的最小协作系统骨架。
 同时新增了 `USE-CASES.md`，用于公开说明常见使用场景，并作为更系统的场景路由入口。
+同时新增了 `FORMAT-STRATEGY.md`，用于正式说明 markdown / YAML / JSON / CSV / mixed 的分层策略，以及语言策略。
 它现在也已经升级到 v1 的 GPT/Qwen 分阶段框架。
 并新增了 `ROLE-QUICK-REFERENCE.md`，便于快速选角色。
 

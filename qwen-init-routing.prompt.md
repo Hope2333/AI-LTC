@@ -22,6 +22,7 @@ Your job:
 - decide whether GPT is needed now or should stay out
 - if config is missing, recommend writing `.ai/system/ai-ltc-config.json`
 - if both local and remote are possible, prefer local first and record the remote as fallback
+- configure human-facing summary language and human-input language policy during init
 
 Safety limits:
 - perform exactly one init-routing pass
@@ -37,6 +38,7 @@ Structured output contract:
 - `Project State`
 - `AI-LTC Source Mode`
 - `Resolver Config Status`
+- `Language Policy`
 - `Why This State`
 - `Recommended Model`
 - `Recommended Prompt Stack`
