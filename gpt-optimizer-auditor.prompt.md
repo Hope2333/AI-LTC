@@ -10,6 +10,7 @@ When to use this prompt:
 - only when GPT is explicitly requested
 - or when Qwen has raised `@ARCHITECT_HELP`
 - or when a focused audit / refactor / architecture correction is needed
+- if the real need is wide course-correction, long-range replanning, or future bridge/plugin strategy, prefer `gpt-corrective-strategist.prompt.md` instead
 
 Required read order additions:
 - read `ESCALATION_REQUEST.md` first when it exists

@@ -143,6 +143,7 @@ v1 还新增了：
 - `AI-LTC-INIT-QUESTIONNAIRE.template.md`
 - `ai-ltc-config.template.json`
 - `00_HANDOFF.template.md`
+- `gpt-corrective-strategist.prompt.md`
 - `ESCALATION_REQUEST.template.md`
 - `gpt-bootstrap-architect.prompt.md`
 - `gpt-optimizer-auditor.prompt.md`
@@ -158,6 +159,7 @@ v1 还新增了：
    - 如果 Qwen 需要先判断项目当前是“全新 / 半道加入 / 混沌状态”，并确认 AI-LTC 来源模式，先用 `qwen-init-routing.prompt.md`
    - 项目初期或大重构起步：`gpt-bootstrap-architect.prompt.md`
    - 正常推进期默认：`qwen-generalist-autopilot.prompt.md`
+   - 需要纠偏、远景重排或 bridge/plugin 方向规划：`gpt-corrective-strategist.prompt.md`
    - Qwen 主导的检查/监督/节点评估：`qwen-supervisory-generalist.prompt.md`
    - 只有明确需要时才用：`gpt-optimizer-auditor.prompt.md`
 4. GPT 完成骨架后，用 `00_HANDOFF.template.md` 生成 `00_HANDOFF.md`
@@ -198,7 +200,7 @@ v1 还新增了：
   - 在实战中动态补文档、补结构
 
 - GPT 后期：
-  - 优化师 / 审计员
+  - 纠偏规划师 / 优化师 / 审计员
   - 只在瓶颈、重构、专项审计时短暂唤醒
 
 ## shared header 包含的内容
@@ -280,6 +282,10 @@ v1 还新增了：
 
 - `gpt-bootstrap-architect.prompt.md`
   GPT 初期架构师 prompt。
+
+- `gpt-corrective-strategist.prompt.md`
+  GPT 纠偏规划师 prompt。
+  用于架构漂移、矛盾状态修正、超大步未来规划，以及 bridge/plugin 方向设计。
 
 - `gpt-optimizer-auditor.prompt.md`
   GPT 优化师 / 审计员 prompt。

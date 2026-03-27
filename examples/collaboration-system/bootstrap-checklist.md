@@ -15,6 +15,7 @@ Use this checklist immediately after copying `project-template/` into a new repo
 ## 2. Keep Local-Only State Local
 
 - add `.ai/` to `.gitignore` if the target repository does not already ignore it
+- add `.omx/`, `.sisyphus/`, and local `AGENTS.md` to ignore rules when they are intended to stay workspace-local
 - confirm `.omx/` or any equivalent local state directory is not committed
 - do not commit copied placeholder `.ai/active-lane/*` files as if they were real project state
 
@@ -60,6 +61,10 @@ Specifically confirm:
 - fixed stop phrases are present
 - fixed status fields are present
 - bounded-pass rule is present
+- `AGENTS.md` exists in the working repository root when the project expects repository-scoped AI guidance
+- current source-of-truth docs are explicitly named when the repository also contains older `summary`, `final`, `report`, or `100% complete` docs
+- a composition contract check exists when the repository has workspace packages or cross-package subpath imports
+- `.ai/system/ai-ltc-config.json` contains human-language routing fields such as `human_summary_language` and `human_input_language_policy`
 - GitHub Actions first guidance is present if the target project uses CI
 - v1 role split is clear:
   - GPT for architecture / optimization only
@@ -114,6 +119,12 @@ Good first tasks:
 This bootstrap is complete when:
 - the placeholder lane files are rewritten with real project state
 - the active lane is registered in `docs/ai-relay.md`
+- the minimum relay surface exists:
+  - `AGENTS.md`
+  - `.ai/README.md`
+  - `docs/ai-relay.md`
+  - `docs/ai-collaboration.md`
+  - `docs/ai-workbench.md`
 - the workbench points to the real active lane
 - local-only state is confirmed non-committed
 - the first supervisory and execution runs can proceed without re-explaining the system by hand

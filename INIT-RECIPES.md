@@ -191,6 +191,10 @@ Do not do this when:
 - allow input language auto-detect when the operator does not want to lock it
 - keep working language English even when summaries are not English
 - when in doubt, preserve live lane state and upgrade only the framework surface
+- if the target repository already has a typed local config model, add AI-LTC-required fields compatibly instead of force-replacing the whole schema
+- if the target repository has cross-package imports, add or refresh a composition contract check for dependencies, exports, and imports before declaring the system green
+- if the target repository has historical `summary`, `final`, `report`, or `100% complete` docs, explicitly mark the current source-of-truth docs so lower-cost AIs do not plan from stale closeout files
+- a deployment is not complete if prompt/template files exist but `.ai/README.md`, `docs/ai-relay.md`, or `docs/ai-collaboration.md` are missing
 
 ## Short Summary
 

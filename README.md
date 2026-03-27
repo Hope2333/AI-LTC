@@ -148,6 +148,7 @@ Files:
 - `00_HANDOFF.template.md`
 - `ESCALATION_REQUEST.template.md`
 - `gpt-bootstrap-architect.prompt.md`
+- `gpt-corrective-strategist.prompt.md`
 - `gpt-optimizer-auditor.prompt.md`
 - `qwen-init-routing.prompt.md`
 - `qwen-generalist-autopilot.prompt.md`
@@ -173,6 +174,7 @@ Recommended composition:
    - `qwen-init-routing.prompt.md` when Qwen must first classify the project, confirm AI-LTC source mode, and recommend the next model/prompt
    - `gpt-bootstrap-architect.prompt.md` for early architecture / framework setup
    - `qwen-generalist-autopilot.prompt.md` for normal day-to-day work
+   - `gpt-corrective-strategist.prompt.md` for architecture drift correction, long-range replanning, or bridge/plugin strategy
    - `qwen-supervisory-generalist.prompt.md` for Qwen-led checkpoints / sequencing
    - `gpt-optimizer-auditor.prompt.md` only when explicitly needed
 4. Use `00_HANDOFF.template.md` when GPT hands work to Qwen
@@ -251,9 +253,12 @@ Project default:
 - for ongoing repository work, prefer `qwen-generalist-autopilot.prompt.md`
 - for Qwen-led review / sequencing, prefer `qwen-supervisory-generalist.prompt.md`
 - use `gpt-bootstrap-architect.prompt.md` only for explicit architecture/bootstrap work
+- use `gpt-corrective-strategist.prompt.md` for correction, boundary cleanup, contradictory status repair, and long-horizon replanning
 - use `gpt-optimizer-auditor.prompt.md` only for explicit optimization, audit, refactor, or escalation work
 - prefer narrow GitHub Actions validation over long local full builds when both can prove the same point
 - keep local builds short and scoped for sanity checks, blocker isolation, and minimal repros
+- if the host repository wants AI-LTC integration, prefer a bridge/plugin model and keep the AI-LTC repository separate
+- if the host repository defines an architecture or composition contract gate, run it before declaring the system green
 - do not hardcode AI-LTC local filesystem paths into project prompts or `.ai` files; resolve them through init config instead
 - default resolver policy: prefer the local AI-LTC checkout first, fall back to `https://github.com/Hope2333/AI-LTC`, and let Qwen refresh the local checkout only when needed
 

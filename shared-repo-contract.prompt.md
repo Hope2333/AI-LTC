@@ -15,6 +15,7 @@ Shared lane rules:
 - the active lane docs may live under local-only `.ai/` paths; read them when present and do not commit `.ai/`
 - if `.ai/` is missing locally, recreate the minimal local workspace first instead of falling back to tracked `docs/modernization/*` state files
 - if similarly named files also exist under `docs/modernization/`, treat them as bridge notes only, not as the active relay source of truth
+- if the repository contains historical `summary`, `final`, `report`, or `100% complete` docs, do not treat them as current-state truth unless they are cross-checked against the active lane docs and the current architecture contract
 - when the active lane docs point to extra roadmap, dependency, ADR, or architecture docs that affect sequencing, read those too before making lane or phase decisions
 - follow only one extra hop of referenced docs unless a referenced document is clearly sequencing-critical
 - when `00_HANDOFF.md` exists in the workspace root or active lane directory, read it before starting execution
@@ -41,6 +42,7 @@ Shared execution preference:
 - when a build or clean verification can run on GitHub Actions without widening scope, prefer GitHub Actions as the authoritative proof path
 - use local builds mainly for fast sanity checks, blocker isolation, and minimal repros
 - avoid long local full builds when they are likely to stall, exhaust memory, or create noisy intermediate state
+- if the repository exposes an architecture or composition contract check such as `npm run architecture:check`, run it before declaring the system structurally green
 - if a prompt, handoff, or workflow already defines a narrow hosted-runner validation path, use that path before inventing a broader local loop
 
 Shared safety limits:
