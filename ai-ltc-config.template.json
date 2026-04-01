@@ -38,5 +38,19 @@
     "retry_limit": 1,
     "cleanup_after_merge": true,
     "keep_last_n_per_role": 3
+  },
+  "observability": {
+    "logging_enabled": true,
+    "log_level": "info",
+    "log_dir": ".ai/logs",
+    "snapshot_on_phase_change": true,
+    "snapshot_dir": ".ai/history/snapshots",
+    "max_log_lines": 10000,
+    "metrics": {
+      "track_task_success_rate": true,
+      "track_retry_count": true,
+      "track_token_saved": false,
+      "track_escalation_frequency": true
+    }
   }
 }

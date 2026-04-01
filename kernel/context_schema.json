@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AI-LTC Context Schema",
+  "description": "Compressed context format for cheap model input. Use this instead of full state.json when token budget is constrained.",
+  "type": "object",
+  "required": ["phase", "goal", "next_action"],
+  "properties": {
+    "phase": {
+      "type": "string",
+      "enum": ["INIT", "HANDOFF_READY", "EXECUTION", "REVIEW", "OPTIMIZER", "CHECKPOINT"]
+    },
+    "goal": {
+      "type": "string",
+      "description": "One-sentence current objective."
+    },
+    "progress": {
+      "type": "string",
+      "description": "One-sentence summary of what has been accomplished this batch."
+    },
+    "current_tasks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "desc": { "type": "string" },
+          "status": { "type": "string", "enum": ["pending", "in_progress", "done", "blocked"] }
+        }
+      },
+      "maxItems": 5,
+      "description": "Only include tasks that are in_progress or blocked. Omit completed tasks."
+    },
+    "blockers": {
+      "type": "array",
+      "items": { "type": "string" },
+      "maxItems": 3,
+      "description": "One-line descriptions of active blockers. Omit if none."
+    },
+    "next_action": {
+      "type": "string",
+      "description": "The single most important next step."
+    },
+    "iteration": {
+      "type": "integer",
+      "description": "Current iteration number."
+    },
+    "model_role": {
+      "type": "string",
+      "enum": ["execution", "review", "optimizer"],
+      "description": "Which role the current model is playing."
+    }
+  }
+}

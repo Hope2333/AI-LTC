@@ -1,0 +1,2 @@
+# Error Log
+# Format: [iteration N] [TIMESTAMP] type: <error_type> agent: <role> message: <desc> recovery: <action> result: <outcome>

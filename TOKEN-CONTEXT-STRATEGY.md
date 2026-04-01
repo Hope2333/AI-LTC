@@ -146,6 +146,45 @@ Why:
 - human input language policy: configured during init
 - token savings should come first from state discipline and routing discipline, not from premature micro-compression tricks
 
+## Concrete Context Formats
+
+### Full State (expensive model input)
+Use `.ai/state.json` — the SSOT defined by `kernel/state_schema.json`.
+Contains all fields: phase, goal, tasks, blockers, iteration, authority, error_state.
+
+### Compressed Context (cheap model input)
+Use the context schema from `kernel/context_schema.json`.
+Contains only: phase, goal, progress, current_tasks (max 5), blockers (max 3), next_action, iteration, model_role.
+Typically 60-80% smaller than full state.json.
+
+### Minimal Context (tight token budget)
+Use a single-line summary:
+```
+Phase: EXECUTION | Goal: {goal} | Next: {next_action} | Iteration: {N}/{max} | Blockers: {count}
+```
+Use only when token budget is critically constrained.
+
+### Handoff Context
+Use `00_HANDOFF.md` — contains: done, next, risks, known boundaries.
+Do not include full task history or resolved blockers.
+
+## Logging and Observability
+
+### Log Files
+- `.ai/logs/decision.log` — each decision with iteration, model, action, reason
+- `.ai/logs/state.log` — each phase transition with from/to/trigger
+- `.ai/logs/error.log` — each error with type, agent, recovery, result
+
+### Snapshots
+- On each phase change, copy current state.json to `.ai/history/snapshots/state-{phase}-{iteration}.json`
+- Keep at most the last 5 snapshots per phase
+- Snapshots enable state rollback on hallucination or invalid_state errors
+
+### Metrics
+- Track: task_success_rate, retry_count, escalation_frequency
+- Store in `.ai/logs/metrics.json` at checkpoint closeout
+- Use metrics to tune max_iterations and model routing decisions
+
 ## Candidate v2 Work
 
 - model-budget profiles by project type

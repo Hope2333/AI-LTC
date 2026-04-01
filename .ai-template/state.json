@@ -1,0 +1,15 @@
+{
+  "phase": "INIT",
+  "goal": "",
+  "tasks": [],
+  "blockers": [],
+  "next_action": "",
+  "iteration": 0,
+  "max_iterations": 20,
+  "status": "idle",
+  "authority": "system",
+  "last_update": "",
+  "last_updated_by": "",
+  "context_summary": "",
+  "error_state": null
+}
