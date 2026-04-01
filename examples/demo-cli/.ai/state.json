@@ -1,0 +1,21 @@
+{
+  "phase": "INIT",
+  "goal": "Build a simple CLI tool that greets users by name and optionally counts words in input",
+  "tasks": [
+    { "id": 1, "desc": "Initialize project structure with main.py and tests/", "status": "pending", "assignee": "execution" },
+    { "id": 2, "desc": "Implement greet command with --name flag", "status": "pending", "assignee": "execution" },
+    { "id": 3, "desc": "Implement wordcount command", "status": "pending", "assignee": "execution" },
+    { "id": 4, "desc": "Write unit tests for both commands", "status": "pending", "assignee": "execution" },
+    { "id": 5, "desc": "Review code quality and test coverage", "status": "pending", "assignee": "review" }
+  ],
+  "blockers": [],
+  "next_action": "Initialize project structure",
+  "iteration": 0,
+  "max_iterations": 20,
+  "status": "idle",
+  "authority": "system",
+  "last_update": "",
+  "last_updated_by": "",
+  "context_summary": "Demo CLI project: greet + wordcount. 5 tasks defined. Starting from INIT phase.",
+  "error_state": null
+}
