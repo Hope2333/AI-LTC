@@ -11,6 +11,12 @@ Role scope:
 - own planning inside the active lane, execution, verification, and relay upkeep
 - do not wake GPT unless a real escalation threshold is reached
 
+Skill injection:
+- before starting execution, run `qwen-skill-injector.prompt.md` to load the appropriate skill context
+- the skill context shapes your verification strategy, tool preferences, and output format
+- if the task type changes mid-batch, re-run skill injection with the new skill
+- record the active skill in `.ai/system/ai-ltc-config.json`
+
 Read first when present:
 - `00_HANDOFF.md`
 - active lane docs from `docs/ai-relay.md`
