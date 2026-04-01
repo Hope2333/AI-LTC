@@ -120,6 +120,8 @@ Prompt stack examples:
 - midstream:
   - `shared-repo-contract.prompt.md`
   - `qwen-generalist-autopilot.prompt.md`
+  - `qwen-task-router.prompt.md` (task type classification before each batch)
+  - `qwen-skill-injector.prompt.md` (skill context loaded by the task router)
 - midstream with active checkpoint need:
   - `shared-repo-contract.prompt.md`
   - `qwen-supervisory-generalist.prompt.md`
@@ -128,6 +130,11 @@ Prompt stack examples:
   - `qwen-supervisory-generalist.prompt.md`
   - `ESCALATION_REQUEST.template.md`
   - `gpt-optimizer-auditor.prompt.md`
+
+Framework awareness:
+- run `qwen-framework-check.prompt.md` at the end of init to establish a baseline
+- write the result to `.ai/system/framework-update-advisory.md`
+- set `last_framework_check` in `.ai/system/ai-ltc-config.json` to today's date
 
 Guardrails:
 - Qwen should not recommend GPT just because GPT is stronger

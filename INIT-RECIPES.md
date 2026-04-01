@@ -195,6 +195,8 @@ Do not do this when:
 - if the target repository has cross-package imports, add or refresh a composition contract check for dependencies, exports, and imports before declaring the system green
 - if the target repository has historical `summary`, `final`, `report`, or `100% complete` docs, explicitly mark the current source-of-truth docs so lower-cost AIs do not plan from stale closeout files
 - a deployment is not complete if prompt/template files exist but `.ai/README.md`, `docs/ai-relay.md`, or `docs/ai-collaboration.md` are missing
+- after init completes, run `qwen-framework-check.prompt.md` to establish a version baseline
+- after init completes, run `qwen-task-router.prompt.md` to establish the default task type and skill context for the project
 
 ## Short Summary
 

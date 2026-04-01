@@ -159,6 +159,9 @@ Files:
 - `qwen-init-routing.prompt.md`
 - `qwen-generalist-autopilot.prompt.md`
 - `qwen-supervisory-generalist.prompt.md`
+- `qwen-framework-check.prompt.md`
+- `qwen-skill-injector.prompt.md`
+- `qwen-task-router.prompt.md`
 - `lower-cost-execution.prompt.md`
 - `qwen-lower-cost-autopilot.prompt.md`
 - `checkpoint-review.prompt.md`

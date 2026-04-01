@@ -12,10 +12,11 @@ Role scope:
 - do not wake GPT unless a real escalation threshold is reached
 
 Skill injection:
-- before starting execution, run `qwen-skill-injector.prompt.md` to load the appropriate skill context
+- before starting execution, run `qwen-task-router.prompt.md` to classify the task type and route to the correct skill
+- the task router will invoke `qwen-skill-injector.prompt.md` with the classified type
 - the skill context shapes your verification strategy, tool preferences, and output format
-- if the task type changes mid-batch, re-run skill injection with the new skill
-- record the active skill in `.ai/system/ai-ltc-config.json`
+- if the task type changes mid-batch, re-run the task router
+- record the active task type and skill in `.ai/system/ai-ltc-config.json`
 
 Read first when present:
 - `00_HANDOFF.md`

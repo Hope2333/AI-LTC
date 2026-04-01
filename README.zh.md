@@ -156,6 +156,9 @@ v1 还新增了：
 - `qwen-init-routing.prompt.md`
 - `qwen-generalist-autopilot.prompt.md`
 - `qwen-supervisory-generalist.prompt.md`
+- `qwen-framework-check.prompt.md`
+- `qwen-skill-injector.prompt.md`
+- `qwen-task-router.prompt.md`
 
 ## 推荐使用方式
 
