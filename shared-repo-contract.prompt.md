@@ -21,9 +21,17 @@ Shared lane rules:
 - when `00_HANDOFF.md` exists in the workspace root or active lane directory, read it before starting execution
 - when `ESCALATION_REQUEST.md` exists and you are the explicitly-invoked architect/optimizer, use it as the first problem summary instead of re-deriving the whole situation
 - when `.ai/system/ai-ltc-config.json` exists, treat it as the authoritative AI-LTC resolver config
+- the default AI-LTC prompt source lives at `.ai/AI-LTC/` within the target repository
+- if `.ai/AI-LTC/` does not exist, clone or copy the framework into `.ai/AI-LTC/` before applying prompts
 - do not hardcode AI-LTC local paths into prompts, lane docs, or copied templates when a resolver config can be used instead
 - prefer the configured local AI-LTC checkout first, then the configured remote fallback
 - allow Qwen to refresh the local AI-LTC checkout only when the config allows it and the current task actually needs the refresh
+
+Framework awareness rules:
+- run `qwen-framework-check.prompt.md` during init routing and checkpoint-closeout
+- if `.ai/system/framework-update-advisory.md` recommends an update or upgrade, surface it in the structured handback
+- do not apply framework changes automatically; only report and let the human or next operator decide
+- the advisory is considered stale after 7 days; re-run the check if it is older
 
 Shared language and identifier contract:
 - keep file paths, commit IDs, workflow IDs, and code identifiers in their original English form

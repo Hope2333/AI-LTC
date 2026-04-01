@@ -1,7 +1,7 @@
 # AI-LTC Templates
  [中文版简介](README.zh.md)
 
-AI-LTC = `AI-LongTimeCoding(plan)`.
+AI-LTC = `AI-LongTerm Coordination`.
 
 ## One-Line Value
 
@@ -72,7 +72,7 @@ Layer 3: Runtime Working State
 
 Repository naming / description suggestion:
 - repo name: `AI-LTC`
-- description: `AI-LongTimeCoding(plan)`
+- description: `AI-LongTerm Coordination`
 
 One-click deploy with `gh` from this directory:
 
@@ -81,13 +81,19 @@ cd AI-LTC
 git init -b main
 git add .
 git commit -m "Initial AI-LTC v1 framework."
-gh repo create AI-LTC --private --source=. --remote=origin --push --description "AI-LongTimeCoding(plan)"
+gh repo create AI-LTC --private --source=. --remote=origin --push --description "AI-LongTerm Coordination"
 ```
 
 Reusable AI prompt for deployment:
 
 ```text
-Initialize this directory as a git repository, create a GitHub repo with gh, use the repo name `AI-LTC`, set the description to `AI-LongTimeCoding(plan)`, add the files, create the first commit, set `origin`, and push the current branch.
+Initialize this directory as a git repository, create a GitHub repo with gh, use the repo name `AI-LTC`, set the description to `AI-LongTerm Coordination`, add the files, create the first commit, set `origin`, and push the current branch.
+```
+
+Reusable prompt with project URL:
+
+```text
+Clone https://github.com/Hope2333/AI-LTC into .ai/AI-LTC within the target repository, then apply the AI-LTC framework starting with shared-repo-contract.prompt.md.
 ```
 
 ## License

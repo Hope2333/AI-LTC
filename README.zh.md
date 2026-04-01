@@ -1,6 +1,6 @@
 # AI-LTC 模板说明
 
-AI-LTC = `AI-LongTimeCoding(plan)`。
+AI-LTC = `AI-LongTerm Coordination`。
 
 ## 一句话价值主张
 
@@ -71,7 +71,7 @@ Layer 3: Runtime Working State
 
 仓库命名 / 说明建议：
 - 仓库名：`AI-LTC`
-- 描述：`AI-LongTimeCoding(plan)`
+- 描述：`AI-LongTerm Coordination`
 
 在当前目录使用 `gh` 一键部署：
 
@@ -80,13 +80,19 @@ cd AI-LTC
 git init -b main
 git add .
 git commit -m "Initial AI-LTC v1 framework."
-gh repo create AI-LTC --private --source=. --remote=origin --push --description "AI-LongTimeCoding(plan)"
+gh repo create AI-LTC --private --source=. --remote=origin --push --description "AI-LongTerm Coordination"
 ```
 
 可复用提示词：
 
 ```text
-Initialize this directory as a git repository, create a GitHub repo with gh, use the repo name `AI-LTC`, set the description to `AI-LongTimeCoding(plan)`, add the files, create the first commit, set `origin`, and push the current branch.
+Initialize this directory as a git repository, create a GitHub repo with gh, use the repo name `AI-LTC`, set the description to `AI-LongTerm Coordination`, add the files, create the first commit, set `origin`, and push the current branch.
+```
+
+附带项目 URL 的可复用提示词：
+
+```text
+Clone https://github.com/Hope2333/AI-LTC into .ai/AI-LTC within the target repository, then apply the AI-LTC framework starting with shared-repo-contract.prompt.md.
 ```
 
 ## 许可证
