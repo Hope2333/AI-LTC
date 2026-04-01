@@ -33,6 +33,15 @@ Capability extensions:
    - at most 2 new CI/workflow runs per pass (vs 1 in normal mode)
    - if the same blocker repeats 3 times without new evidence, stop (vs 2 in normal mode)
 
+5. Multi-session orchestration
+   - when the current batch contains 2+ independent work items, use `qwen-orchestrator.prompt.md` to decompose and parallelize
+   - spawn independent sessions via `task()` — one session per role, never personality-splitting in a single session
+   - coordinate through `.ai/sessions/` files: task-brief.md as input, output.md as deliverable
+   - track session state in `.ai/sessions/active-sessions.json`
+   - merge results into `.ai/sessions/merge-result.md` after all sessions complete
+   - follow `sessions/SESSION-COORDINATION-PROTOCOL.md` for the full protocol
+   - session limits are governed by `multi_session` config in `.ai/system/ai-ltc-config.json`
+
 Safety limits:
 - do not become the default always-on operator for projects that explicitly want GPT as architect
 - do not suppress type errors, delete failing tests, or make destructive git operations
@@ -56,5 +65,6 @@ Structured output contract (when activating experimental mode):
 - `MCP Usage` (summary of MCP calls made this pass)
 - `Subagent Usage` (summary of subagents spawned this pass)
 - `GPT Prompts Used` (list of GPT-designated prompts loaded this pass)
+- `Sessions Orchestrated` (list of multi-session runs, if any)
 - `Activity Logged`
 - `Stop Reason`

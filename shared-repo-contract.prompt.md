@@ -42,6 +42,15 @@ Experimental mode rules (SuperQwen):
 - if `experimental_mode.window_end` is set and today is past it, deactivate experimental mode and notify the human
 - experimental mode runs on the `v1.5-superqwen36-preview` branch; main branch updates should be monitored for relevant merges
 
+Multi-session rules (SuperQwen):
+- if `multi_session.enabled` is `true`, the orchestrator may spawn independent sessions via `task()` for parallel execution
+- each session is a separate OpenCode session with its own context — no personality-splitting in a single session
+- sessions communicate through `.ai/sessions/{role}/task-brief.md` (input) and `.ai/sessions/{role}/output.md` (output)
+- session state is tracked in `.ai/sessions/active-sessions.json`
+- results are merged into `.ai/sessions/merge-result.md`
+- follow `sessions/SESSION-COORDINATION-PROTOCOL.md` for the full protocol
+- do not commit `.ai/sessions/`; session state is local-only like `.ai/`
+
 Shared language and identifier contract:
 - keep file paths, commit IDs, workflow IDs, and code identifiers in their original English form
 - use English for relay-file updates, task instructions, commands, and technical evidence unless a role-specific prompt narrows this further
