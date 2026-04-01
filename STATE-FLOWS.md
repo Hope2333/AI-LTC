@@ -3,6 +3,17 @@
 This document defines the normal state flow for AI-LTC v1.
 It explains how work should move from initialization into execution, when handoff is required, when escalation is justified, and how GPT should return control to Qwen after a narrow intervention.
 
+## Formal Kernel Reference
+
+The machine-readable state machine definition lives in:
+- `kernel/state_machine.yaml` — legal transitions, entry/exit conditions, required artifacts
+- `kernel/state_schema.json` — state field schema, validation rules, permission scopes
+- `kernel/control.yaml` — authority priority chain, state mutation rules
+- `kernel/error_model.yaml` — error types, detection conditions, recovery strategies
+- `kernel/arbitration.yaml` — conflict resolution strategies
+
+This document provides the narrative explanation. The kernel files are the authoritative source for transition validation.
+
 ## Core Flow
 
 ```text

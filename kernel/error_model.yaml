@@ -1,0 +1,111 @@
+# AI-LTC Error Model
+# Defines error types, detection conditions, and recovery strategies.
+# All agents must follow this model when encountering errors.
+
+## Error Types
+
+### 1. hallucination
+- **Description**: Agent produces factually incorrect information, invents APIs, or references non-existent files/functions
+- **Detection**:
+  - File or symbol referenced does not exist
+  - API call signature does not match documentation
+  - Test fails due to incorrect assumption about behavior
+- **Recovery**:
+  - `action`: revert_last_state
+  - `steps`:
+    1. Restore state from last known good snapshot
+    2. Log the hallucination with the incorrect claim
+    3. Re-run with explicit file/symbol verification
+  - `escalate_if`: recovery fails or hallucination repeats in same area
+
+### 2. invalid_state
+- **Description**: State file becomes inconsistent, missing required fields, or contains illegal values
+- **Detection**:
+  - State fails validation against `kernel/state_schema.json`
+  - Phase transition violates `kernel/state_machine.yaml`
+  - Required fields are empty or null when they must not be
+- **Recovery**:
+  - `action`: reject_update
+  - `steps`:
+    1. Reject the invalid state mutation
+    2. Log the invalid field and the attempted value
+    3. Continue from the last valid state
+  - `escalate_if`: state cannot be repaired after 2 attempts
+
+### 3. dead_loop
+- **Description**: Agent repeats the same action or recommendation without progress
+- **Detection**:
+  - Same blocker appears for more than `max_retries` iterations
+  - Same task status unchanged for 3+ consecutive iterations
+  - Stop phrase `STOP_REPEATED_BLOCKER` triggered
+- **Recovery**:
+  - `action`: escalate
+  - `steps`:
+    1. Emit `@ARCHITECT_HELP` or trigger optimizer intervention
+    2. Write `ESCALATION_REQUEST.md` with loop context
+    3. Stop execution and wait for resolution
+  - `escalate_if`: immediate (dead_loop is always escalated)
+
+### 4. tool_failure
+- **Description**: External tool (build, test, linter, CI) fails unexpectedly
+- **Detection**:
+  - Build exit code != 0
+  - Test suite reports failures
+  - LSP diagnostics show errors after changes
+- **Recovery**:
+  - `action`: retry
+  - `steps`:
+    1. Capture the failure output
+    2. Analyze if it's caused by current changes or pre-existing
+    3. If caused by current changes: fix and retry
+    4. If pre-existing: log and continue, note in blockers
+  - `escalate_if`: retry count exceeds `max_retries` (default: 3)
+
+### 5. invalid_transition
+- **Description**: Agent attempts an illegal phase transition
+- **Detection**:
+  - Target phase is not a legal successor per `kernel/state_machine.yaml`
+  - Required fields for target phase are missing
+- **Recovery**:
+  - `action`: reject
+  - `steps`:
+    1. Reject the transition
+    2. Log the attempted from/to phases
+    3. Inform the agent of the legal transitions
+  - `escalate_if`: agent persists in attempting illegal transition
+
+### 6. authority_violation
+- **Description**: Agent writes to fields outside its permission scope
+- **Detection**:
+  - Execution agent modifies `phase`, `goal`, or `max_iterations`
+  - Review agent modifies `tasks` or `blockers`
+  - Any agent changes `authority`
+- **Recovery**:
+  - `action`: revert_and_warn
+  - `steps`:
+    1. Revert the unauthorized field change
+    2. Log the violation with agent role and field
+    3. Warn the agent of its permission scope
+  - `escalate_if`: violation repeats after warning
+
+## Global Recovery Settings
+
+```yaml
+max_retries: 3
+max_recovery_attempts_per_error: 2
+escalation_target: optimizer
+error_log: ".ai/logs/error.log"
+```
+
+## Error Logging Format
+
+Each error entry in `.ai/logs/error.log`:
+
+```
+[iteration N] [TIMESTAMP]
+type: <error_type>
+agent: <agent_role>
+message: <human-readable description>
+recovery: <action_taken>
+result: <success|failed|escalated>
+```

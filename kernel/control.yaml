@@ -1,0 +1,61 @@
+# AI-LTC Control Model
+# Defines authority priority chain and state mutation rules.
+# All agents must follow this control model when reading or writing state.
+
+## Authority Priority Chain
+
+When multiple sources of truth conflict, the following priority applies:
+
+1. **system_rules** (highest)
+   - Rules defined in `shared-repo-contract.prompt.md` and kernel files
+   - Cannot be overridden by any agent
+   - Examples: stop phrases, commit guardrails, safety limits
+
+2. **state_file**
+   - The current `.ai/state.json` (or active lane state)
+   - Must be validated against `kernel/state_schema.json` before use
+   - If state is invalid, reject the update and log the error
+
+3. **validated_output**
+   - Agent output that has passed verification (build pass, test pass, review approval)
+   - May update task status, blockers, and next_action fields
+
+4. **model_output** (lowest)
+   - Raw agent reasoning or proposed changes
+   - Must be validated before becoming validated_output
+   - Cannot override system_rules or state_file without validation
+
+## State Mutation Rules
+
+### Who Can Write What
+
+| Agent Role | Can Write | Cannot Write |
+|---|---|---|
+| **execution** | `tasks[].status`, `blockers`, `next_action`, `iteration`, `status`, `last_update`, `last_updated_by` | `phase`, `goal`, `max_iterations`, `authority`, `tasks` (add/remove) |
+| **review** | `status`, `context_summary`, `last_update`, `last_updated_by` | `tasks`, `blockers`, `goal`, `phase`, `iteration` |
+| **optimizer** | All fields except `authority` | `authority` (only system can change) |
+| **system** | All fields | — |
+
+### Transition Validation
+
+Before any phase transition:
+1. Validate the target phase is a legal successor per `kernel/state_machine.yaml`
+2. Validate all required fields for the target phase are populated
+3. Log the transition to `.ai/logs/state.log`
+4. Update `context_summary` to reflect the new phase
+
+### Conflict Detection
+
+If two agents attempt to write conflicting state:
+1. The later write is rejected with `invalid_state` error
+2. The conflict is logged to `.ai/logs/error.log`
+3. The conflict is resolved per `kernel/arbitration.yaml`
+
+## Invariant Rules
+
+These rules must always hold:
+- `iteration` must be >= 0 and <= `max_iterations`
+- `phase` must be one of the defined enum values
+- If `status` is `blocked`, at least one blocker must exist
+- If `status` is `done`, `phase` must be `CHECKPOINT` or transitioning to it
+- `goal` must not be empty during `EXECUTION`, `REVIEW`, or `OPTIMIZER` phases

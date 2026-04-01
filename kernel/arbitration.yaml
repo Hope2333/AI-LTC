@@ -1,0 +1,75 @@
+# AI-LTC Arbitration Model
+# Defines conflict resolution strategies when multiple agents or sources disagree.
+
+## Conflict Types
+
+### 1. model_disagreement
+- **Scenario**: Two agents produce conflicting recommendations for the same problem
+- **Example**: Qwen says "refactor module X", GPT says "module X is fine, the issue is in module Y"
+- **Resolution**:
+  1. Escalate to the more expensive/capable model (per `config.json` model_strategy)
+  2. If both are the same model tier, fall back to `system_rule`
+  3. The arbitrator's decision is final and logged
+
+### 2. state_inconsistency
+- **Scenario**: Active lane docs and `.ai/state.json` contain conflicting information
+- **Example**: Lane doc says "task A done", state.json says "task A blocked"
+- **Resolution**:
+  1. The most recently updated source wins (compare `last_update` timestamps)
+  2. If timestamps are equal or unavailable, `state.json` takes precedence (it is the SSOT)
+  3. Reconcile by updating the losing source to match the winner
+  4. Log the reconciliation
+
+### 3. scope_conflict
+- **Scenario**: An agent's proposed action exceeds its permission scope
+- **Example**: Execution agent wants to change the project goal
+- **Resolution**:
+  1. Reject the action per `kernel/control.yaml` authority rules
+  2. If the agent believes the scope change is necessary, it must escalate to optimizer
+  3. Optimizer may approve scope changes; execution agents may not
+
+### 4. resource_conflict
+- **Scenario**: Two sessions attempt to modify the same file or state field simultaneously
+- **Example**: worker-impl and worker-test both try to update the same source file
+- **Resolution**:
+  1. First write wins; second write is rejected with `invalid_state`
+  2. The rejected session must re-read the state and adjust its action
+  3. If both are essential, the orchestrator serializes them
+
+## Arbitration Hierarchy
+
+```
+system_rules (final authority)
+  └── optimizer (may override execution and review decisions)
+      └── review (may reject execution output)
+          └── execution (implements within scope)
+```
+
+## Escalation Path
+
+When arbitration cannot resolve a conflict locally:
+
+1. **Level 1**: Review agent evaluates both sides → makes recommendation
+2. **Level 2**: Optimizer agent reviews the evaluation → makes binding decision
+3. **Level 3**: Human is notified via structured handback with conflict details
+
+## Arbitration Logging
+
+Each arbitration event is logged to `.ai/logs/error.log`:
+
+```
+[iteration N] [TIMESTAMP]
+type: arbitration
+conflict: <conflict_type>
+parties: [<agent_a>, <agent_b>]
+resolution: <strategy_used>
+decision: <final_outcome>
+logged_by: <arbitrator_role>
+```
+
+## Fallback Rules
+
+If no specific arbitration rule applies:
+1. Default to the more conservative option (less change, more verification)
+2. If both options are equally conservative, escalate to optimizer
+3. Never silently pick a side — always log the arbitration decision

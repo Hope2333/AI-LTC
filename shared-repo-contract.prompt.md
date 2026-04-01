@@ -3,6 +3,14 @@ Then read the active lane handoff/status/roadmap docs listed in `docs/ai-relay.m
 If `.ai/system/ai-ltc-config.json` exists, read it before assuming any AI-LTC source location.
 If the repository is a fresh AI-LTC deployment or a `v0 -> v1` upgrade, run init routing before assuming the prompt source is fully configured.
 
+Kernel rules:
+- `kernel/state_schema.json` defines the only valid state structure; all agents must validate against it
+- `kernel/control.yaml` defines the authority priority chain: system_rules > state_file > validated_output > model_output
+- `kernel/state_machine.yaml` defines legal phase transitions; illegal transitions must be rejected
+- `kernel/error_model.yaml` defines error types and recovery strategies; agents must follow recovery steps
+- `kernel/arbitration.yaml` defines conflict resolution; model disagreements follow the escalation path
+- no agent may write to fields outside its permission scope per `kernel/control.yaml`
+
 Framework v1 role default:
 - GPT is not the default always-on operator
 - Qwen is the default day-to-day supervisor + executor

@@ -1,0 +1,87 @@
+# AI-LTC State Machine
+# Formal definition of legal phase transitions, entry/exit conditions, and required artifacts.
+
+## States and Transitions
+
+```
+INIT ──→ HANDOFF_READY ──→ EXECUTION ──→ REVIEW ──→ OPTIMIZER ──→ EXECUTION
+  │            │                │             │           │
+  │            │                │             │           └─→ CHECKPOINT
+  │            │                │             └─→ EXECUTION (review passed)
+  │            │                └─→ REVIEW (task done)
+  │            │                └─→ ESCALATION (blocked)
+  │            └─→ EXECUTION (no GPT bootstrap needed)
+  └─→ EXECUTION (midstream project, no handoff needed)
+```
+
+## State Definitions
+
+### INIT
+- **Entry**: Fresh deployment, v0→v1 upgrade, or missing resolver config
+- **Required artifacts**: `.ai/system/ai-ltc-config.json`, `.ai/system/init-status.md`
+- **Exit conditions**:
+  - Project state classified (greenfield/midstream/chaotic)
+  - Source mode resolved (folder/git_repo/cloud_reference)
+  - Next operator chosen
+- **Legal transitions**: → HANDOFF_READY, → EXECUTION
+
+### HANDOFF_READY
+- **Entry**: GPT bootstrap work finished, initial skeleton is usable
+- **Required artifacts**: `00_HANDOFF.md`, lane handoff/status/roadmap docs
+- **Exit conditions**:
+  - `00_HANDOFF.md` written with explicit next actions
+  - Initial lane docs exist
+  - Next execution batch is defined
+- **Legal transitions**: → EXECUTION
+
+### EXECUTION
+- **Entry**: Normal delivery, bounded implementation, lane upkeep
+- **Required artifacts**: Active `.ai/active-lane/*`, resolver config
+- **Exit conditions**:
+  - `task_done`: All tasks in current batch completed with verification
+  - `blocked`: First blocker confirmed, retry count < max_retries
+  - `iteration_exhausted`: iteration >= max_iterations
+  - `escalation`: Repeated failure or architecture deadlock
+- **Legal transitions**: → REVIEW, → ESCALATION, → CHECKPOINT
+
+### REVIEW
+- **Entry**: Meaningful new evidence landed, batch completion
+- **Required artifacts**: Current handoff/status/roadmap docs, latest proof evidence
+- **Exit conditions**:
+  - `review_passed`: No critical findings, execution may continue
+  - `review_failed`: Critical findings, needs optimizer intervention
+  - `no_change`: No meaningful new evidence
+- **Legal transitions**: → EXECUTION, → OPTIMIZER, → CHECKPOINT
+
+### OPTIMIZER
+- **Entry**: Escalation package complete, narrow high-value problem
+- **Required artifacts**: `ESCALATION_REQUEST.md`, latest lane docs, recent proof evidence
+- **Exit conditions**:
+  - `intervention_done`: Narrow redesign or targeted audit completed
+  - `no_intervention_needed`: No optimizer action justified
+- **Legal transitions**: → EXECUTION (optimizer-return), → CHECKPOINT
+
+### CHECKPOINT
+- **Entry**: Batch/milestone/lane complete
+- **Required artifacts**: Current status in lane docs, clear Next Action or closure note
+- **Exit conditions**:
+  - `next_batch_defined`: New batch created, execution resumes
+  - `lane_paused`: Lane paused with resume note
+  - `lane_closed`: Lane closed, phase may move
+- **Legal transitions**: → EXECUTION (new batch), → INIT (new phase)
+
+## Transition Validation Rules
+
+Before any transition:
+1. Target state must be a legal successor (see above)
+2. All required artifacts for target state must exist or be created as part of the transition
+3. `context_summary` must be updated to reflect the new phase
+4. Transition must be logged to `.ai/logs/state.log`
+
+## Illegal Transitions
+
+The following transitions are explicitly forbidden:
+- INIT → REVIEW (skip handoff and execution)
+- EXECUTION → OPTIMIZER (must go through REVIEW or ESCALATION first)
+- REVIEW → INIT (cannot reset without going through CHECKPOINT)
+- Any transition that leaves required artifacts missing
