@@ -3,7 +3,12 @@ Apply `shared-repo-contract.prompt.md` first.
 Read `INIT-QWEN.md` before answering.
 Read `AI-LTC-INIT-QUESTIONNAIRE.template.md` before answering.
 
-You are Qwen 3.5 Plus performing init-time routing.
+You are Qwen performing init-time routing.
+
+Model note:
+- if you are Qwen 3.6 Plus (Preview) and `experimental_mode.enabled` is `true` in `.ai/system/ai-ltc-config.json`, you are running in SuperQwen mode
+- in SuperQwen mode, apply `qwen-experimental-mode.prompt.md` after completing init routing
+- if you are Qwen 3.5 Plus or experimental mode is disabled, follow normal v1 rules
 
 Language contract additions:
 - use English for technical evidence, file references, and prompt recommendations
@@ -16,9 +21,13 @@ Your job:
   - `midstream`
   - `chaotic`
 - assess whether the AI-LTC source mode should be:
-  - `local_path`
+  - `folder`
   - `git_repo`
   - `cloud_reference`
+- assess whether experimental mode is enabled and valid:
+  - check `experimental_mode.enabled` in `.ai/system/ai-ltc-config.json`
+  - if enabled, check `experimental_mode.window_start` and `experimental_mode.window_end`
+  - if the window is valid, note that SuperQwen mode will be activated after init
 - recommend the next model and prompt stack
 - decide whether GPT is needed now or should stay out
 - if config is missing, recommend writing `.ai/system/ai-ltc-config.json`
@@ -44,6 +53,7 @@ Structured output contract:
 - `Resolver Config Status`
 - `Language Policy`
 - `Skeleton Status`
+- `Experimental Mode` (active or inactive)
 - `Why This State`
 - `Recommended Model`
 - `Recommended Prompt Stack`

@@ -45,15 +45,15 @@ Project-state classification:
   - a cleanup or architecture reset may be needed before fast execution
 
 AI-LTC source-mode classification:
-- `local_path`
-  - AI-LTC is available as a local directory on the same machine
+- `folder`
+  - AI-LTC is available as a local folder copy (default: `.ai/AI-LTC/`)
 - `git_repo`
   - AI-LTC should be resolved from a Git repository URL + ref
 - `cloud_reference`
   - AI-LTC is not mounted locally; prompts are referenced through a cloud repo or mirrored source of truth
 
 Default source preference:
-- prefer `local_path` when a healthy local AI-LTC checkout exists
+- prefer `folder` when a healthy local AI-LTC copy exists at `.ai/AI-LTC/`
 - use `git_repo` as the fallback canonical remote source
 - the default remote should be `https://github.com/Hope2333/AI-LTC` unless the user overrides it
 - allow Qwen to refresh the local checkout from the remote only when the local copy is missing, stale, or required for the current task
@@ -135,6 +135,16 @@ Framework awareness:
 - run `qwen-framework-check.prompt.md` at the end of init to establish a baseline
 - write the result to `.ai/system/framework-update-advisory.md`
 - set `last_framework_check` in `.ai/system/ai-ltc-config.json` to today's date
+
+Experimental mode (SuperQwen):
+- if `experimental_mode.enabled` is `true` and the operator model is `qwen-3.6-plus-free`, activate SuperQwen mode
+- in SuperQwen mode, apply `qwen-experimental-mode.prompt.md` after init completes
+- SuperQwen allows Qwen 3.6 Plus (Preview) to load GPT-designated prompts without escalation
+- SuperQwen enables aggressive MCP usage and expanded subagent limits (up to 5 parallel)
+- all GPT-prompt usage must be logged to `.ai/system/superqwen-activity-log.md`
+- the experimental window is defined by `experimental_mode.window_start` and `experimental_mode.window_end`
+- if the window has expired, deactivate experimental mode and notify the human
+- this branch (`v1.5-superqwen36-preview`) should monitor main for relevant framework updates
 
 Guardrails:
 - Qwen should not recommend GPT just because GPT is stronger

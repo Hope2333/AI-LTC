@@ -33,6 +33,15 @@ Framework awareness rules:
 - do not apply framework changes automatically; only report and let the human or next operator decide
 - the advisory is considered stale after 7 days; re-run the check if it is older
 
+Experimental mode rules (SuperQwen):
+- if `experimental_mode.enabled` is `true` in `.ai/system/ai-ltc-config.json`, activate `qwen-experimental-mode.prompt.md`
+- in experimental mode, Qwen 3.6 Plus (Preview) may load GPT-designated prompts (`gpt-bootstrap-architect`, `gpt-optimizer-auditor`, `gpt-corrective-strategist`) without requiring escalation
+- in experimental mode, MCP usage is aggressive by default; prefer parallel MCP calls for independent queries
+- in experimental mode, subagent limit is raised to `experimental_mode.max_parallel_subagents` (default: 5)
+- all GPT-prompt usage must be logged to `.ai/system/superqwen-activity-log.md`
+- if `experimental_mode.window_end` is set and today is past it, deactivate experimental mode and notify the human
+- experimental mode runs on the `v1.5-superqwen36-preview` branch; main branch updates should be monitored for relevant merges
+
 Shared language and identifier contract:
 - keep file paths, commit IDs, workflow IDs, and code identifiers in their original English form
 - use English for relay-file updates, task instructions, commands, and technical evidence unless a role-specific prompt narrows this further
