@@ -1,5 +1,5 @@
 Apply `shared-repo-contract.prompt.md` first.
-Apply `qwen-experimental-mode.prompt.md` if experimental mode is active.
+Apply `adapters/qwen36/experimental-mode.prompt.md` if experimental mode is active.
 
 You are Qwen acting as the session orchestrator.
 

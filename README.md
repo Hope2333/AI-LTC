@@ -85,8 +85,10 @@ python -m pytest tests/test_main.py -v  # 8 tests, all passing
 On branch `v1.5-superqwen36-preview` with Qwen 3.6 Plus (Preview):
 - Qwen can load GPT-designated prompts without escalation
 - Aggressive MCP usage, expanded subagent limits (up to 5)
-- Multi-session parallel orchestration via `qwen-orchestrator.prompt.md`
+- Multi-session parallel orchestration via `adapters/qwen36/orchestrator.prompt.md`
+- Session roles and coordination in `adapters/qwen36/sessions/`
 - Activity logged to `.ai/system/superqwen-activity-log.md`
+- Model adapter spec: `adapters/qwen36/adapter.yaml`
 
 ## Lifecycle
 
@@ -111,12 +113,19 @@ Each transition is validated against `kernel/state_machine.yaml`. Illegal transi
 | `v1.5.4-sqwen36pre` | **Runtime v0.1**: observability, logging, context compression |
 | `v1.5.5-sqwen36pre` | **Demo CLI**: minimum runnable project with 3 test cases |
 
+| `v1.5.6-sqwen36pre` | Adapter architecture: sessions/ → adapters/qwen36/ |
+
 ## Project Structure
 
 ```
 AI-LTC/
 ├── kernel/                    # Formal kernel (rules, schemas, state machine)
-├── sessions/                  # Multi-session prompts + coordination protocol
+├── adapters/
+│   └── qwen36/                # Qwen 3.6 Plus Preview adapter
+│       ├── adapter.yaml       # Model capabilities, quirks, routing
+│       ├── experimental-mode.prompt.md
+│       ├── orchestrator.prompt.md
+│       └── sessions/          # Multi-session prompts + coordination
 ├── .ai-template/              # Runtime template (copy to .ai/ in target projects)
 ├── examples/
 │   ├── demo-cli/              # Minimum runnable demo (8 tests passing)

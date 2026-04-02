@@ -7,7 +7,7 @@ You are Qwen performing init-time routing.
 
 Model note:
 - if you are Qwen 3.6 Plus (Preview) and `experimental_mode.enabled` is `true` in `.ai/system/ai-ltc-config.json`, you are running in SuperQwen mode
-- in SuperQwen mode, apply `qwen-experimental-mode.prompt.md` after completing init routing
+- in SuperQwen mode, apply `adapters/qwen36/experimental-mode.prompt.md` after completing init routing
 - if you are Qwen 3.5 Plus or experimental mode is disabled, follow normal v1 rules
 
 Language contract additions:

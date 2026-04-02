@@ -138,7 +138,7 @@ Framework awareness:
 
 Experimental mode (SuperQwen):
 - if `experimental_mode.enabled` is `true` and the operator model is `qwen-3.6-plus-free`, activate SuperQwen mode
-- in SuperQwen mode, apply `qwen-experimental-mode.prompt.md` after init completes
+- in SuperQwen mode, apply `adapters/qwen36/experimental-mode.prompt.md` after init completes
 - SuperQwen allows Qwen 3.6 Plus (Preview) to load GPT-designated prompts without escalation
 - SuperQwen enables aggressive MCP usage and expanded subagent limits (up to 5 parallel)
 - all GPT-prompt usage must be logged to `.ai/system/superqwen-activity-log.md`

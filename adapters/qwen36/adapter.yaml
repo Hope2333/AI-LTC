@@ -1,0 +1,62 @@
+# AI-LTC Adapter: Qwen 3.6 Plus (Preview)
+# Defines model-specific capabilities, quirks, and runtime adjustments.
+# This adapter sits ON TOP of the kernel (kernel/) — it does not modify kernel rules.
+
+adapter:
+  name: qwen36-plus-preview
+  model_id: qwen-3.6-plus-free
+  available_from: "2026-03-30"
+  available_until: ""  # unknown
+  branch: v1.5-superqwen36-preview
+
+capabilities:
+  json_strict: medium    # Can follow JSON schemas but may drift on complex nested structures
+  long_context: strong   # 1M token context window, but effective recall degrades after ~128K
+  tool_use: strong       # MCP and subagent orchestration work well
+  reasoning: strong      # GPQA ~81-90%, competitive with GPT-5.2
+  multilingual: strong   # 201 languages, but English is primary for technical payloads
+  consistency: strong    # 10.0/10 on AIBenchy, 0 flaky tests
+  speed: strong          # ~13.9s avg response time
+
+quirks:
+  - name: role_drift
+    description: Tends to blend role boundaries when executing multi-role prompts
+    mitigation: Use separate prompt files per role; enforce via kernel/control.yaml permission scopes
+  - name: format_break
+    description: May add extra fields to structured outputs beyond the schema
+    mitigation: Validate all outputs against kernel/state_schema.json; reject extra fields
+  - name: language_preference
+    description: Defaults to English for technical reasoning even when prompted in other languages
+    mitigation: Explicitly configure human_summary_language in ai-ltc-config.json; enforce working language in prompts
+  - name: overthinking
+    description: Still present but reduced from Qwen 3.5; may produce longer-than-necessary reasoning chains
+    mitigation: Use bounded pass limits; enforce output caps in prompts
+  - name: context_attenuation
+    description: Long sessions (>50 turns) may lose earlier constraints
+    mitigation: Use context_summary refresh at each phase transition; prefer compressed context format
+
+experimental_features:
+  - name: gpt_prompt_access
+    description: Qwen may load GPT-designated prompts without escalation
+    prompt_file: adapters/qwen36/experimental-mode.prompt.md
+    risk: medium
+    mitigation: Log all GPT-prompt usage to .ai/system/superqwen-activity-log.md
+  - name: multi_session_orchestration
+    description: Parallel independent sessions via OpenCode task()
+    prompt_file: adapters/qwen36/orchestrator.prompt.md
+    session_files: adapters/qwen36/sessions/
+    risk: medium
+    mitigation: Track sessions in .ai/sessions/active-sessions.json; enforce max_concurrent limit
+
+routing:
+  default_operator: qwen-3.6-plus-free
+  architect: qwen-3.6-plus-free (with gpt-bootstrap-architect prompt via experimental mode)
+  optimizer: qwen-3.6-plus-free (with gpt-optimizer-auditor prompt via experimental mode)
+  escalation_target: human (no GPT fallback in pure experimental mode)
+
+validation:
+  state_schema: kernel/state_schema.json
+  control: kernel/control.yaml
+  state_machine: kernel/state_machine.yaml
+  error_model: kernel/error_model.yaml
+  arbitration: kernel/arbitration.yaml

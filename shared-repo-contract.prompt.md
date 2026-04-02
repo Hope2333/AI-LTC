@@ -42,7 +42,7 @@ Framework awareness rules:
 - the advisory is considered stale after 7 days; re-run the check if it is older
 
 Experimental mode rules (SuperQwen):
-- if `experimental_mode.enabled` is `true` in `.ai/system/ai-ltc-config.json`, activate `qwen-experimental-mode.prompt.md`
+- if `experimental_mode.enabled` is `true` in `.ai/system/ai-ltc-config.json`, activate `adapters/qwen36/experimental-mode.prompt.md`
 - in experimental mode, Qwen 3.6 Plus (Preview) may load GPT-designated prompts (`gpt-bootstrap-architect`, `gpt-optimizer-auditor`, `gpt-corrective-strategist`) without requiring escalation
 - in experimental mode, MCP usage is aggressive by default; prefer parallel MCP calls for independent queries
 - in experimental mode, subagent limit is raised to `experimental_mode.max_parallel_subagents` (default: 5)
@@ -56,7 +56,7 @@ Multi-session rules (SuperQwen):
 - sessions communicate through `.ai/sessions/{role}/task-brief.md` (input) and `.ai/sessions/{role}/output.md` (output)
 - session state is tracked in `.ai/sessions/active-sessions.json`
 - results are merged into `.ai/sessions/merge-result.md`
-- follow `sessions/SESSION-COORDINATION-PROTOCOL.md` for the full protocol
+- follow `adapters/qwen36/sessions/SESSION-COORDINATION-PROTOCOL.md` for the full protocol
 - do not commit `.ai/sessions/`; session state is local-only like `.ai/`
 
 Shared language and identifier contract:
