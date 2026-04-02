@@ -97,17 +97,22 @@ INIT → HANDOFF_READY → EXECUTION → REVIEW → OPTIMIZER → EXECUTION
 | Tag | 变更内容 |
 |---|---|
 | `v1.5.3` | Kernel v0.1 + Runtime v0.1 + Demo CLI + public README rewrite |
+| `v1.5.4` | 分支治理 + 对照验证框架 + 多会话配置 |
 
 ## 项目结构
 
 ```
 AI-LTC/
 ├── kernel/                    # 形式化内核（规则、schema、状态机）
+├── adapters/                  # 模型特定适配器（见 BRANCH-GOVERNANCE.md）
+│   └── qwen36/                # Qwen 3.6 Plus Preview（在 preview 分支）
 ├── .ai-template/              # 运行时模板（复制到目标项目的 .ai/）
 ├── examples/
 │   ├── demo-cli/              # 最小可运行 demo（8 个测试通过）
-│   └── collaboration-system/  # 可复制的协作系统模板
+│   ├── collaboration-system/  # 可复制的协作系统模板
+│   └── benchmark/             # 跨模型对照任务
 ├── scripts/                   # 验证器和工具
+├── BRANCH-GOVERNANCE.md       # 双分支职责和合并规则
 ├── shared-repo-contract.prompt.md   # 所有角色的公共规则
 ├── qwen-*.prompt.md           # Qwen 角色 prompt
 ├── gpt-*.prompt.md            # GPT 角色 prompt

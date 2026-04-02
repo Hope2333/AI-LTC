@@ -98,17 +98,22 @@ Each transition is validated against `kernel/state_machine.yaml`. Illegal transi
 | Tag | What Changed |
 |---|---|
 | `v1.5.3` | Kernel v0.1 + Runtime v0.1 + Demo CLI + public README rewrite |
+| `v1.5.4` | Branch governance + benchmark framework + multi-session config |
 
 ## Project Structure
 
 ```
 AI-LTC/
 ├── kernel/                    # Formal kernel (rules, schemas, state machine)
+├── adapters/                  # Model-specific adapters (see BRANCH-GOVERNANCE.md)
+│   └── qwen36/                # Qwen 3.6 Plus Preview (on preview branch)
 ├── .ai-template/              # Runtime template (copy to .ai/ in target projects)
 ├── examples/
 │   ├── demo-cli/              # Minimum runnable demo (8 tests passing)
-│   └── collaboration-system/  # Copyable collaboration template
+│   ├── collaboration-system/  # Copyable collaboration template
+│   └── benchmark/             # Cross-model comparison tasks
 ├── scripts/                   # Validators and tools
+├── BRANCH-GOVERNANCE.md       # Dual-branch responsibilities and merge rules
 ├── shared-repo-contract.prompt.md   # Common rules for all roles
 ├── qwen-*.prompt.md           # Qwen role prompts
 ├── gpt-*.prompt.md            # GPT role prompts
