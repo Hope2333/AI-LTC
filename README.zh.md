@@ -4,7 +4,7 @@
 
 **AI-LongTerm Coordination** — 面向长期 AI 协作的可复用框架。
 
-> 把多会话 AI 工作从混乱交接变成稳定、可验证的操作系统。
+> 把 AI 协作从混乱交接变成稳定、可验证的操作系统。
 
 ## 为什么存在
 
@@ -14,7 +14,6 @@
 - **文件化状态**：上下文存在 `.ai/state.json`，不在对话历史里
 - **内核验证转移**：每次阶段变更都经过形式化状态机规则验证
 - **错误恢复**：6 种错误类型，每种有定义好的检测和恢复策略
-- **多会话编排**：通过 OpenCode `task()` 并行独立会话
 
 ## 快速开始
 
@@ -81,13 +80,6 @@ python -m pytest tests/test_main.py -v  # 8 个测试，全部通过
 | 策略师 | `gpt-corrective-strategist.prompt.md` | 架构漂移、长期重规划 |
 | 优化师 | `gpt-optimizer-auditor.prompt.md` | 窄审计、硬阻塞 |
 
-### SuperQwen 实验模式
-在 `v1.5-superqwen36-preview` 分支，使用 Qwen 3.6 Plus (Preview)：
-- Qwen 可直接加载 GPT 指定 prompt，无需 escalation
-- 激进 MCP 使用，扩展子代理上限（最多 5 个）
-- 多会话并行编排通过 `qwen-orchestrator.prompt.md`
-- 活动记录到 `.ai/system/superqwen-activity-log.md`
-
 ## 生命周期
 
 ```
@@ -104,19 +96,13 @@ INIT → HANDOFF_READY → EXECUTION → REVIEW → OPTIMIZER → EXECUTION
 
 | Tag | 变更内容 |
 |---|---|
-| `v1.5.0-sqwen36pre` | 框架版本检测 + LongTerm Coordination 改名 |
-| `v1.5.1-sqwen36pre` | 多会话并行编排 |
-| `v1.5.2-sqwen36pre` | 任务路由器 + 技能注入集成 |
-| `v1.5.3-sqwen36pre` | **内核 v0.1**：控制权、状态、错误、仲裁、状态机 |
-| `v1.5.4-sqwen36pre` | **运行时 v0.1**：可观测性、日志、上下文压缩 |
-| `v1.5.5-sqwen36pre` | **Demo CLI**：最小可运行项目，3 个测试用例 |
+| `v1.5.3` | Kernel v0.1 + Runtime v0.1 + Demo CLI + public README rewrite |
 
 ## 项目结构
 
 ```
 AI-LTC/
 ├── kernel/                    # 形式化内核（规则、schema、状态机）
-├── sessions/                  # 多会话 prompt + 协调协议
 ├── .ai-template/              # 运行时模板（复制到目标项目的 .ai/）
 ├── examples/
 │   ├── demo-cli/              # 最小可运行 demo（8 个测试通过）

@@ -81,13 +81,6 @@ python -m pytest tests/test_main.py -v  # 8 tests, all passing
 | Strategist | `gpt-corrective-strategist.prompt.md` | Architecture drift, long-range replanning |
 | Optimizer | `gpt-optimizer-auditor.prompt.md` | Narrow audits, hard blockers |
 
-### SuperQwen Experimental Mode
-On branch `v1.5-superqwen36-preview` with Qwen 3.6 Plus (Preview):
-- Qwen can load GPT-designated prompts without escalation
-- Aggressive MCP usage, expanded subagent limits (up to 5)
-- Multi-session parallel orchestration via `qwen-orchestrator.prompt.md`
-- Activity logged to `.ai/system/superqwen-activity-log.md`
-
 ## Lifecycle
 
 ```
@@ -104,19 +97,13 @@ Each transition is validated against `kernel/state_machine.yaml`. Illegal transi
 
 | Tag | What Changed |
 |---|---|
-| `v1.5.0-sqwen36pre` | Framework check + LongTerm Coordination rename |
-| `v1.5.1-sqwen36pre` | Multi-session parallel orchestration |
-| `v1.5.2-sqwen36pre` | Task router + skill injector integration |
-| `v1.5.3-sqwen36pre` | **Kernel v0.1**: control, state, error, arbitration, state machine |
-| `v1.5.4-sqwen36pre` | **Runtime v0.1**: observability, logging, context compression |
-| `v1.5.5-sqwen36pre` | **Demo CLI**: minimum runnable project with 3 test cases |
+| `v1.5.3` | Kernel v0.1 + Runtime v0.1 + Demo CLI + public README rewrite |
 
 ## Project Structure
 
 ```
 AI-LTC/
 ├── kernel/                    # Formal kernel (rules, schemas, state machine)
-├── sessions/                  # Multi-session prompts + coordination protocol
 ├── .ai-template/              # Runtime template (copy to .ai/ in target projects)
 ├── examples/
 │   ├── demo-cli/              # Minimum runnable demo (8 tests passing)

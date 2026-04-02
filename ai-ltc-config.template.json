@@ -22,23 +22,6 @@
   "architect_prompt": "gpt-bootstrap-architect.prompt.md",
   "auditor_prompt": "gpt-optimizer-auditor.prompt.md",
   "resolver_note": "Copy this file to .ai/system/ai-ltc-config.json in the target repository and fill only the fields you actually use.",
-  "experimental_mode": {
-    "enabled": false,
-    "operator_model": "qwen-3.6-plus-free",
-    "allow_gpt_prompts": true,
-    "aggressive_mcp": true,
-    "max_parallel_subagents": 5,
-    "window_start": "2026-03-30",
-    "window_end": ""
-  },
-  "multi_session": {
-    "enabled": true,
-    "max_concurrent": 3,
-    "session_timeout_minutes": 10,
-    "retry_limit": 1,
-    "cleanup_after_merge": true,
-    "keep_last_n_per_role": 3
-  },
   "observability": {
     "logging_enabled": true,
     "log_level": "info",
