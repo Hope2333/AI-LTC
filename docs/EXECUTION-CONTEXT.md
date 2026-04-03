@@ -1,0 +1,288 @@
+# AI-LTC Execution Context
+
+## For the Execution Agent — Read This First
+
+This document contains all operational context needed to work on the AI-LTC repository correctly: versioning, branching, commit conventions, file ownership, and the OML integration plan.
+
+---
+
+## 1. Branch Governance
+
+### Two-Branch Model
+
+| Branch | Purpose | Version Tags | What Lives Here |
+|--------|---------|-------------|-----------------|
+| **main** | Stable, model-agnostic kernel | `v1.5.x` | `kernel/`, `.ai-template/`, `examples/`, `scripts/`, root prompts |
+| **v1.5-superqwen36-preview** | Qwen 3.6 Plus Preview adapter | `v1.5.x-sqwen36pre` | Everything from main + `adapters/qwen36/` |
+
+### Directory Ownership
+
+| Directory | Branch | Who Can Modify |
+|-----------|--------|---------------|
+| `kernel/` | main | main only |
+| `.ai-template/` | main | main only |
+| `examples/` | main | both |
+| `scripts/` | main | main only |
+| `adapters/` | preview | preview only |
+| Root prompt files (`qwen-*.md`, `gpt-*.md`) | main | main only |
+| `adapters/qwen36/*.md` | preview | preview only |
+
+### Merge Rules
+
+- **main → preview**: Always allowed, merge regularly
+- **preview → main**: Only model-agnostic changes (kernel fixes, scripts, README). NO `adapters/`, NO `experimental_mode`, NO Qwen-specific prompts
+- **Decision rule**: If the change is model-agnostic → main. If it's Qwen-specific → preview.
+
+---
+
+## 2. Version Management
+
+### Current Versions
+
+| Branch | Current Tag | Next Tag | VERSION File |
+|--------|------------|----------|-------------|
+| main | `v1.5.5` | `v1.5.6` | `v1.5.10` (tracks preview) |
+| preview | `v1.5.10-sqwen36pre` | `v1.5.11-sqwen36pre` | `v1.5.10` |
+
+### Versioning Rules
+
+1. **Single source of truth**: `VERSION` file in repo root
+2. **main tags**: `v1.5.x` — increment by 1 for each kernel-level release
+3. **preview tags**: `v1.5.x-sqwen36pre` — increment independently, tracks adapter evolution
+4. **Preview tags do NOT need to match main tags** — they evolve independently
+5. **When backporting to main**: main gets a new tag (`v1.5.6`), preview keeps its tag
+6. **When merging main → preview**: preview merges and gets a new tag
+
+### When to Bump Versions
+
+- **main**: After kernel changes, scripts, or significant docs land
+- **preview**: After adapter changes, experimental mode updates, or any meaningful change
+- **Both**: After major feature additions (like the OML bridge)
+
+### Files to Update When Bumping
+
+1. `VERSION` — new version number
+2. `ai-ltc-config.template.json` — `framework_version` field
+3. `adapters/qwen36/adapter.yaml` — `min_framework_version` (preview only)
+4. `BRANCH-GOVERNANCE.md` — version alignment table
+5. `README.md` — version history table
+6. Consumer repos' `.ai/system/ai-ltc-config.json` — `framework_version` and `installed_framework_tag`
+
+---
+
+## 3. Commit Conventions
+
+### Style
+
+- Short, imperative subject line with sentence-style capitalization and trailing period
+- Example: `Add code quality gate to control.yaml.`
+- Keep commits narrowly scoped — one logical change per commit
+
+### Examples from Recent History
+
+```
+Add OML integration docs: bridge architecture, platform adapters, brain/body separation principles. Update README.
+Add cross-repo management: VERSION, registry, framework-check script.
+Add Claude Code leak insights: context overflow, circuit breakers, transition hooks, and memory system. Bump to v1.5.10.
+Refactor preview branch into adapter architecture: sessions → adapters/qwen36/.
+Add BRANCH-GOVERNANCE.md: dual-branch responsibilities and merge rules.
+```
+
+### Commit Rules
+
+- **Never commit `.omx/` or `.ai/` directories**
+- **Never commit AI-LTC's own `.ai/` directory** (it's local-only)
+- **Commit to the correct branch** per the directory ownership matrix above
+- **Tag after significant commits** — use `git tag -a v1.5.x -m "description"` on main, `git tag -a v1.5.x-sqwen36pre -m "description"` on preview
+
+---
+
+## 4. OML Integration Plan (Phase 1-4)
+
+### What's Done (Documentation Only)
+
+| File | Content |
+|------|---------|
+| `docs/OML-INTEGRATION-PLAN.md` | 4-phase roadmap with deliverables and validation criteria |
+| `docs/OML-BRIDGE-ARCHITECTURE.md` | Technical spec: event mapping, capability registry, task protocol, permissions |
+| `docs/OML-PLUGIN-ADAPTER.md` | Platform adapter guide: OpenCode, Claude Code, Aider, custom |
+| `docs/BRAIN-BODY-SEPARATION.md` | Design principles: mutual exclusion, two-tier state, deterministic hooks |
+
+### What Needs to Be Built
+
+#### Phase 1: Bridge Foundation (Priority: High)
+
+| File | Description | Expected Lines |
+|------|-------------|---------------|
+| `bridge/index.ts` | Bridge entry point, exports `OmlBridge` class | ~20 |
+| `bridge/oml-bridge.ts` | Core logic: state→hook mapping, memory routing, error handling | ~200 |
+| `bridge/event-map.yaml` | AI-LTC event → OML hook name → payload schema | ~50 |
+| `bridge/capability-registry.ts` | Plugin discovery, registration, progressive loading | ~100 |
+| `bridge/protocol.md` | Task/result JSON protocol (Brain↔Body) | ~30 |
+
+**Validation**: AI-LTC state machine triggers OML hooks, OML session storage persists AI-LTC memory, at least one OML subagent invocable via bridge.
+
+#### Phase 2: Platform Adapter Layer (Priority: Medium)
+
+| File | Description | Expected Lines |
+|------|-------------|---------------|
+| `adapters/opencode/index.ts` | OpenCode plugin adapter (25+ event types) | ~80 |
+| `adapters/claude-code/index.ts` | Claude Code adapter (Skills + Hooks + MCP) | ~80 |
+| `adapters/aider/index.ts` | Aider adapter (custom commands) | ~50 |
+| `adapters/registry.ts` | Platform detection + adapter selection | ~60 |
+
+**Validation**: AI-LTC capabilities installable on OpenCode and Claude Code.
+
+#### Phase 3: Memory & Context (Priority: Medium)
+
+| File | Description | Expected Lines |
+|------|-------------|---------------|
+| `bridge/memory-adapter.ts` | AI-LTC memory ↔ OML session bridge | ~80 |
+| `bridge/context-compact.ts` | 3-level context compression | ~60 |
+| `bridge/cross-session.ts` | Cross-session knowledge sharing | ~60 |
+
+#### Phase 4: Automation & CI (Priority: Low)
+
+| File | Description | Expected Lines |
+|------|-------------|---------------|
+| `scripts/integration-test.sh` | Integration test suite | ~100 |
+| `scripts/deploy-adapter.sh` | Adapter deployment script | ~80 |
+| `Makefile` | Build automation | ~30 |
+
+### Key Design Constraints
+
+1. **Mutual Exclusion**: Brain (AI-LTC) has no direct filesystem/tool access. Body (OML) makes no orchestration decisions.
+2. **Minimal Surface**: ~500 lines of TypeScript total for the bridge.
+3. **Progressive Loading**: Capabilities loaded on-demand, not at startup (saves 36%+ context window).
+4. **File-based Transport**: Primary transport is file-based JSON (`.ai/bridge/tasks/<taskId>.json`) for Termux compatibility.
+5. **Deterministic Hooks**: Prompts are suggestions. Hooks are enforcement.
+
+---
+
+## 5. Consumer Repositories
+
+### enve
+
+| Field | Value |
+|-------|-------|
+| Path | `/home/miao/develop/enve` |
+| Config | `.ai/system/ai-ltc-config.json` |
+| Branch | `v1.5-superqwen36-preview` |
+| Expected Version | `v1.5.10-sqwen36pre` |
+| Status | Active — Skia m100 migration in progress, code quality CI added |
+
+### oh-my-litecode
+
+| Field | Value |
+|-------|-------|
+| Path | `/home/miao/develop/oh-my-litecode` |
+| Config | `.ai/system/ai-ltc-config.json` |
+| Branch | `v1.5-superqwen36-preview` |
+| Expected Version | `v1.5.10-sqwen36pre` |
+| Status | Active — OML is the "Body" in the Brain/Body architecture |
+
+### Framework Check
+
+Run `bash scripts/framework-check.sh` to verify all consumer repos are aligned with the correct AI-LTC version.
+
+---
+
+## 6. Quality Gate
+
+### Thresholds
+
+| Score Range | Action |
+|-------------|--------|
+| ≥ 90 | Acceptable, proceed normally |
+| 80-89 | Warning — log top problematic files as advisory |
+| < 80 | Block — require human review before phase transition |
+
+### Regression Rule
+
+If quality score drops by **>5 points** from the project baseline, log a blocker. The execution agent must identify the top 3 worst files and propose fixes.
+
+### Baseline
+
+- **enve**: 94.71 (measured 2026-04-03)
+- **Regression threshold**: 90
+
+---
+
+## 7. Cross-Repo Registry
+
+Located at `cross-repo-registry.json`. Contains:
+- Framework version
+- Branch version mapping
+- Consumer repo registration (path, config location, branch, expected version)
+
+When adding a new consumer repo:
+1. Add entry to `consumer_repos` in `cross-repo-registry.json`
+2. Update the consumer repo's `.ai/system/ai-ltc-config.json` with correct version and branch
+3. Run `scripts/framework-check.sh` to verify
+
+---
+
+## 8. Operational Rules
+
+### What NOT to Do
+
+- **Do not** commit to `main` if the change is Qwen-specific — use `v1.5-superqwen36-preview`
+- **Do not** include `adapters/` files in backports to `main`
+- **Do not** commit `.ai/` or `.omx/` directories
+- **Do not** bump versions without updating all related files (VERSION, config template, adapter.yaml, BRANCH-GOVERNANCE.md, README.md)
+- **Do not** merge preview → main without running the review checklist in BRANCH-GOVERNANCE.md
+- **Do not** start Phase 2 before Phase 1 is validated
+- **Do not** rewrite existing kernel files — extend them
+
+### What to Do
+
+- **Do** commit to the correct branch per directory ownership
+- **Do** run `scripts/framework-check.sh` after any version change
+- **Do** update `cross-repo-registry.json` when adding consumer repos
+- **Do** tag after significant commits
+- **Do** follow the commit style: imperative, sentence-case, trailing period
+- **Do** keep commits narrowly scoped
+- **Do** validate Phase 1 before starting Phase 2
+
+---
+
+## 9. File Structure Reference
+
+```
+AI-LTC/
+├── VERSION                              # Single source of truth for version
+├── cross-repo-registry.json             # Consumer repo registration
+├── BRANCH-GOVERNANCE.md                 # Branch responsibilities and merge rules
+├── ai-ltc-config.template.json          # Template for consumer repo configs
+├── kernel/                              # Protocol layer (main only)
+│   ├── state_schema.json
+│   ├── control.yaml                     # Authority chain + quality gate
+│   ├── state_machine.yaml               # Legal phase transitions
+│   ├── error_model.yaml                 # Error types + recovery
+│   └── arbitration.yaml                 # Conflict resolution
+├── adapters/                            # Model-specific adapters (preview only)
+│   └── qwen36/
+│       ├── adapter.yaml
+│       ├── experimental-mode.prompt.md
+│       └── orchestrator.prompt.md
+├── bridge/                              # OML integration (TODO - Phase 1)
+│   ├── index.ts
+│   ├── oml-bridge.ts
+│   ├── event-map.yaml
+│   ├── capability-registry.ts
+│   └── protocol.md
+├── docs/                                # Design documentation
+│   ├── OML-INTEGRATION-PLAN.md
+│   ├── OML-BRIDGE-ARCHITECTURE.md
+│   ├── OML-PLUGIN-ADAPTER.md
+│   └── BRAIN-BODY-SEPARATION.md
+├── scripts/
+│   ├── framework-check.sh               # Cross-repo version validation
+│   ├── integration-test.sh              # TODO - Phase 4
+│   └── deploy-adapter.sh                # TODO - Phase 4
+├── .ai-template/                        # Runtime templates
+├── examples/
+│   ├── demo-cli/
+│   └── collaboration-system/
+└── README.md
+```
