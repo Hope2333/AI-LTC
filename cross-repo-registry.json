@@ -1,0 +1,22 @@
+{
+  "framework_version": "v1.5.10",
+  "branches": {
+    "main": {
+      "version": "v1.5.5",
+      "description": "Stable kernel-only release. Protocol layer, no model-specific adapters."
+    },
+    "v1.5-superqwen36-preview": {
+      "version": "v1.5.10",
+      "tag_suffix": "-sqwen36pre",
+      "description": "Preview branch with adapter architecture and experimental SuperQwen mode."
+    }
+  },
+  "consumer_repos": {
+    "enve": {
+      "path": "/home/miao/develop/enve",
+      "config": ".ai/system/ai-ltc-config.json",
+      "branch": "v1.5-superqwen36-preview",
+      "expected_version": "v1.5.10-sqwen36pre"
+    }
+  }
+}
