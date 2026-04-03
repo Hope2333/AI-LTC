@@ -93,12 +93,24 @@ INIT → HANDOFF_READY → EXECUTION → REVIEW → OPTIMIZER → EXECUTION
 
 Each transition is validated against `kernel/state_machine.yaml`. Illegal transitions are rejected.
 
+## OML Integration (v1.5.10+)
+
+AI-LTC integrates with oh-my-litecode (OML) via a thin adapter bridge:
+- **AI-LTC = Brain**: State machine, memory, error recovery, cross-repo sync
+- **OML = Body**: Plugin loading, MCP gateway, session management, worker pool, hooks engine
+
+Architecture: `docs/OML-BRIDGE-ARCHITECTURE.md`
+Integration plan: `docs/OML-INTEGRATION-PLAN.md`
+Platform adapters: `docs/OML-PLUGIN-ADAPTER.md`
+Design principles: `docs/BRAIN-BODY-SEPARATION.md`
+
 ## Version History
 
 | Tag | What Changed |
 |---|---|
 | `v1.5.3` | Kernel v0.1 + Runtime v0.1 + Demo CLI + public README rewrite |
 | `v1.5.4` | Branch governance + benchmark framework + multi-session config |
+| `v1.5.5` | Context overflow, circuit breakers, transition hooks, memory system, cross-repo management |
 
 ## Project Structure
 
