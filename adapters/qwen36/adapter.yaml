@@ -8,6 +8,7 @@ adapter:
   available_from: "2026-03-30"
   available_until: ""  # unknown
   branch: v1.5-superqwen36-preview
+  min_framework_version: "v1.5.10"
 
 capabilities:
   json_strict: medium    # Can follow JSON schemas but may drift on complex nested structures

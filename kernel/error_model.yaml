@@ -88,6 +88,20 @@
     3. Warn the agent of its permission scope
   - `escalate_if`: violation repeats after warning
 
+### 7. context_overflow
+- **Description**: Session context exceeds effective window, causing constraint loss or hallucinated state
+- **Detection**:
+  - Session exceeds 50 turns without a `context_summary` refresh
+  - Agent references constraints or decisions from early turns that are no longer in context
+  - Same instruction is repeated by user because agent forgot it
+- **Recovery**:
+  - `action`: compact_and_refresh
+  - `steps`:
+    1. **Micro compact**: clear stale tool results and intermediate reasoning
+    2. **Session compact**: extract key decisions, active blockers, and next actions to `.ai/state.json` `context_summary`
+    3. Continue from the compacted state with explicit re-statement of current constraints
+  - `escalate_if`: compact fails to restore coherence (agent still references phantom context)
+
 ## Global Recovery Settings
 
 ```yaml

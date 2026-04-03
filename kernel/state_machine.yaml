@@ -78,6 +78,22 @@ Before any transition:
 3. `context_summary` must be updated to reflect the new phase
 4. Transition must be logged to `.ai/logs/state.log`
 
+## Transition Hooks
+
+Hooks are extension points triggered automatically during phase transitions. They enable automation without modifying the core state machine.
+
+### pre_transition
+- **When**: Before the transition is committed
+- **Purpose**: Validate prerequisites, run lint/build checks, confirm artifacts exist
+- **Return**: `allow` or `deny` (with reason)
+- **Default**: allow
+
+### post_transition
+- **When**: After the transition is committed and state is updated
+- **Purpose**: Send notifications, update external trackers, snapshot state, refresh memory files
+- **Return**: fire-and-forget (no blocking)
+- **Default**: no-op
+
 ## Illegal Transitions
 
 The following transitions are explicitly forbidden:
