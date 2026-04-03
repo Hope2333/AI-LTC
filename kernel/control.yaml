@@ -51,6 +51,25 @@ If two agents attempt to write conflicting state:
 2. The conflict is logged to `.ai/logs/error.log`
 3. The conflict is resolved per `kernel/arbitration.yaml`
 
+## Circuit Breaker Rules
+
+When an agent repeatedly fails the same operation, the system degrades gracefully instead of looping:
+
+### Permission Escalation Breaker
+- **Trigger**: Same field write attempt fails 3+ times due to `authority_violation`
+- **Action**: Lock the contested field for the remainder of the current iteration; agent must escalate to optimizer or human
+- **Reset**: Cleared at the next phase transition
+
+### Tool Failure Breaker
+- **Trigger**: Same external tool fails 3+ times with identical error (per `error_model.yaml` `max_retries`)
+- **Action**: Mark the tool as `unavailable` for the current iteration; log as blocker; skip dependent tasks
+- **Reset**: Cleared at the next iteration or phase transition
+
+### Context Overflow Breaker
+- **Trigger**: `context_overflow` error detected 2+ times in the same session
+- **Action**: Force full compact; if still failing, emit `@ARCHITECT_HELP` and stop
+- **Reset**: Cleared after successful compact
+
 ## Invariant Rules
 
 These rules must always hold:
