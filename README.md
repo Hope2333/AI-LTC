@@ -81,15 +81,6 @@ python -m pytest tests/test_main.py -v  # 8 tests, all passing
 | Strategist | `gpt-corrective-strategist.prompt.md` | Architecture drift, long-range replanning |
 | Optimizer | `gpt-optimizer-auditor.prompt.md` | Narrow audits, hard blockers |
 
-### SuperQwen Experimental Mode
-On branch `v1.5-superqwen36-preview` with Qwen 3.6 Plus (Preview):
-- Qwen can load GPT-designated prompts without escalation
-- Aggressive MCP usage, expanded subagent limits (up to 5)
-- Multi-session parallel orchestration via `adapters/qwen36/orchestrator.prompt.md`
-- Session roles and coordination in `adapters/qwen36/sessions/`
-- Activity logged to `.ai/system/superqwen-activity-log.md`
-- Model adapter spec: `adapters/qwen36/adapter.yaml`
-
 ## Lifecycle
 
 ```
@@ -102,35 +93,39 @@ INIT → HANDOFF_READY → EXECUTION → REVIEW → OPTIMIZER → EXECUTION
 
 Each transition is validated against `kernel/state_machine.yaml`. Illegal transitions are rejected.
 
+## OML Integration (v1.5.10+)
+
+AI-LTC integrates with oh-my-litecode (OML) via a thin adapter bridge:
+- **AI-LTC = Brain**: State machine, memory, error recovery, cross-repo sync
+- **OML = Body**: Plugin loading, MCP gateway, session management, worker pool, hooks engine
+
+Architecture: `docs/OML-BRIDGE-ARCHITECTURE.md`
+Integration plan: `docs/OML-INTEGRATION-PLAN.md`
+Platform adapters: `docs/OML-PLUGIN-ADAPTER.md`
+Design principles: `docs/BRAIN-BODY-SEPARATION.md`
+
 ## Version History
 
 | Tag | What Changed |
 |---|---|
-| `v1.5.0-sqwen36pre` | Framework check + LongTerm Coordination rename |
-| `v1.5.1-sqwen36pre` | Multi-session parallel orchestration |
-| `v1.5.2-sqwen36pre` | Task router + skill injector integration |
-| `v1.5.3-sqwen36pre` | **Kernel v0.1**: control, state, error, arbitration, state machine |
-| `v1.5.4-sqwen36pre` | **Runtime v0.1**: observability, logging, context compression |
-| `v1.5.5-sqwen36pre` | **Demo CLI**: minimum runnable project with 3 test cases |
-
-| `v1.5.6-sqwen36pre` | Adapter architecture: sessions/ → adapters/qwen36/ |
+| `v1.5.3` | Kernel v0.1 + Runtime v0.1 + Demo CLI + public README rewrite |
+| `v1.5.4` | Branch governance + benchmark framework + multi-session config |
+| `v1.5.5` | Context overflow, circuit breakers, transition hooks, memory system, cross-repo management |
 
 ## Project Structure
 
 ```
 AI-LTC/
 ├── kernel/                    # Formal kernel (rules, schemas, state machine)
-├── adapters/
-│   └── qwen36/                # Qwen 3.6 Plus Preview adapter
-│       ├── adapter.yaml       # Model capabilities, quirks, routing
-│       ├── experimental-mode.prompt.md
-│       ├── orchestrator.prompt.md
-│       └── sessions/          # Multi-session prompts + coordination
+├── adapters/                  # Model-specific adapters (see BRANCH-GOVERNANCE.md)
+│   └── qwen36/                # Qwen 3.6 Plus Preview (on preview branch)
 ├── .ai-template/              # Runtime template (copy to .ai/ in target projects)
 ├── examples/
 │   ├── demo-cli/              # Minimum runnable demo (8 tests passing)
-│   └── collaboration-system/  # Copyable collaboration template
+│   ├── collaboration-system/  # Copyable collaboration template
+│   └── benchmark/             # Cross-model comparison tasks
 ├── scripts/                   # Validators and tools
+├── BRANCH-GOVERNANCE.md       # Dual-branch responsibilities and merge rules
 ├── shared-repo-contract.prompt.md   # Common rules for all roles
 ├── qwen-*.prompt.md           # Qwen role prompts
 ├── gpt-*.prompt.md            # GPT role prompts
