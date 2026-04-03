@@ -70,6 +70,30 @@ When an agent repeatedly fails the same operation, the system degrades gracefull
 - **Action**: Force full compact; if still failing, emit `@ARCHITECT_HELP` and stop
 - **Reset**: Cleared after successful compact
 
+## Code Quality Gate
+
+Periodic code quality analysis must be integrated into the execution cycle:
+
+### Quality Check Cadence
+- **On every push/PR**: Run automated quality analysis (e.g., fuck-u-code)
+- **Weekly scheduled**: Full quality scan with regression detection
+- **Before phase transition**: Quick quality check on changed files
+
+### Quality Thresholds
+- **Overall score >= 90**: Acceptable, proceed normally
+- **Overall score 80-89**: Warning — log top problematic files as advisory
+- **Overall score < 80**: Block — require human review before phase transition
+
+### Quality Regression Rule
+- If the quality score drops by **>5 points** from the baseline for the project, log a blocker
+- The execution agent must identify the top 3 worst files and propose fixes
+- Do not let quality regress silently across iterations
+
+### Integration with Execution
+- Before marking a task as `completed`, run quality check on changed files
+- If a file's individual score exceeds 30, flag it for review
+- Quality metrics (complexity, nesting, function length) are tracked per iteration
+
 ## Invariant Rules
 
 These rules must always hold:
