@@ -1,14 +1,14 @@
 {
-  "framework_version": "v1.5.10",
+  "framework_version": "v1.5.11",
   "branches": {
     "main": {
       "version": "v1.5.5",
       "description": "Stable kernel-only release. Protocol layer, no model-specific adapters."
     },
     "v1.5-superqwen36-preview": {
-      "version": "v1.5.10",
+      "version": "v1.5.11",
       "tag_suffix": "-sqwen36pre",
-      "description": "Preview branch with adapter architecture and experimental SuperQwen mode."
+      "description": "Preview branch with OML bridge integration, platform adapters, and adapter architecture."
     }
   },
   "consumer_repos": {
@@ -16,7 +16,13 @@
       "path": "/home/miao/develop/enve",
       "config": ".ai/system/ai-ltc-config.json",
       "branch": "v1.5-superqwen36-preview",
-      "expected_version": "v1.5.10-sqwen36pre"
+      "expected_version": "v1.5.11-sqwen36pre"
+    },
+    "oh-my-litecode": {
+      "path": "/home/miao/develop/oh-my-litecode",
+      "config": ".ai/system/ai-ltc-config.json",
+      "branch": "v1.5-superqwen36-preview",
+      "expected_version": "v1.5.11-sqwen36pre"
     }
   }
 }

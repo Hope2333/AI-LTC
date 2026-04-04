@@ -1,0 +1,80 @@
+# Event Map: AI-LTC → OML Hook Mapping
+#
+# Defines the mapping between AI-LTC kernel events and OML hook triggers.
+# Each entry specifies the transition, target hook name, and payload schema.
+
+state_transitions:
+  - ai_ltc_transition: "SETUP → EXECUTION"
+    oml_hook: "oml:execution:start"
+    payload_schema:
+      sessionId: string
+      goal: string
+      tasks: array
+
+  - ai_ltc_transition: "EXECUTION → REVIEW"
+    oml_hook: "oml:review:start"
+    payload_schema:
+      sessionId: string
+      phase: string
+      artifacts: array
+
+  - ai_ltc_transition: "REVIEW → OPTIMIZER"
+    oml_hook: "oml:optimize:start"
+    payload_schema:
+      sessionId: string
+      reviewFindings: object
+
+  - ai_ltc_transition: "OPTIMIZER → CHECKPOINT"
+    oml_hook: "oml:checkpoint:create"
+    payload_schema:
+      sessionId: string
+      summary: string
+      metrics: object
+
+  - ai_ltc_transition: "Any → BLOCKED"
+    oml_hook: "oml:blocked:notify"
+    payload_schema:
+      sessionId: string
+      blocker: string
+      context: object
+
+  - ai_ltc_transition: "BLOCKED → EXECUTION"
+    oml_hook: "oml:blocked:resolve"
+    payload_schema:
+      sessionId: string
+      resolution: string
+
+  - ai_ltc_transition: "Any → DONE"
+    oml_hook: "oml:done:notify"
+    payload_schema:
+      sessionId: string
+      finalSummary: string
+
+memory_operations:
+  - ai_ltc_operation: "memory.write(key, value)"
+    oml_operation: "session.setContext(sessionId, key, value)"
+
+  - ai_ltc_operation: "memory.read(key)"
+    oml_operation: "session.getContext(sessionId, key)"
+
+  - ai_ltc_operation: "memory.compact()"
+    oml_operation: "session.fork(sessionId, { shallow: true })"
+
+  - ai_ltc_operation: "memory.list()"
+    oml_operation: "session.listContexts(sessionId)"
+
+  - ai_ltc_operation: "memory.clear()"
+    oml_operation: "session.clearContext(sessionId)"
+
+error_recovery:
+  - ai_ltc_error: "tool_failure"
+    oml_recovery: "pool-recovery.retry(taskId, strategy='exponential-backoff')"
+
+  - ai_ltc_error: "context_overflow"
+    oml_recovery: "pool-recovery.checkpoint-restore(sessionId)"
+
+  - ai_ltc_error: "authority_violation"
+    oml_recovery: "hooks-engine.trigger('permission:deny', { agent, field })"
+
+  - ai_ltc_error: "agent_stuck"
+    oml_recovery: "pool-monitor.health-check(workerId) → pool-recovery.failover(taskId)"
