@@ -1,12 +1,11 @@
 {
   "schema_version": "1",
-  "framework_version": "v1.5.5",
+  "framework_version": "v1.5.12",
   "source_mode": "folder",
   "source_priority": ["folder", "git_repo", "cloud_reference"],
   "folder_root": ".ai/AI-LTC",
   "repo_url": "https://github.com/Hope2333/AI-LTC",
   "repo_ref": "main",
-  "repo_branch": "",
   "cloud_reference": "",
   "allow_qwen_refresh_local": true,
   "last_framework_check": "",
@@ -23,8 +22,17 @@
   "architect_prompt": "gpt-bootstrap-architect.prompt.md",
   "auditor_prompt": "gpt-optimizer-auditor.prompt.md",
   "resolver_note": "Copy this file to .ai/system/ai-ltc-config.json in the target repository and fill only the fields you actually use.",
-  "multi_session": {
+  "experimental_mode": {
     "enabled": false,
+    "operator_model": "qwen-3.6-plus-free",
+    "allow_gpt_prompts": true,
+    "aggressive_mcp": true,
+    "max_parallel_subagents": 5,
+    "window_start": "2026-03-30",
+    "window_end": ""
+  },
+  "multi_session": {
+    "enabled": true,
     "max_concurrent": 3,
     "session_timeout_minutes": 10,
     "retry_limit": 1,
@@ -44,5 +52,15 @@
       "track_token_saved": false,
       "track_escalation_frequency": true
     }
+  },
+  "security": {
+    "integrity_check": true,
+    "audit_trail_enabled": true,
+    "audit_trail_max_entries": 50,
+    "snapshot_on_phase_change": true,
+    "secret_detection_enabled": true,
+    "atomic_writes": true,
+    "session_isolation": true,
+    "max_snapshots": 100
   }
 }

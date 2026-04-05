@@ -31,10 +31,30 @@ When multiple sources of truth conflict, the following priority applies:
 
 | Agent Role | Can Write | Cannot Write |
 |---|---|---|
-| **execution** | `tasks[].status`, `blockers`, `next_action`, `iteration`, `status`, `last_update`, `last_updated_by` | `phase`, `goal`, `max_iterations`, `authority`, `tasks` (add/remove) |
-| **review** | `status`, `context_summary`, `last_update`, `last_updated_by` | `tasks`, `blockers`, `goal`, `phase`, `iteration` |
-| **optimizer** | All fields except `authority` | `authority` (only system can change) |
+| **execution** | `tasks[].status`, `tasks[].started_at`, `tasks[].completed_at`, `tasks[].evidence`, `blockers` (add only), `next_action`, `iteration`, `status`, `last_update`, `last_updated_by`, `integrity.hash` (update only) | `phase`, `goal`, `max_iterations`, `authority`, `tasks` (add/remove), `tasks` (edit desc/priority/assignee), `integrity.previous_hash`, `integrity.version` |
+| **review** | `status`, `context_summary`, `last_update`, `last_updated_by`, `integrity.hash` (update only) | `tasks`, `blockers`, `goal`, `phase`, `iteration`, `authority` |
+| **optimizer** | All fields except `authority`, `integrity.previous_hash` | `authority` (only system can change) |
 | **system** | All fields | — |
+
+### Atomic Write Pattern
+
+All state writes MUST use the tmp+rename pattern:
+1. Write to `.ai/state.json.tmp`
+2. Verify valid JSON and schema compliance
+3. Compute SHA-256 hash of content (excluding integrity field)
+4. Update `integrity.hash`, `integrity.previous_hash`, `integrity.version`
+5. Append audit trail entry
+6. Atomically rename `.ai/state.json.tmp` → `.ai/state.json`
+
+### Secret Detection
+
+Before writing state, scan all string values for credential patterns:
+- `sk-` prefixed strings (OpenAI-style API keys)
+- `ghp_` prefixed strings (GitHub tokens)
+- `xoxb-` prefixed strings (Slack tokens)
+- Any field named `apiKey`, `secret`, `password`, `token`, `credential`
+
+If detected: redact to `[REDACTED]`, log `secret_exposure_attempted`, continue.
 
 ### Transition Validation
 

@@ -111,14 +111,31 @@ Design principles: `docs/BRAIN-BODY-SEPARATION.md`
 | `v1.5.3` | Kernel v0.1 + Runtime v0.1 + Demo CLI + public README rewrite |
 | `v1.5.4` | Branch governance + benchmark framework + multi-session config |
 | `v1.5.5` | Context overflow, circuit breakers, transition hooks, memory system, cross-repo management |
+| `v1.5.6` | Code quality gate: thresholds, regression rules, execution integration |
+| `v1.5.11` | OML bridge integration: bridge layer, platform adapters (OpenCode, Claude Code, Aider), memory/context bridge, deployment scripts |
+| `v1.5.12` | Enhanced task system (priority, tags, QA, evidence, timestamps), unified security model (hash chain, audit trail, secret detection, tamper detection, atomic writes) |
 
 ## Project Structure
 
 ```
 AI-LTC/
 ├── kernel/                    # Formal kernel (rules, schemas, state machine)
-├── adapters/                  # Model-specific adapters (see BRANCH-GOVERNANCE.md)
-│   └── qwen36/                # Qwen 3.6 Plus Preview (on preview branch)
+├── adapters/                    # Model-specific adapters (preview only)
+│   ├── qwen36/                  # Qwen 3.6 Plus Preview adapter
+│   ├── opencode/                # OpenCode plugin adapter
+│   ├── claude-code/             # Claude Code adapter
+│   ├── aider/                   # Aider adapter
+│   ├── registry.ts              # Platform adapter registry
+│   └── types.ts                 # Shared adapter types
+├── bridge/                      # OML integration bridge layer
+│   ├── index.ts                 # Bridge entry point
+│   ├── oml-bridge.ts            # Core bridge logic
+│   ├── event-map.yaml           # Event mapping table
+│   ├── capability-registry.ts   # Plugin capability registry
+│   ├── memory-adapter.ts        # Memory bridge
+│   ├── context-compact.ts       # Context compaction
+│   ├── cross-session.ts         # Cross-session sharing
+│   └── protocol.md              # Task/result protocol
 ├── .ai-template/              # Runtime template (copy to .ai/ in target projects)
 ├── examples/
 │   ├── demo-cli/              # Minimum runnable demo (8 tests passing)
