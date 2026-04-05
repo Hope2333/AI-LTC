@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "AI-LTC State Schema",
+  "title": "AI-LTC State Schema v2",
   "description": "Single Source of Truth (SSOT) for AI-LTC runtime state. All agents must read this file before making decisions. No agent may override fields outside its permission scope.",
   "type": "object",
   "required": ["phase", "goal", "iteration", "max_iterations", "status", "authority"],
@@ -21,14 +21,21 @@
         "type": "object",
         "required": ["id", "desc", "status"],
         "properties": {
-          "id": { "type": "integer" },
-          "desc": { "type": "string" },
-          "status": { "type": "string", "enum": ["pending", "in_progress", "done", "blocked", "skipped"] },
-          "assignee": { "type": "string", "enum": ["execution", "review", "optimizer", "human"] },
-          "depends_on": { "type": "array", "items": { "type": "integer" } }
+          "id": { "type": "integer", "description": "Unique task identifier. Monotonically increasing." },
+          "desc": { "type": "string", "description": "Human-readable task description." },
+          "status": { "type": "string", "enum": ["pending", "in_progress", "completed", "blocked", "skipped", "cancelled"], "description": "Current task status." },
+          "priority": { "type": "string", "enum": ["high", "medium", "low"], "default": "medium", "description": "Task priority level." },
+          "assignee": { "type": "string", "enum": ["execution", "review", "optimizer", "human", "ci"], "default": "execution", "description": "Responsible agent role." },
+          "depends_on": { "type": "array", "items": { "type": "integer" }, "description": "Task IDs that must be completed before this task can start." },
+          "tags": { "type": "array", "items": { "type": "string" }, "description": "Categorization tags (e.g., 'refactoring', 'CI', 'bugfix', 'feature')." },
+          "estimated_effort": { "type": "string", "description": "Rough effort estimate (e.g., '1 day', '1 week', 'TBD')." },
+          "qa": { "type": "string", "description": "Verification criteria: how to confirm this task is truly done. Must be specific and testable." },
+          "started_at": { "type": "string", "format": "date-time", "description": "When the task was moved to in_progress." },
+          "completed_at": { "type": "string", "format": "date-time", "description": "When the task was marked completed." },
+          "evidence": { "type": "string", "description": "Proof of completion: commit hash, CI run ID, test output, etc." }
         }
       },
-      "description": "Current batch task list. Execution agents may update status; only optimizer may add/remove tasks."
+      "description": "Current task list. Execution agents may update status; only optimizer may add/remove tasks."
     },
     "blockers": {
       "type": "array",
@@ -39,7 +46,9 @@
           "id": { "type": "integer" },
           "desc": { "type": "string" },
           "since_iteration": { "type": "integer" },
-          "retry_count": { "type": "integer", "default": 0 }
+          "retry_count": { "type": "integer", "default": 0 },
+          "related_task": { "type": "integer", "description": "Task ID this blocker is blocking." },
+          "resolution": { "type": "string", "description": "How the blocker was resolved (if resolved)." }
         }
       },
       "description": "Active blockers. A blocker repeating more than max_retries triggers escalation."
@@ -84,7 +93,7 @@
       "description": "Compressed context for cheap model input. Updated at each phase transition."
     },
     "error_state": {
-      "type": "object",
+      "type": ["object", "null"],
       "properties": {
         "type": { "type": "string" },
         "message": { "type": "string" },
@@ -92,6 +101,32 @@
         "recovery_attempted": { "type": "integer", "default": 0 }
       },
       "description": "Active error state. See kernel/error_model.yaml for error types and recovery strategies."
+    },
+    "integrity": {
+      "type": "object",
+      "description": "State file integrity metadata. Updated on every write.",
+      "properties": {
+        "hash": { "type": "string", "description": "SHA-256 hash of the state file content (excluding this field)." },
+        "previous_hash": { "type": "string", "description": "SHA-256 hash of the previous state version." },
+        "version": { "type": "integer", "description": "Monotonically increasing version counter." },
+        "signed_by": { "type": "string", "description": "Agent role that signed this version." }
+      }
+    },
+    "audit_trail": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "timestamp": { "type": "string", "format": "date-time" },
+          "actor": { "type": "string" },
+          "action": { "type": "string" },
+          "field": { "type": "string" },
+          "old_value": {},
+          "new_value": {}
+        }
+      },
+      "maxItems": 50,
+      "description": "Recent state mutations for audit. Capped at 50 entries (oldest removed first)."
     }
   }
 }
