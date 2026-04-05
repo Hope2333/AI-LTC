@@ -102,6 +102,50 @@
     3. Continue from the compacted state with explicit re-statement of current constraints
   - `escalate_if`: compact fails to restore coherence (agent still references phantom context)
 
+### 8. state_tampered
+- **Description**: State file hash does not match content, hash chain is broken, or version is not monotonically increasing
+- **Detection**:
+  - SHA-256 of state content (excluding integrity field) does not match `integrity.hash`
+  - `integrity.previous_hash` does not match the hash of the previous state version
+  - `integrity.version` decreased or stayed the same after a write
+  - Audit trail entries are inconsistent with the current state
+- **Recovery**:
+  - `action`: restore_from_snapshot
+  - `steps`:
+    1. Reject the tampered state as untrusted
+    2. Load the most recent valid snapshot from `.ai/history/snapshots/`
+    3. Validate the snapshot against its stored hash
+    4. If valid snapshot found: restore it, log the tampering, continue
+    5. If no valid snapshot: set status to `blocked`, escalate to human
+  - `escalate_if`: always (security violations are always escalated)
+
+### 9. secret_exposure_attempted
+- **Description**: Agent attempts to write a secret/credential to state file or logs
+- **Detection**:
+  - String value matches credential patterns: `sk-`, `ghp_`, `xoxb-` prefixes
+  - Field named `apiKey`, `secret`, `password`, `token`, `credential` contains non-empty value
+- **Recovery**:
+  - `action`: redact_and_continue
+  - `steps`:
+    1. Replace the secret value with `[REDACTED]`
+    2. Log the exposure attempt (without the actual secret)
+    3. Continue with the redacted value
+  - `escalate_if`: same secret exposed 3+ times after redaction
+
+### 10. schema_violation
+- **Description**: State write does not conform to `kernel/state_schema.json`
+- **Detection**:
+  - JSON Schema validation fails on the proposed state
+  - Required fields are missing or have wrong types
+  - Enum values are outside allowed set
+- **Recovery**:
+  - `action`: reject_and_revert
+  - `steps`:
+    1. Reject the invalid state mutation
+    2. Log the invalid field, attempted value, and schema violation details
+    3. Continue from the last valid state
+  - `escalate_if`: schema violation repeats 3+ times
+
 ## Global Recovery Settings
 
 ```yaml

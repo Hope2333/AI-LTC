@@ -1,0 +1,248 @@
+# AI-LTC Security Model
+# Unified security policy for state integrity, access control, and tamper detection.
+# All agents must comply with this model.
+
+## 1. State File Integrity
+
+### 1.1 Hash Chain Verification
+
+Every state mutation MUST update the integrity chain:
+
+```
+integrity.hash = SHA-256(state_content_without_integrity_field)
+integrity.previous_hash = previous_state.integrity.hash
+integrity.version += 1
+integrity.signed_by = current_agent_role
+```
+
+### 1.2 Tamper Detection
+
+On state read, agents MUST verify:
+
+1. `integrity.hash` matches the SHA-256 of the file content (excluding the integrity field itself)
+2. `integrity.previous_hash` matches the hash of the previous state version (if available)
+3. `integrity.version` is monotonically increasing
+4. `audit_trail` entries are consistent with the current state
+
+If any check fails:
+- Log `state_tampered` error to `.ai/logs/error.log`
+- Reject the state as untrusted
+- Attempt to restore from the last known good snapshot (`.ai/history/snapshots/`)
+- If no valid snapshot exists, escalate to human
+
+### 1.3 State Snapshots
+
+At each phase transition, create a snapshot:
+
+```
+.ai/history/snapshots/
+  state-v{version}-{phase}-{timestamp}.json
+```
+
+Snapshots are append-only. Never delete or modify existing snapshots.
+
+---
+
+## 2. Access Control
+
+### 2.1 Agent Permission Matrix
+
+| Agent Role | Read | Write Tasks | Write Blockers | Write Phase | Write Goal | Write Authority | Write Integrity |
+|------------|------|-------------|----------------|-------------|------------|-----------------|-----------------|
+| **execution** | ✅ | status only | add only | ❌ | ❌ | ❌ | update_hash only |
+| **review** | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | update_hash only |
+| **optimizer** | ✅ | full | full | ✅ | ✅ | ❌ | update_hash only |
+| **system** | ✅ | full | full | ✅ | ✅ | ✅ | full |
+| **human** | ✅ | full | full | ✅ | ✅ | ✅ | full |
+
+### 2.2 Field-Level Guards
+
+Before any state write, validate:
+
+1. **Permission check**: Agent role has write access to the target field
+2. **Schema validation**: New value conforms to `kernel/state_schema.json`
+3. **Transition validation**: Phase changes follow `kernel/state_machine.yaml`
+4. **Invariant check**: All invariants in `kernel/control.yaml` still hold
+
+If any guard fails, reject the write and log the violation.
+
+### 2.3 Write Atomicity
+
+State writes MUST be atomic:
+
+1. Write to `.ai/state.json.tmp`
+2. Verify the temporary file is valid JSON and passes schema validation
+3. Atomically rename `.ai/state.json.tmp` → `.ai/state.json`
+4. Update integrity hash
+5. Append to audit trail
+
+Never write directly to `.ai/state.json` — always use the tmp+rename pattern.
+
+---
+
+## 3. Audit Trail
+
+### 3.1 What to Log
+
+Every state mutation MUST be recorded in `audit_trail`:
+
+```json
+{
+  "timestamp": "2026-04-05T12:00:00Z",
+  "actor": "execution",
+  "action": "update_task_status",
+  "field": "tasks[9].status",
+  "old_value": "pending",
+  "new_value": "completed"
+}
+```
+
+### 3.2 Retention Policy
+
+- `audit_trail` is capped at 50 entries (oldest removed first)
+- Full audit log is persisted to `.ai/logs/state.log` (append-only, never truncated)
+- Snapshots are retained indefinitely (or until disk space requires pruning)
+
+### 3.3 Audit Verification
+
+Periodically (at each phase transition), verify:
+
+1. `audit_trail` entries match the current state
+2. No unauthorized field changes occurred
+3. All phase transitions were logged
+4. No gaps in the hash chain
+
+---
+
+## 4. Secrets Management
+
+### 4.1 What NOT to Store
+
+The following MUST NEVER appear in state files, logs, or snapshots:
+
+- API keys
+- Passwords
+- Tokens
+- Private keys
+- Credentials of any kind
+
+### 4.2 Detection
+
+Before writing state, scan all string values for patterns matching:
+
+- `sk-` prefixed strings (OpenAI-style keys)
+- `ghp_` prefixed strings (GitHub tokens)
+- `xoxb-` prefixed strings (Slack tokens)
+- Any field named `apiKey`, `secret`, `password`, `token`, `credential`
+
+If detected:
+- Redact the value (replace with `[REDACTED]`)
+- Log `secret_exposure_attempted` error
+- Continue with the redacted value
+
+### 4.3 Git Safety
+
+`.ai/` directory MUST be in `.gitignore`. Never commit state files, logs, or snapshots to version control.
+
+---
+
+## 5. Multi-Session Security
+
+### 5.1 Session Isolation
+
+Each session MUST have its own state file:
+
+```
+.ai/sessions/
+  ses_abc123/state.json
+  ses_def456/state.json
+```
+
+Sessions MUST NOT read or modify each other's state directly.
+
+### 5.2 Cross-Session Communication
+
+Cross-session communication MUST go through the shared state file (`.ai/state.json`) or memory files (`.ai/memories/`):
+
+1. Session A writes to shared state or memory
+2. Session B reads from shared state or memory
+3. No direct file access between session directories
+
+### 5.3 Session Cleanup
+
+When a session ends:
+
+1. Archive the session state to `.ai/history/sessions/`
+2. Clear the session directory
+3. Update the shared state to reflect session completion
+
+---
+
+## 6. Error Handling for Security Violations
+
+### 6.1 state_tampered
+
+- **Description**: State file hash does not match content, or hash chain is broken
+- **Recovery**: Restore from last valid snapshot; if none exists, escalate to human
+- **Escalate**: Always (security violation is always escalated)
+
+### 6.2 authority_violation
+
+- **Description**: Agent writes to fields outside its permission scope
+- **Recovery**: Reject the write; revert to previous state; warn the agent
+- **Escalate**: If violation repeats after warning
+
+### 6.3 secret_exposure_attempted
+
+- **Description**: Agent attempts to write a secret/credential to state
+- **Recovery**: Redact the value; log the attempt; continue with redacted value
+- **Escalate**: If same secret is exposed 3+ times, warn the agent
+
+### 6.4 schema_violation
+
+- **Description**: State write violates JSON schema
+- **Recovery**: Reject the write; log the invalid field; continue from last valid state
+- **Escalate**: If schema violation repeats 3+ times
+
+---
+
+## 7. Security Configuration
+
+### 7.1 Configurable Settings
+
+```yaml
+security:
+  integrity_check: true          # Enable hash chain verification
+  audit_trail_enabled: true      # Enable audit trail
+  audit_trail_max_entries: 50    # Max entries in memory
+  snapshot_on_phase_change: true # Create snapshot at phase transition
+  secret_detection_enabled: true # Scan for secrets before writing
+  atomic_writes: true            # Use tmp+rename pattern
+  session_isolation: true        # Enforce session isolation
+  max_snapshots: 100             # Max snapshots to retain
+```
+
+### 7.2 Emergency Lockdown
+
+If a security violation is detected that cannot be automatically recovered:
+
+1. Set `status` to `blocked`
+2. Add a blocker describing the violation
+3. Set `error_state.type` to the specific security error
+4. Stop all agent execution
+5. Notify human
+
+---
+
+## 8. Security Checklist (Pre-Commit)
+
+Before any agent commits state changes:
+
+- [ ] Integrity hash is correct
+- [ ] Previous hash chain is valid
+- [ ] Version is monotonically increasing
+- [ ] No secrets in state content
+- [ ] Audit trail entry is present
+- [ ] Schema validation passes
+- [ ] All permission checks passed
+- [ ] Atomic write pattern used (tmp+rename)

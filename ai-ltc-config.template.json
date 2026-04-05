@@ -1,6 +1,6 @@
 {
   "schema_version": "1",
-  "framework_version": "v1.5.11",
+  "framework_version": "v1.5.12",
   "source_mode": "folder",
   "source_priority": ["folder", "git_repo", "cloud_reference"],
   "folder_root": ".ai/AI-LTC",
@@ -52,5 +52,15 @@
       "track_token_saved": false,
       "track_escalation_frequency": true
     }
+  },
+  "security": {
+    "integrity_check": true,
+    "audit_trail_enabled": true,
+    "audit_trail_max_entries": 50,
+    "snapshot_on_phase_change": true,
+    "secret_detection_enabled": true,
+    "atomic_writes": true,
+    "session_isolation": true,
+    "max_snapshots": 100
   }
 }
