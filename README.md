@@ -112,8 +112,11 @@ Design principles: `docs/BRAIN-BODY-SEPARATION.md`
 | `v1.5.4` | Branch governance + benchmark framework + multi-session config |
 | `v1.5.5` | Context overflow, circuit breakers, transition hooks, memory system, cross-repo management |
 | `v1.5.6` | Code quality gate: thresholds, regression rules, execution integration |
+| `v1.5.7` | enve-derived templates: multi-distro CI, packaging workflows, version adaptation, execution prompts, dependency ledger, manual testing |
 | `v1.5.11` | OML bridge integration: bridge layer, platform adapters (OpenCode, Claude Code, Aider), memory/context bridge, deployment scripts |
 | `v1.5.12` | Enhanced task system (priority, tags, QA, evidence, timestamps), unified security model (hash chain, audit trail, secret detection, tamper detection, atomic writes) |
+| `v1.5.13` | enve-derived templates: cross-CLI adapter architecture, OML Core spec, AI-LTC integration plan |
+| `v1.5.14` | Upstream throttle retry (OpenCode Zen Alibaba routing), line rename to Qwen3.6-Plus-WITH-OMO, AI-LTC Todo Tasks document |
 
 ## Project Structure
 
