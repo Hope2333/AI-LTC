@@ -99,8 +99,9 @@ Every adapter in `adapters/{model}/` must include:
 
 ## Version Alignment
 
-- main tags: `v1.5.3`, `v1.5.4`, `v1.5.5`, `v1.5.6`, `v1.5.7`, etc.
-- preview tags: `v1.5.10-sqwen36pre`, `v1.5.11-sqwen36pre`, `v1.5.12-sqwen36pre`, `v1.5.13-sqwen36pre`, etc.
+- main tags: `v1.5.3`, `v1.5.4`, `v1.5.5`, `v1.5.6`, `v1.5.7`, `v1.5.8`, etc.
+- preview tags: `v1.5.10-sqwen36pre`, `v1.5.11-sqwen36pre`, `v1.5.12-sqwen36pre`, `v1.5.13-sqwen36pre`, `v1.5.14-sqwen36pre`, etc.
+- Line name: **Qwen3.6-Plus-WITH-OMO** (formerly Qwen3.6-Plus-Preview-WITH-OMO)
 - Preview tags do NOT need to match main tags — they track adapter evolution independently
 - When preview's kernel changes are backported to main, main gets a new tag
 - When main gets a new tag, preview should merge and get a new tag

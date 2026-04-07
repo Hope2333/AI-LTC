@@ -1,14 +1,14 @@
-# AI-LTC Adapter: Qwen 3.6 Plus (Preview)
+# AI-LTC Adapter: Qwen 3.6 Plus WITH-OMO
 # Defines model-specific capabilities, quirks, and runtime adjustments.
 # This adapter sits ON TOP of the kernel (kernel/) — it does not modify kernel rules.
 
 adapter:
-  name: qwen36-plus-preview
+  name: qwen36-plus-with-omo
   model_id: qwen-3.6-plus-free
   available_from: "2026-03-30"
   available_until: ""  # unknown
   branch: v1.5-superqwen36-preview
-  min_framework_version: "v1.5.11"
+  min_framework_version: "v1.5.13"
 
 capabilities:
   json_strict: medium    # Can follow JSON schemas but may drift on complex nested structures
