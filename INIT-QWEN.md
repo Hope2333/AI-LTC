@@ -136,16 +136,6 @@ Framework awareness:
 - write the result to `.ai/system/framework-update-advisory.md`
 - set `last_framework_check` in `.ai/system/ai-ltc-config.json` to today's date
 
-Experimental mode (SuperQwen):
-- if `experimental_mode.enabled` is `true` and the operator model is `qwen-3.6-plus-free`, activate SuperQwen mode
-- in SuperQwen mode, apply `adapters/qwen36/experimental-mode.prompt.md` after init completes
-- SuperQwen allows Qwen 3.6 Plus (Preview) to load GPT-designated prompts without escalation
-- SuperQwen enables aggressive MCP usage and expanded subagent limits (up to 5 parallel)
-- all GPT-prompt usage must be logged to `.ai/system/superqwen-activity-log.md`
-- the experimental window is defined by `experimental_mode.window_start` and `experimental_mode.window_end`
-- if the window has expired, deactivate experimental mode and notify the human
-- this branch (`v1.5-superqwen36-preview`) should monitor main for relevant framework updates
-
 Guardrails:
 - Qwen should not recommend GPT just because GPT is stronger
 - Qwen should recommend GPT only when:

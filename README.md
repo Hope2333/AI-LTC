@@ -117,6 +117,7 @@ Design principles: `docs/BRAIN-BODY-SEPARATION.md`
 | `v1.5.12` | Enhanced task system (priority, tags, QA, evidence, timestamps), unified security model (hash chain, audit trail, secret detection, tamper detection, atomic writes) |
 | `v1.5.13` | enve-derived templates: cross-CLI adapter architecture, OML Core spec, AI-LTC integration plan |
 | `v1.5.14` | Upstream throttle retry (OpenCode Zen Alibaba routing), line rename to Qwen3.6-Plus-WITH-OMO, AI-LTC Todo Tasks document |
+| `v1.5.15` | Reasoning efficiency kernel: Caveman Compression, Chain-of-Draft (Zoom), Think Deep Not Just Long (Google), Headroom. Prompts moved to `prompts/`. Intuition file system. |
 
 ## Project Structure
 
@@ -145,12 +146,12 @@ AI-LTC/
 │   ├── collaboration-system/  # Copyable collaboration template
 │   └── benchmark/             # Cross-model comparison tasks
 ├── scripts/                   # Validators and tools
-├── BRANCH-GOVERNANCE.md       # Dual-branch responsibilities and merge rules
-├── shared-repo-contract.prompt.md   # Common rules for all roles
-├── qwen-*.prompt.md           # Qwen role prompts
-├── gpt-*.prompt.md            # GPT role prompts
-├── *.template.md              # Handoff, escalation, questionnaire templates
-└── README.md / README.zh.md   # This file
+├── prompts/                   # All agent role prompts
+│   ├── qwen-*.prompt.md       # Qwen role prompts
+│   └── gpt-*.prompt.md        # GPT role prompts
+├── kernel/reasoning-policy.yaml  # Reasoning efficiency rules (Caveman, CoD, DTR, Headroom)
+├── PROMPTS.md                 # Root prompt guide (minimal)
+├── BRANCH-GOVERNANCE.md       # Dual-branch responsibilities and merge rule
 ```
 
 ## License
