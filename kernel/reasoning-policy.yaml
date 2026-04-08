@@ -1,0 +1,134 @@
+# AI-LTC Reasoning Policy
+# Governs how all agents produce reasoning tokens.
+# Based on: Caveman Compression, Chain-of-Draft (Zoom), Think Deep Not Just Long (Google), Headroom.
+
+## 1. Deep-Thinking Token Mandate
+
+All reasoning MUST use high-signal thinking tokens. These indicate genuine cognitive effort:
+
+**Required tokens (use frequently):**
+- Hmm, Wait, Therefore, But, So, If, Then, Because, Unless, However
+- 嗯, 等等, 所以, 但是, 那么, 如果, 则, 因为, 除非, 不过
+
+**Banned filler tokens (NEVER use in reasoning):**
+- "I'd be happy to help", "Let me", "Sure", "Of course"
+- "the", "and" chains (more than 2 consecutive)
+- "It is important to note", "As mentioned before", "In order to"
+- 嗯嗯, 好的, 没问题, 让我来, 很高兴
+
+## 2. Caveman Compression Rule
+
+Strip predictable grammar. Keep unpredictable facts.
+
+**Remove (predictable):**
+- Grammar: "a", "the", "is", "are"
+- Connectives: "therefore", "however", "because", "in order to"
+- Passive: "is calculated by" → "calculate"
+- Fillers: "very", "quite", "essentially"
+
+**Keep (unpredictable):**
+- Facts: numbers, names, dates
+- Technical terms: "O(log n)", "binary search"
+- Constraints: "medium-large", "frequently accessed"
+- Specifics: "Stockholm", "99.9% uptime"
+
+**Example:**
+```
+Before: "In order to optimize the database query performance, we should consider implementing an index on the frequently accessed columns..."
+After:  "Need fast queries. Check columns used most. Add index to those columns..."
+```
+
+## 3. Chain-of-Draft Rule (Zoom)
+
+Each reasoning step: maximum 5 words. Focus on essential transformations only.
+
+**Prompt template:**
+```
+Think step by step, but only keep minimum draft for each thinking step, with 5 words at most. Return answer after ####.
+```
+
+**Example:**
+```
+Q: Jason had 20 lollipops. He gave Denny some. Now has 12. How many given?
+
+CoT (bad, 205 tokens): "Let's think through this step by step: 1. Initially, Jason had 20 lollipops. 2. After giving some to Denny..."
+CoD (good, 44 tokens):  "20 - x = 12; x = 20 - 12 = 8. #### 8"
+```
+
+**Token savings**: 76-92% reduction vs Chain-of-Thought, same or better accuracy.
+
+## 4. Think Deep, Not Just Long (Google)
+
+Raw token count is unreliable proxy for reasoning quality. Deep-Thinking Ratio (DTR) correlates with accuracy (r=0.683), while token count correlates negatively (r=-0.594).
+
+**Rule**: Prioritize depth of thinking per token, not length of reasoning chain.
+
+**DTR optimization:**
+- Each token should undergo sustained revision before stabilizing
+- Functional words ("and", "is", "boxed") converge at shallow layers — minimize these
+- Answer tokens, operators ("+", "="), completions after operators settle at deep layers — maximize these
+- Target: high proportion of tokens that require extended computation before converging
+
+## 5. Headroom Rule
+
+Always leave context headroom. Never fill context window to capacity.
+
+**Limits:**
+- Stop reasoning at 75% of effective context window
+- Compact context when utilization exceeds 85%
+- Hard block at >90% — refuse to proceed without compaction
+
+**Compaction levels:**
+1. Micro: Clear stale tool results and intermediate reasoning
+2. Session: Extract key decisions to `.ai/state.json` `context_summary`
+3. Full: Summarize entire history, preserve user messages only
+
+## 6. Intuition File System
+
+Work history becomes intuition. Agents MUST maintain `.ai/memories/intuition.md`:
+
+```markdown
+# Intuition — [Project Name]
+
+## Confirmed Patterns
+- [Pattern]: [Evidence] — [When to apply]
+
+## Rejected Approaches
+- [Approach]: [Why it failed] — [When to avoid]
+
+## Shortcuts Discovered
+- [Shortcut]: [How it works] — [When safe to use]
+
+## Edge Cases Learned
+- [Edge case]: [What happens] — [How to handle]
+```
+
+**Update rules:**
+- Add entry after each completed task
+- Never delete entries — only mark as `OBSOLETE` if proven wrong
+- Cross-reference with `.ai/memories/feedback.md`
+
+## 7. Language Policy
+
+Reasoning tokens work in both English and Chinese. Apply same compression rules:
+
+| English | Chinese | Rule |
+|---------|---------|------|
+| "the database query" | "数据库查询" | Strip → "db query" / "查库" |
+| "in order to optimize" | "为了优化" | Strip → "optimize" / "优化" |
+| "it is important to note" | "需要注意的是" | Strip → "note" / "注意" |
+| "Let me think about this" | "让我想想" | Strip → "Hmm" / "嗯" |
+
+## 8. Enforcement
+
+All prompts in `prompts/` MUST include this reasoning policy reference:
+
+```
+## Reasoning Rules
+- Use deep-thinking tokens: Hmm, Wait, Therefore, But, So, If, Then
+- No filler tokens: Remove "I'd be happy to", "Let me", "the", "and" chains
+- Caveman format: Strip grammar, keep facts. 2-5 words per sentence.
+- Chain-of-Draft: Each reasoning step ≤ 5 words.
+- Update intuition file after each task.
+- See kernel/reasoning-policy.yaml for full spec.
+```

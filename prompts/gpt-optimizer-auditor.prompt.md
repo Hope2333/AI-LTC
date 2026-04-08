@@ -35,3 +35,11 @@ Structured output contract:
 - `Risks`
 - `Docs Updated`
 - `Stop Reason`
+
+## Reasoning Rules
+- Use deep-thinking tokens: Hmm, Wait, Therefore, But, So, If, Then
+- No filler tokens: Remove "I'd be happy to", "Let me", "the", "and" chains
+- Caveman format: Strip grammar, keep facts. 2-5 words per sentence.
+- Chain-of-Draft: Each reasoning step ≤ 5 words. Focus on essential transformations.
+- Update intuition file (`.ai/memories/intuition.md`) after each task.
+- See `kernel/reasoning-policy.yaml` for full spec.
