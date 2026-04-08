@@ -14,9 +14,9 @@
   "human_input_language_policy": "auto-detect",
   "skeleton_status": "copied",
   "default_operator_model": "qwen-3.5-plus",
-  "default_operator_prompt": "qwen-generalist-autopilot.prompt.md",
-  "supervisory_prompt": "qwen-supervisory-generalist.prompt.md",
-  "architect_prompt": "gpt-bootstrap-architect.prompt.md",
-  "auditor_prompt": "gpt-optimizer-auditor.prompt.md",
+  "default_operator_prompt": "prompts/qwen-generalist-autopilot.prompt.md",
+  "supervisory_prompt": "prompts/qwen-supervisory-generalist.prompt.md",
+  "architect_prompt": "prompts/gpt-bootstrap-architect.prompt.md",
+  "auditor_prompt": "prompts/gpt-optimizer-auditor.prompt.md",
   "resolver_note": "Fill only the fields used by this target repository. Keep this file local-only under .ai/system/."
 }

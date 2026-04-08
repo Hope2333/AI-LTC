@@ -12,8 +12,8 @@ Experimental Mode: Active (Qwen 3.6 Plus Preview, SuperQwen)
 Why This State: Fresh demo project for AI-LTC lifecycle validation
 Recommended Model: qwen-3.6-plus-free (experimental mode)
 Recommended Prompt Stack:
-  - shared-repo-contract.prompt.md
-  - qwen-experimental-mode.prompt.md
+  - prompts/shared-repo-contract.prompt.md
+  - adapters/qwen36/experimental-mode.prompt.md
   - qwen-generalist-autopilot.prompt.md
 Need GPT Now: false
 Next Action: Begin EXECUTION phase with task 1 (initialize project structure)
