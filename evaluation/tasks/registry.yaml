@@ -77,3 +77,29 @@ tasks:
     preferred_signals:
       - migration_clarity
       - regression_avoidance
+
+  - id: narrow_audit
+    name: Narrow audit
+    description: "Investigate one focused technical risk or blocker without broadening scope."
+    success_criteria:
+      - the blocker is localized
+      - evidence is concrete
+    preferred_roles:
+      - optimizer
+      - supervisor
+    preferred_signals:
+      - blocker_localization
+      - evidence_specificity
+
+  - id: bug_fix
+    name: Bug fix
+    description: "Correct a concrete defect with the smallest verifiable change."
+    success_criteria:
+      - defect is reproduced or well-evidenced
+      - fix is verified
+    preferred_roles:
+      - generalist
+      - optimizer
+    preferred_signals:
+      - repro_quality
+      - fix_verification

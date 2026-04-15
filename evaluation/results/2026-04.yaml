@@ -93,3 +93,23 @@ results:
       stability: null
       cost: null
     notes: "Use this document to decide which repository should own new integration work."
+
+  - id: 2026-04-15-consumer-alignment-check-pass
+    task_id: tool_integration
+    subject_type: tool
+    subject_id: ai-ltc
+    subject_version: "v1.5.15"
+    prompt_profile: codex_local_operator
+    environment: "AI-LTC + local consumer repos"
+    tested_at: "2026-04-15"
+    status: positive
+    confidence: high
+    source: "bash scripts/framework-check.sh"
+    observations:
+      - "Both enve and oh-my-litecode now resolve AI-LTC through repo_ref = Experimental."
+      - "framework-check reports both consumer repos aligned at v1.5.15."
+    scores:
+      success: 1.0
+      stability: null
+      cost: null
+    notes: "This is the first completed post-rename Experimental alignment proof across the local consumer set."
