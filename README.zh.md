@@ -43,6 +43,8 @@ cp -r .ai/AI-LTC/.ai-template/* .ai/
 - **架构引导**：`gpt-bootstrap-architect.prompt.md`
 - **审查/检查点**：`qwen-supervisory-generalist.prompt.md`
 
+旧 prompt 文件名仍然保留作为兼容入口。Experimental 语义线已经开始在 `prompts/` 下并行引入 role / phase / constraint / adapter 结构。
+
 ### 试用 Demo
 
 ```bash
@@ -80,6 +82,11 @@ python -m pytest tests/test_main.py -v  # 8 个测试，全部通过
 | 策略师 | `gpt-corrective-strategist.prompt.md` | 架构漂移、长期重规划 |
 | 优化师 | `gpt-optimizer-auditor.prompt.md` | 窄审计、硬阻塞 |
 
+Experimental 迁移参考：
+- `docs/PROMPT-MIGRATION.md`
+- `docs/PROMPT-DECOUPLING-PLAN.md`
+- `PROMPTS.md`
+
 ## 生命周期
 
 ```
@@ -91,6 +98,21 @@ INIT → HANDOFF_READY → EXECUTION → REVIEW → OPTIMIZER → EXECUTION
 ```
 
 每次转移都经过 `kernel/state_machine.yaml` 验证。非法转移会被拒绝。
+
+## Experimental 方向
+
+AI-LTC 现在区分两层语义：
+
+- `main`：稳定框架层
+- `Experimental`：当前实际使用的实验分支
+
+Experimental 负责承载适配器工作、prompt 迁移骨架和带时间戳的评估记录，稳定后再回流 `main`。
+
+iter1 规范文档：
+- `docs/BRANCH-REFACTOR-PLAN.md`
+- `docs/PROMPT-DECOUPLING-PLAN.md`
+- `docs/EVALUATION-SCHEMA.md`
+- `docs/AI-LTC-vs-OML-BOUNDARY.md`
 
 ## 版本历史
 
@@ -105,7 +127,8 @@ INIT → HANDOFF_READY → EXECUTION → REVIEW → OPTIMIZER → EXECUTION
 AI-LTC/
 ├── kernel/                    # 形式化内核（规则、schema、状态机）
 ├── adapters/                  # 模型特定适配器（见 BRANCH-GOVERNANCE.md）
-│   └── qwen36/                # Qwen 3.6 Plus Preview（在 preview 分支）
+│   └── qwen36/                # Qwen 3.6 Plus Preview（当前由 Experimental 语义线承载）
+├── evaluation/                # Experimental 评估注册表与结果记录
 ├── .ai-template/              # 运行时模板（复制到目标项目的 .ai/）
 ├── examples/
 │   ├── demo-cli/              # 最小可运行 demo（8 个测试通过）
@@ -113,9 +136,17 @@ AI-LTC/
 │   └── benchmark/             # 跨模型对照任务
 ├── scripts/                   # 验证器和工具
 ├── BRANCH-GOVERNANCE.md       # 双分支职责和合并规则
-├── shared-repo-contract.prompt.md   # 所有角色的公共规则
-├── qwen-*.prompt.md           # Qwen 角色 prompt
-├── gpt-*.prompt.md            # GPT 角色 prompt
+├── docs/BRANCH-REFACTOR-PLAN.md # iter1 分支重构设计
+├── prompts/                   # 旧入口 + 新迁移骨架
+│   ├── roles/                 # 角色抽象
+│   ├── phases/                # 阶段片段
+│   ├── constraints/           # 共享约束
+│   ├── adapters/              # 提供方/平台差异
+│   ├── qwen-*.prompt.md       # 旧兼容入口
+│   └── gpt-*.prompt.md        # 旧兼容入口
+├── docs/PROMPT-DECOUPLING-PLAN.md # iter1 prompt 解耦设计
+├── docs/EVALUATION-SCHEMA.md  # 评估数据结构要求
+├── docs/AI-LTC-vs-OML-BOUNDARY.md # 规范版边界文档
 ├── *.template.md              # 交接、升级、问卷模板
 └── README.md / README.zh.md   # 本文件
 ```

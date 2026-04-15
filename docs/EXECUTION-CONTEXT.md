@@ -2,7 +2,12 @@
 
 ## For the Execution Agent — Read This First
 
-This document contains all operational context needed to work on the AI-LTC repository correctly: versioning, branching, commit conventions, file ownership, and the OML integration plan.
+This document contains all operational context needed to work on the AI-LTC repository correctly: versioning, branching, commit conventions, file ownership, evaluation scaffolding, and the OML integration plan.
+Canonical iter1 design references:
+- `docs/BRANCH-REFACTOR-PLAN.md`
+- `docs/PROMPT-DECOUPLING-PLAN.md`
+- `docs/EVALUATION-SCHEMA.md`
+- `docs/AI-LTC-vs-OML-BOUNDARY.md`
 
 ---
 
@@ -12,8 +17,10 @@ This document contains all operational context needed to work on the AI-LTC repo
 
 | Branch | Purpose | Version Tags | What Lives Here |
 |--------|---------|-------------|-----------------|
-| **main** | Stable, model-agnostic kernel | `v1.5.x` | `kernel/`, `.ai-template/`, `examples/`, `scripts/`, root prompts |
-| **v1.5-superqwen36-preview** | Qwen 3.6 Plus Preview adapter | `v1.5.x-sqwen36pre` | Everything from main + `adapters/qwen36/` |
+| **main** | Stable framework layer | `v1.5.x` | `kernel/`, `.ai-template/`, `examples/`, `scripts/`, stable docs, promoted abstractions |
+| **Experimental** | Semantic name for the active experimental lane | `v1.5.x-sqwen36pre` | adapters, prompt migration scaffolding, evaluation, provider-specific work |
+
+Current git branch carrying `Experimental`: `Experimental`.
 
 ### Directory Ownership
 
@@ -23,15 +30,18 @@ This document contains all operational context needed to work on the AI-LTC repo
 | `.ai-template/` | main | main only |
 | `examples/` | main | both |
 | `scripts/` | main | main only |
-| `adapters/` | preview | preview only |
-| Root prompt files (`qwen-*.md`, `gpt-*.md`) | main | main only |
-| `adapters/qwen36/*.md` | preview | preview only |
+| `adapters/` | Experimental | Experimental only |
+| `evaluation/` | Experimental | Experimental only until summarized |
+| Legacy root prompt files (`qwen-*.md`, `gpt-*.md`) | main | main only unless provider-specific |
+| `prompts/roles/`, `prompts/phases/`, `prompts/constraints/` | Experimental | Experimental first, then promote |
+| `prompts/adapters/` | Experimental | Experimental only |
+| `adapters/qwen36/*.md` | Experimental | Experimental only |
 
 ### Merge Rules
 
-- **main → preview**: Always allowed, merge regularly
-- **preview → main**: Only model-agnostic changes (kernel fixes, scripts, README). NO `adapters/`, NO `experimental_mode`, NO Qwen-specific prompts
-- **Decision rule**: If the change is model-agnostic → main. If it's Qwen-specific → preview.
+- **main → Experimental**: Always allowed, merge regularly
+- **Experimental → main**: Only model-agnostic changes (kernel fixes, scripts, README, promoted abstractions). NO `adapters/`, NO `experimental_mode`, NO provider-specific prompt deltas
+- **Decision rule**: If the change is model-agnostic → main. If it's experimental, provider-specific, or evidence-heavy → Experimental.
 
 ---
 
@@ -39,24 +49,26 @@ This document contains all operational context needed to work on the AI-LTC repo
 
 ### Current Versions
 
-| Branch | Current Tag | Next Tag | VERSION File |
-|--------|------------|----------|-------------|
-| main | `v1.5.5` | `v1.5.6` | `v1.5.10` (tracks preview) |
-| preview | `v1.5.10-sqwen36pre` | `v1.5.11-sqwen36pre` | `v1.5.10` |
+| Item | Value |
+|--------|-------------|
+| Repo `VERSION` | `v1.5.15` |
+| Stable branch family | `main` |
+| Experimental branch family | `Experimental` |
+| Experimental suffix still in use | `-sqwen36pre` |
 
 ### Versioning Rules
 
 1. **Single source of truth**: `VERSION` file in repo root
 2. **main tags**: `v1.5.x` — increment by 1 for each kernel-level release
-3. **preview tags**: `v1.5.x-sqwen36pre` — increment independently, tracks adapter evolution
-4. **Preview tags do NOT need to match main tags** — they evolve independently
-5. **When backporting to main**: main gets a new tag (`v1.5.6`), preview keeps its tag
-6. **When merging main → preview**: preview merges and gets a new tag
+3. **Experimental tags**: may continue using `v1.5.x-sqwen36pre` until a deliberate rename plan lands
+4. **Experimental tags do NOT need to match main tags** — they evolve independently
+5. **When backporting to main**: main gets the stable tag, Experimental keeps its evidence trail
+6. **When merging main → Experimental**: Experimental merges and may get a new tag
 
 ### When to Bump Versions
 
 - **main**: After kernel changes, scripts, or significant docs land
-- **preview**: After adapter changes, experimental mode updates, or any meaningful change
+- **Experimental**: After adapter changes, evaluation scaffolding, experimental mode updates, or any meaningful migration step
 - **Both**: After major feature additions (like the OML bridge)
 
 ### Files to Update When Bumping
@@ -67,6 +79,7 @@ This document contains all operational context needed to work on the AI-LTC repo
 4. `BRANCH-GOVERNANCE.md` — version alignment table
 5. `README.md` — version history table
 6. Consumer repos' `.ai/system/ai-ltc-config.json` — `framework_version` and `installed_framework_tag`
+7. `cross-repo-registry.json` — branch semantics and expected consumer versions
 
 ---
 
@@ -91,7 +104,7 @@ Add BRANCH-GOVERNANCE.md: dual-branch responsibilities and merge rules.
 ### Commit Rules
 
 - **Never commit `.omx/` or `.ai/` directories**
-- **Never commit AI-LTC's own `.ai/` directory** (it's local-only)
+- **Never commit AI-LTC's own `.ai/` directory** (it's local-only workspace state)
 - **Commit to the correct branch** per the directory ownership matrix above
 - **Tag after significant commits** — use `git tag -a v1.5.x -m "description"` on main, `git tag -a v1.5.x-sqwen36pre -m "description"` on preview
 
@@ -167,8 +180,8 @@ Add BRANCH-GOVERNANCE.md: dual-branch responsibilities and merge rules.
 |-------|-------|
 | Path | `/home/miao/develop/enve` |
 | Config | `.ai/system/ai-ltc-config.json` |
-| Branch | `v1.5-superqwen36-preview` |
-| Expected Version | `v1.5.10-sqwen36pre` |
+| Branch | `Experimental` |
+| Expected Version | `v1.5.15` |
 | Status | Active — Skia m100 migration in progress, code quality CI added |
 
 ### oh-my-litecode
@@ -177,8 +190,8 @@ Add BRANCH-GOVERNANCE.md: dual-branch responsibilities and merge rules.
 |-------|-------|
 | Path | `/home/miao/develop/oh-my-litecode` |
 | Config | `.ai/system/ai-ltc-config.json` |
-| Branch | `v1.5-superqwen36-preview` |
-| Expected Version | `v1.5.10-sqwen36pre` |
+| Branch | `Experimental` |
+| Expected Version | `v1.5.15` |
 | Status | Active — OML is the "Body" in the Brain/Body architecture |
 
 ### Framework Check
@@ -226,9 +239,10 @@ When adding a new consumer repo:
 
 ### What NOT to Do
 
-- **Do not** commit to `main` if the change is Qwen-specific — use `v1.5-superqwen36-preview`
+- **Do not** commit to `main` if the change is provider-specific or experimental — use the `Experimental` branch
 - **Do not** include `adapters/` files in backports to `main`
 - **Do not** commit `.ai/` or `.omx/` directories
+- **Do not** treat `.ai/active-lane/*` as public repository truth
 - **Do not** bump versions without updating all related files (VERSION, config template, adapter.yaml, BRANCH-GOVERNANCE.md, README.md)
 - **Do not** merge preview → main without running the review checklist in BRANCH-GOVERNANCE.md
 - **Do not** start Phase 2 before Phase 1 is validated
@@ -239,6 +253,7 @@ When adding a new consumer repo:
 - **Do** commit to the correct branch per directory ownership
 - **Do** run `scripts/framework-check.sh` after any version change
 - **Do** update `cross-repo-registry.json` when adding consumer repos
+- **Do** update `evaluation/` with dated evidence when experimental conclusions matter
 - **Do** tag after significant commits
 - **Do** follow the commit style: imperative, sentence-case, trailing period
 - **Do** keep commits narrowly scoped
@@ -260,11 +275,17 @@ AI-LTC/
 │   ├── state_machine.yaml               # Legal phase transitions
 │   ├── error_model.yaml                 # Error types + recovery
 │   └── arbitration.yaml                 # Conflict resolution
-├── adapters/                            # Model-specific adapters (preview only)
+├── adapters/                            # Model-specific adapters (Experimental)
 │   └── qwen36/
 │       ├── adapter.yaml
 │       ├── experimental-mode.prompt.md
 │       └── orchestrator.prompt.md
+├── evaluation/                         # Experimental registries and dated results
+├── prompts/
+│   ├── roles/                          # Role scaffolds
+│   ├── phases/                         # Phase scaffolds
+│   ├── constraints/                    # Shared boundaries
+│   └── adapters/                       # Provider/platform deltas
 ├── bridge/                              # OML integration (TODO - Phase 1)
 │   ├── index.ts
 │   ├── oml-bridge.ts

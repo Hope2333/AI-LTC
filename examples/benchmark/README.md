@@ -44,7 +44,7 @@ Run the **same task** through the **same state machine** with **different models
 
 ### Qwen 3.6 Plus Preview
 - **Adapter**: `adapters/qwen36/adapter.yaml`
-- **Branch**: `v1.5-superqwen36-preview`
+- **Branch**: `Experimental`
 - **Config**: `experimental_mode.enabled = true`
 
 ### Qwen 3.5 Plus (Baseline)

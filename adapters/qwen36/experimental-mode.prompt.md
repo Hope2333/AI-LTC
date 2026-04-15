@@ -51,7 +51,7 @@ Safety limits:
   - timestamp, prompt used, reason, outcome
 
 Self-awareness:
-- you are running on the `v1.5-superqwen36-preview` branch of AI-LTC
+- you are running on the `Experimental` branch of AI-LTC
 - the base framework version is `v1.5.x`
 - you should periodically check whether the main branch has received framework updates that should be merged into this experimental branch
 - if a framework update on main is relevant to your operation, surface it in your structured handback

@@ -1,11 +1,12 @@
 # BRANCH-GOVERNANCE
 
 This document defines the responsibilities, boundaries, and merge rules for AI-LTC's dual-branch model.
+See `docs/BRANCH-SEMANTICS.md` for the short operational summary and `docs/BRANCH-REFACTOR-PLAN.md` for the canonical iter1 branch refactor design.
 
 ## Branch Roles
 
-### main (Protocol Layer)
-**Purpose**: Stable, model-agnostic AI collaboration kernel and runtime.
+### main (Framework Layer)
+**Purpose**: Stable, model-agnostic AI collaboration kernel, runtime, and public framework surface.
 **Audience**: Anyone who wants to use AI-LTC with any model.
 **Versioning**: `v1.5.x` tags.
 
@@ -14,34 +15,39 @@ This document defines the responsibilities, boundaries, and merge rules for AI-L
 - `.ai-template/` — runtime state templates, logs, snapshots
 - `examples/` — demo projects, collaboration system templates
 - `scripts/` — validators and tools
-- Role prompts that are model-agnostic (`shared-repo-contract.prompt.md`, `gpt-*.prompt.md`, `qwen-*.prompt.md` that don't reference experimental features)
+- Legacy prompt entrypoints that remain model-agnostic enough to preserve compatibility
+- Stable prompt migration docs and role / phase / constraint abstractions once proven
 - README, CONTRIBUTING, LICENSE
 - `ai-ltc-config.template.json` (without experimental_mode or multi_session blocks)
 
 **What does NOT live here**:
 - Anything tied to a specific model's behavior quirks
+- Experimental-only evaluation records that have not earned promotion
 - Experimental session orchestration
-- Model-specific prompt constraints
 - `adapters/` directory
 
-### v1.5-superqwen36-preview (Adapter Layer)
-**Purpose**: Qwen 3.6 Plus Preview adapter — model-specific runtime adjustments.
-**Audience**: Users running Qwen 3.6 Plus (Preview) who want optimized behavior.
+### Experimental
+**Purpose**: Experimental lane for adapters, evaluations, migration scaffolding, and platform-specific runtime adjustments.
+**Audience**: Contributors validating new structures, adapters, and evidence before promotion to `main`.
 **Versioning**: `v1.5.x-sqwen36pre` tags.
 
 **What lives here**:
 - Everything from main (via merge)
-- `adapters/qwen36/` — Qwen-specific experimental mode, orchestrator, sessions, adapter spec
+- `adapters/qwen36/` — current Qwen-specific experimental mode, orchestrator, sessions, adapter spec
+- additional adapter directories as future experiments require
+- `evaluation/` — dated registries and experiment records
+- new prompt migration scaffolding under `prompts/roles/`, `prompts/phases/`, `prompts/constraints/`, and `prompts/adapters/`
 - `experimental_mode` and `multi_session` blocks in `ai-ltc-config.template.json`
-- Any prompt modifications that leverage Qwen 3.6 specific capabilities
+- prompt modifications and adapters that leverage provider- or platform-specific capabilities
 
 **What does NOT live here**:
 - Modifications to `kernel/` files that change protocol rules (those go to main first)
 - Modifications to `.ai-template/` that are not Qwen-specific
+- unstable branch semantics that are undocumented
 
 ## Merge Rules
 
-### Preview → Main (Backport)
+### Experimental → Main (Backport)
 **Allowed**:
 - Bug fixes in kernel files that apply to all models
 - Improvements to error recovery strategies that are model-agnostic
@@ -54,10 +60,11 @@ This document defines the responsibilities, boundaries, and merge rules for AI-L
 - Prompt changes that rely on Qwen 3.6 specific capabilities
 - `experimental_mode` or `multi_session` config blocks
 - Session orchestration logic
+- experimental evaluation records without a stable summary or promotion rationale
 
-### Main → Preview (Forward)
-**Always Allowed**: All main commits merge into preview automatically.
-Preview branch should regularly merge main to stay current with kernel improvements.
+### Main → Experimental (Forward)
+**Always Allowed**: All main commits merge into the actual Experimental branch automatically.
+The Experimental branch should regularly merge main to stay current with framework improvements.
 
 ## Decision Flowchart
 
@@ -70,24 +77,26 @@ Is this change model-agnostic?
   │         └── No → Does it belong in shared prompts?
   │                   ├── Yes → Commit to main
   │                   └── No → Review: might belong in adapter
-  └── No → Is it Qwen 3.6 specific?
-            ├── Yes → Commit to preview (adapters/qwen36/)
-            └── No → Create new adapter directory (adapters/{model}/)
+  └── No → Is it experimental, provider-specific, or evaluation-heavy?
+            ├── Yes → Commit to Experimental
+            └── No → Review: maybe it belongs in main after abstraction cleanup
 ```
 
 ## Directory Responsibility Matrix
 
 | Directory | Owned By | Can Be Modified By |
 |---|---|---|
-| `kernel/` | main | main only (preview may suggest, but changes merge through main) |
+| `kernel/` | main | main only (Experimental may suggest, but changes merge through main) |
 | `.ai-template/` | main | main only |
-| `examples/` | main | both (preview may add Qwen-specific demo variants) |
+| `examples/` | main | both (Experimental may add provider-specific demo variants) |
 | `scripts/` | main | main only |
-| `adapters/` | preview | preview only |
+| `adapters/` | Experimental | Experimental only |
+| `evaluation/` | Experimental | Experimental only until records are summarized |
 | `shared-repo-contract.prompt.md` | main | main only |
-| `qwen-*.prompt.md` (root) | main | main only (model-agnostic Qwen prompts) |
-| `gpt-*.prompt.md` | main | main only |
-| `adapters/qwen36/*.prompt.md` | preview | preview only |
+| legacy root prompt entrypoints | main | main only unless they become provider-specific |
+| `prompts/roles/`, `prompts/phases/`, `prompts/constraints/` | Experimental | Experimental first, then promote to main when stable |
+| `prompts/adapters/` | Experimental | Experimental only |
+| `adapters/qwen36/*.prompt.md` | Experimental | Experimental only |
 
 ## Adapter Interface Contract
 
@@ -99,19 +108,20 @@ Every adapter in `adapters/{model}/` must include:
 
 ## Version Alignment
 
-- main tags: `v1.5.3`, `v1.5.4`, `v1.5.5`, `v1.5.6`, `v1.5.7`, `v1.5.8`, etc.
-- preview tags: `v1.5.10-sqwen36pre`, `v1.5.11-sqwen36pre`, `v1.5.12-sqwen36pre`, `v1.5.13-sqwen36pre`, `v1.5.14-sqwen36pre`, etc.
-- Line name: **Qwen3.6-Plus-WITH-OMO** (formerly Qwen3.6-Plus-Preview-WITH-OMO)
-- Preview tags do NOT need to match main tags — they track adapter evolution independently
-- When preview's kernel changes are backported to main, main gets a new tag
-- When main gets a new tag, preview should merge and get a new tag
+- Current repo `VERSION`: `v1.5.15`
+- main tags remain `v1.5.x`
+- Experimental tags may continue using the current preview suffix for continuity with historical tags
+- Line name: **Qwen3.6-Plus-WITH-OMO**
+- Experimental tags do not need to numerically mirror main tags if the experimental lane evolves independently
+- When Experimental work is abstracted and promoted, main gets the stable tag; Experimental keeps its evidence trail
 
 ## Review Checklist
 
-Before merging preview → main:
+Before merging Experimental → main:
 - [ ] No files in `adapters/` are included
 - [ ] No `experimental_mode` or `multi_session` config changes
-- [ ] No prompt changes that reference Qwen 3.6 specific behavior
+- [ ] No prompt changes that reference provider-specific behavior without abstraction cleanup
+- [ ] Experimental evaluation records are either excluded or summarized into stable conclusions
 - [ ] All kernel changes are model-agnostic
 - [ ] Demo tests still pass
 - [ ] README changes are accurate

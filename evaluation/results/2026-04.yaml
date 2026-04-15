@@ -1,0 +1,95 @@
+results:
+  - id: 2026-04-04-oml-bridge-docs
+    task_id: tool_integration
+    subject_type: model
+    subject_id: qwen-3.6-plus-with-omo
+    subject_version: "qwen-3.6-plus-free"
+    prompt_profile: qwen_generalist_v1
+    environment: "AI-LTC experimental branch family"
+    tested_at: "2026-04-04"
+    status: positive
+    confidence: medium
+    source: ".ai historical checkpoint and bridge/docs artifacts"
+    observations:
+      - "OML integration delivered bridge, adapter, and boundary artifacts with a bounded implementation pass."
+    scores:
+      success: null
+      stability: null
+      cost: null
+    notes: "Keep as a reference sample, but refresh with newer runtime evidence before routing decisions."
+
+  - id: 2026-04-08-prompts-moved-under-prompts-dir
+    task_id: repo_refactor
+    subject_type: tool
+    subject_id: ai-ltc
+    subject_version: "v1.5.15-prehistory"
+    prompt_profile: qwen_generalist_v1
+    environment: "AI-LTC repository"
+    tested_at: "2026-04-08"
+    status: positive
+    confidence: medium
+    source: "git history and current tree"
+    observations:
+      - "Prompt files were consolidated under the prompts directory, reducing root-level sprawl without breaking existing file naming."
+    scores:
+      success: null
+      stability: null
+      cost: null
+    notes: "Treat as a successful precursor to the role / phase / constraint migration."
+
+  - id: 2026-04-15-self-consumption-local-state-cleanup
+    task_id: repo_refactor
+    subject_type: tool
+    subject_id: oh-my-codex
+    subject_version: "local-2026-04-15"
+    prompt_profile: codex_local_operator
+    environment: "local workspace"
+    tested_at: "2026-04-15"
+    status: positive
+    confidence: medium
+    source: "working tree change set"
+    observations:
+      - "The repo reasserted .ai as local-only state and refreshed active-lane docs to reflect the real current iteration."
+    scores:
+      success: null
+      stability: null
+      cost: null
+    notes: "Keep local runtime state out of the index and continue using active-lane files only as workspace truth."
+
+  - id: 2026-04-15-experimental-semantics-bootstrap
+    task_id: architecture_replan
+    subject_type: tool
+    subject_id: ai-ltc
+    subject_version: "v1.5.15"
+    prompt_profile: codex_local_operator
+    environment: "AI-LTC experimental lane"
+    tested_at: "2026-04-15"
+    status: positive
+    confidence: low
+    source: "governance and migration docs added in this pass"
+    observations:
+      - "A semantic Experimental layer can be documented and used immediately without forcing a risky git branch rename."
+    scores:
+      success: null
+      stability: null
+      cost: null
+    notes: "Use Experimental in conceptual docs first, then schedule an explicit branch rename separately."
+
+  - id: 2026-04-15-boundary-doc-bootstrap
+    task_id: tool_integration
+    subject_type: tool
+    subject_id: oh-my-litecode
+    subject_version: "unknown"
+    prompt_profile: codex_local_operator
+    environment: "AI-LTC docs layer"
+    tested_at: "2026-04-15"
+    status: positive
+    confidence: low
+    source: "docs/AI-LTC-vs-OML-BOUNDARY.md"
+    observations:
+      - "The AI-LTC vs OML split can be expressed in a placement rule that separates thinking from running."
+    scores:
+      success: null
+      stability: null
+      cost: null
+    notes: "Use this document to decide which repository should own new integration work."

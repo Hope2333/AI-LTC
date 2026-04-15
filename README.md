@@ -44,6 +44,8 @@ Apply `qwen-init-routing.prompt.md` to your AI operator. It will:
 - **Architecture bootstrap**: `gpt-bootstrap-architect.prompt.md`
 - **Review/checkpoint**: `qwen-supervisory-generalist.prompt.md`
 
+Legacy prompt filenames remain supported. The Experimental lane now also seeds a role / phase / constraint / adapter prompt layout under `prompts/` for coexistence migration.
+
 ### Try the Demo
 
 ```bash
@@ -81,6 +83,11 @@ python -m pytest tests/test_main.py -v  # 8 tests, all passing
 | Strategist | `gpt-corrective-strategist.prompt.md` | Architecture drift, long-range replanning |
 | Optimizer | `gpt-optimizer-auditor.prompt.md` | Narrow audits, hard blockers |
 
+Experimental migration references:
+- `docs/PROMPT-MIGRATION.md`
+- `docs/PROMPT-DECOUPLING-PLAN.md`
+- `PROMPTS.md`
+
 ## Lifecycle
 
 ```
@@ -104,6 +111,21 @@ Integration plan: `docs/OML-INTEGRATION-PLAN.md`
 Platform adapters: `docs/OML-PLUGIN-ADAPTER.md`
 Design principles: `docs/BRAIN-BODY-SEPARATION.md`
 
+## Experimental Direction
+
+AI-LTC now distinguishes between:
+
+- `main`: stable framework layer
+- `Experimental`: the active experimental branch
+
+The Experimental lane is where adapter work, prompt migration scaffolding, and time-scoped evaluation records land before they are abstracted into `main`.
+
+Canonical iter1 design references:
+- `docs/BRANCH-REFACTOR-PLAN.md`
+- `docs/PROMPT-DECOUPLING-PLAN.md`
+- `docs/EVALUATION-SCHEMA.md`
+- `docs/AI-LTC-vs-OML-BOUNDARY.md`
+
 ## Version History
 
 | Tag | What Changed |
@@ -124,13 +146,14 @@ Design principles: `docs/BRAIN-BODY-SEPARATION.md`
 ```
 AI-LTC/
 ├── kernel/                    # Formal kernel (rules, schemas, state machine)
-├── adapters/                    # Model-specific adapters (preview only)
+├── adapters/                    # Model-specific adapters (Experimental lane)
 │   ├── qwen36/                  # Qwen 3.6 Plus Preview adapter
 │   ├── opencode/                # OpenCode plugin adapter
 │   ├── claude-code/             # Claude Code adapter
 │   ├── aider/                   # Aider adapter
 │   ├── registry.ts              # Platform adapter registry
 │   └── types.ts                 # Shared adapter types
+├── evaluation/                  # Experimental registries and dated results
 ├── bridge/                      # OML integration bridge layer
 │   ├── index.ts                 # Bridge entry point
 │   ├── oml-bridge.ts            # Core bridge logic
@@ -146,12 +169,22 @@ AI-LTC/
 │   ├── collaboration-system/  # Copyable collaboration template
 │   └── benchmark/             # Cross-model comparison tasks
 ├── scripts/                   # Validators and tools
-├── prompts/                   # All agent role prompts
-│   ├── qwen-*.prompt.md       # Qwen role prompts
-│   └── gpt-*.prompt.md        # GPT role prompts
+├── prompts/                   # Legacy entrypoints + new migration scaffold
+│   ├── roles/                 # Role abstractions
+│   ├── phases/                # Phase fragments
+│   ├── constraints/           # Shared boundaries
+│   ├── adapters/              # Provider/platform deltas
+│   ├── qwen-*.prompt.md       # Legacy compatibility entrypoints
+│   └── gpt-*.prompt.md        # Legacy compatibility entrypoints
 ├── kernel/reasoning-policy.yaml  # Reasoning efficiency rules (Caveman, CoD, DTR, Headroom)
 ├── PROMPTS.md                 # Root prompt guide (minimal)
 ├── BRANCH-GOVERNANCE.md       # Dual-branch responsibilities and merge rule
+├── docs/BRANCH-SEMANTICS.md   # Stable vs Experimental semantics
+├── docs/BRANCH-REFACTOR-PLAN.md # Iteration 1 branch refactor design
+├── docs/PROMPT-MIGRATION.md   # Legacy prompt coexistence plan
+├── docs/PROMPT-DECOUPLING-PLAN.md # Iteration 1 prompt decoupling design
+├── docs/EVALUATION-SCHEMA.md  # Evaluation data requirements
+├── docs/AI-LTC-vs-OML-BOUNDARY.md # Canonical Brain/Body ownership doc
 ```
 
 ## License

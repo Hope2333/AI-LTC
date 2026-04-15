@@ -1,22 +1,29 @@
 {
-  "framework_version": "v1.5.10",
+  "framework_version": "v1.5.15",
   "branches": {
     "main": {
-      "version": "v1.5.5",
-      "description": "Stable kernel-only release. Protocol layer, no model-specific adapters."
+      "version": "v1.5.15",
+      "description": "Stable framework layer. Model-agnostic kernel, runtime, docs, and promoted abstractions."
     },
-    "v1.5-superqwen36-preview": {
-      "version": "v1.5.10",
+    "Experimental": {
+      "version": "v1.5.15",
       "tag_suffix": "-sqwen36pre",
-      "description": "Preview branch with adapter architecture and experimental SuperQwen mode."
+      "legacy_branch_name": "v1.5-superqwen36-preview",
+      "description": "Experimental lane with adapters, evaluation records, and migration scaffolding."
     }
   },
   "consumer_repos": {
     "enve": {
       "path": "/home/miao/develop/enve",
       "config": ".ai/system/ai-ltc-config.json",
-      "branch": "v1.5-superqwen36-preview",
-      "expected_version": "v1.5.10-sqwen36pre"
+      "branch": "Experimental",
+      "expected_version": "v1.5.15"
+    },
+    "oh-my-litecode": {
+      "path": "/home/miao/develop/oh-my-litecode",
+      "config": ".ai/system/ai-ltc-config.json",
+      "branch": "Experimental",
+      "expected_version": "v1.5.15"
     }
   }
 }

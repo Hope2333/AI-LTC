@@ -7,7 +7,7 @@ adapter:
   model_id: qwen-3.6-plus-free
   available_from: "2026-03-30"
   available_until: ""  # unknown
-  branch: v1.5-superqwen36-preview
+  branch: Experimental
   min_framework_version: "v1.5.13"
 
 capabilities:

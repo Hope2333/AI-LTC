@@ -1,0 +1,79 @@
+tasks:
+  - id: bootstrap
+    name: Bootstrap
+    description: "Initialize a repo's AI-LTC operating surface and first lane state."
+    success_criteria:
+      - structure_is_consistent
+      - handoff_is_possible
+      - state_is_initialized
+    preferred_roles:
+      - architect
+      - generalist
+    preferred_signals:
+      - diff_quality
+      - constraint_following
+
+  - id: daily_execution
+    name: Daily execution
+    description: "Normal implementation or maintenance work in an active lane."
+    success_criteria:
+      - lane_progress_is_real
+      - blockers_are_recorded
+    preferred_roles:
+      - generalist
+      - supervisor
+    preferred_signals:
+      - evidence_quality
+      - scope_control
+
+  - id: review_checkpoint
+    name: Review checkpoint
+    description: "Bounded verification or sequencing review before continuing."
+    success_criteria:
+      - next_action_is_clear
+      - unresolved_risks_are_named
+    preferred_roles:
+      - supervisor
+      - optimizer
+    preferred_signals:
+      - review_accuracy
+      - blocker_detection
+
+  - id: architecture_replan
+    name: Architecture replan
+    description: "Structural redesign or abstraction cleanup after drift is detected."
+    success_criteria:
+      - abstractions_are_clearer
+      - migration_path_exists
+    preferred_roles:
+      - architect
+      - strategist
+    preferred_signals:
+      - abstraction_quality
+      - compatibility_preservation
+
+  - id: tool_integration
+    name: Tool integration
+    description: "Integrate AI-LTC with an external runtime or tool platform."
+    success_criteria:
+      - boundary_is_clear
+      - integration_path_is_actionable
+    preferred_roles:
+      - architect
+      - generalist
+    preferred_signals:
+      - ownership_clarity
+      - implementation_readiness
+
+  - id: repo_refactor
+    name: Repository refactor
+    description: "Restructure docs, prompts, or governance without changing the core protocol."
+    success_criteria:
+      - naming_is_clearer
+      - compatibility_is_preserved
+    preferred_roles:
+      - generalist
+      - strategist
+    preferred_signals:
+      - migration_clarity
+      - regression_avoidance

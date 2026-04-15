@@ -1,0 +1,95 @@
+tools:
+  - id: ai-ltc
+    name: AI-LTC
+    category: framework
+    version: "v1.5.15"
+    tested_at: "2026-04-15"
+    status: active
+    installation_mode: "git repository"
+    capabilities:
+      - state_machine
+      - handoff
+      - recovery
+      - evaluation_interpretation
+    strengths:
+      - framework-level coordination
+    weaknesses:
+      - historical provider-bound naming remains in legacy surfaces
+    scores:
+      code_editing: null
+      planning: null
+      reproducibility: null
+      integration: null
+    boundary_notes: "Owns thinking and protocol, not runtime execution plumbing."
+    source: "README.md"
+    notes: "Brain layer for long-horizon AI coordination."
+
+  - id: oh-my-litecode
+    name: oh-my-litecode
+    category: runtime
+    version: "unknown"
+    tested_at: "2026-04-15"
+    status: active
+    installation_mode: "git repository"
+    capabilities:
+      - plugin_loading
+      - hooks
+      - mcp_access
+      - worker_sessions
+    strengths:
+      - execution runtime breadth
+    weaknesses:
+      - boundary can appear too broad without explicit governance
+    scores:
+      code_editing: null
+      planning: null
+      reproducibility: null
+      integration: null
+    boundary_notes: "Owns tool execution and runtime evidence, not AI-LTC phase authority."
+    source: "docs/OML-INTEGRATION-PLAN.md"
+    notes: "Body layer for plugin loading, MCP access, hooks, sessions, and workers."
+
+  - id: oh-my-codex
+    name: oh-my-codex
+    category: operator
+    version: "local-2026-04-15"
+    tested_at: "2026-04-15"
+    status: active
+    installation_mode: "local environment"
+    capabilities:
+      - local_operator_workflow
+      - codex_integration
+    strengths:
+      - fast local iteration surface
+    weaknesses:
+      - environment-specific conclusions
+    scores:
+      code_editing: null
+      planning: null
+      reproducibility: null
+      integration: null
+    boundary_notes: "Useful for local validation but not a universal runtime claim."
+    source: "local execution context"
+    notes: "Current local Codex execution environment used to iterate on this repository."
+
+  - id: aider
+    name: Aider
+    category: runtime
+    version: "unknown"
+    tested_at: "2026-04-15"
+    status: experimental
+    installation_mode: "adapter target"
+    capabilities:
+      - custom_commands
+    strengths:
+      - lightweight adapter target
+    weaknesses:
+      - limited evidence in this repo so far
+    scores:
+      code_editing: null
+      planning: null
+      reproducibility: null
+      integration: null
+    boundary_notes: "Tracked as an adapter target rather than a proven default runtime."
+    source: "adapters/aider/index.ts"
+    notes: "Registered as a future-facing adapter surface."

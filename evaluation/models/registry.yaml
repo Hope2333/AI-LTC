@@ -1,0 +1,84 @@
+models:
+  - id: qwen-3.6-plus-with-omo
+    name: Qwen 3.6 Plus WITH-OMO
+    provider: Alibaba
+    version: "qwen-3.6-plus-free"
+    release_date: "2026-03-30"
+    tested_at: "2026-04-15"
+    status: experimental
+    architecture:
+      - transformer
+    context_length: "1M"
+    size: "unknown"
+    capabilities:
+      - long_context
+      - general_execution
+      - tool_use
+    strengths:
+      - long context handling
+      - strong tool orchestration
+    weaknesses:
+      - role drift in mixed prompts
+      - format drift on nested structured outputs
+    scores:
+      reasoning: null
+      coding: null
+      latency: null
+      cost_efficiency: null
+    boundary_notes: "Provider-specific behavior should stay in adapters and prompt adapter layers."
+    source: "adapters/qwen36/adapter.yaml"
+    notes: "Current experimental default operator in this repository's preview branch family."
+
+  - id: openai-architecture-role-family
+    name: GPT architecture / optimizer role family
+    provider: OpenAI
+    version: "unknown"
+    release_date: "unknown"
+    tested_at: "2026-04-15"
+    status: reference
+    architecture:
+      - transformer
+    context_length: "unknown"
+    size: "unknown"
+    capabilities:
+      - architecture_design
+      - narrow_audit
+    strengths:
+      - design-oriented role framing
+    weaknesses:
+      - provider-bound naming in legacy prompt files
+    scores:
+      reasoning: null
+      coding: null
+      latency: null
+      cost_efficiency: null
+    boundary_notes: "This is tracked as a role family reference, not a precise model release."
+    source: "prompts/gpt-bootstrap-architect.prompt.md"
+    notes: "Used as the architecture and narrow-audit reference surface in the current prompt system."
+
+  - id: codex-cli-operator
+    name: Codex CLI operator surface
+    provider: OpenAI
+    version: "local-cli-2026-04-15"
+    release_date: "unknown"
+    tested_at: "2026-04-15"
+    status: active
+    architecture:
+      - operator_surface
+    context_length: "unknown"
+    size: "unknown"
+    capabilities:
+      - repository_editing
+      - local_validation
+    strengths:
+      - direct repository iteration
+    weaknesses:
+      - local observations are environment-specific
+    scores:
+      reasoning: null
+      coding: null
+      latency: null
+      cost_efficiency: null
+    boundary_notes: "Local operator observations should not be generalized without dated evidence."
+    source: "local execution context"
+    notes: "Used for repository self-consumption cleanup and migration scaffolding work."

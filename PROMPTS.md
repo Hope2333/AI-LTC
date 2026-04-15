@@ -1,6 +1,12 @@
 # AI-LTC Root Prompt Guide
 
-All agent prompts live in `prompts/`. Kernel rules in `kernel/`.
+All agent prompts live in `prompts/`. Kernel rules live in `kernel/`.
+Legacy prompt filenames remain active compatibility entrypoints. Experimental migration scaffolding now also exists under:
+
+- `prompts/roles/`
+- `prompts/phases/`
+- `prompts/constraints/`
+- `prompts/adapters/`
 
 ## Quick Reference
 
@@ -11,6 +17,18 @@ All agent prompts live in `prompts/`. Kernel rules in `kernel/`.
 | Architect | `prompts/gpt-bootstrap-architect.prompt.md` |
 | Auditor | `prompts/gpt-optimizer-auditor.prompt.md` |
 | Strategist | `prompts/gpt-corrective-strategist.prompt.md` |
+
+## Experimental Migration Map
+
+| Target Layer | New Path | Notes |
+|------|-------------|-------|
+| Roles | `prompts/roles/` | Stable role intent, no provider names in filenames |
+| Phases | `prompts/phases/` | INIT / EXECUTION / REVIEW / CHECKPOINT flow fragments |
+| Constraints | `prompts/constraints/` | Output, language, token, and safety boundaries |
+| Adapters | `prompts/adapters/` | Provider- or platform-specific deltas only |
+
+For the coexistence plan and file mapping, see `docs/PROMPT-MIGRATION.md`.
+For the canonical iter1 design write-up, see `docs/PROMPT-DECOUPLING-PLAN.md`.
 
 ## Reasoning Rules (ALL agents)
 
