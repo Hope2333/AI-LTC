@@ -1,8 +1,8 @@
-# INIT-QWEN
+# INIT-OPERATOR
 
 Purpose:
-- this document is for `Qwen 3.5 Plus` at init time, after the framework is deployed but before normal execution begins
-- Qwen should use it to classify the project state, confirm the AI-LTC source resolver, and recommend the next model + prompt combination
+- this document is for the active init operator after the framework is deployed but before normal execution begins
+- the operator should classify the project state, confirm the AI-LTC source resolver, and recommend the next role / phase / adapter stack
 - for `v0 -> v1` upgrades, treat this init step as a semi-required migration pass
 
 Init state model:
@@ -21,7 +21,7 @@ Init order:
 2. determine whether the target repository needs the initial skeleton copied or refreshed
 3. write or update `.ai/system/init-status.md`
 4. write or update `.ai/system/ai-ltc-config.json`
-5. continue the rest of init routing and model selection
+5. continue the rest of init routing and role / adapter selection
 
 When init is required:
 - the project is a fresh AI-LTC deployment
@@ -56,7 +56,7 @@ Default source preference:
 - prefer `folder` when a healthy local AI-LTC copy exists at `.ai/AI-LTC/`
 - use `git_repo` as the fallback canonical remote source
 - the default remote should be `https://github.com/Hope2333/AI-LTC` unless the user overrides it
-- allow Qwen to refresh the local checkout from the remote only when the local copy is missing, stale, or required for the current task
+- allow the active operator to refresh the local checkout from the remote only when the local copy is missing, stale, or required for the current task
 
 Init questionnaire expectations:
 - keep the intake small: 4 to 6 answers
@@ -65,9 +65,9 @@ Init questionnaire expectations:
   - source mode
   - local root or repo URL/ref when applicable
   - project state
-  - default operator model
-  - whether GPT bootstrap is needed now
-  - optionally whether Qwen may refresh the local AI-LTC checkout from the remote when required
+  - default operator role/provider
+  - whether architect bootstrap is needed now
+  - optionally whether the active operator may refresh the local AI-LTC checkout from the remote when required
   - human-input language policy
 - store answers in one place, not across many lane docs
 
@@ -86,18 +86,18 @@ Expected init artifacts:
 
 Default recommendation logic:
 - if `greenfield`:
-  - recommend GPT first with `gpt-bootstrap-architect.prompt.md`
+  - recommend architect role first with `prompts/roles/architect.prompt.md`
   - require `00_HANDOFF.md`
-  - then hand off to Qwen
+  - then hand off to the generalist role
 - if `midstream`:
-  - recommend Qwen first with `qwen-generalist-autopilot.prompt.md`
-  - if ongoing checkpoints are needed, add `qwen-supervisory-generalist.prompt.md`
+  - recommend generalist role first with `prompts/roles/generalist.prompt.md`
+  - if ongoing checkpoints are needed, add `prompts/roles/supervisor.prompt.md`
 - if `chaotic`:
-  - recommend a short Qwen-led cleanup / classification pass first
+  - recommend a short generalist/supervisor cleanup and classification pass first
   - if the cleanup reveals architecture-level uncertainty, trigger `@ARCHITECT_HELP`
-  - then use `gpt-optimizer-auditor.prompt.md`
+  - then use `prompts/roles/optimizer.prompt.md`
 
-Expected Qwen init output:
+Expected init output:
 - `Status`
 - `Decision`
 - `Init State`
@@ -106,43 +106,44 @@ Expected Qwen init output:
 - `Resolver Config Status`
 - `Skeleton Status`
 - `Why This State`
-- `Recommended Model`
+- `Recommended Role`
 - `Recommended Prompt Stack`
-- `Need GPT Now`
+- `Need Architect Now`
 - `Next Action`
 - `Stop Reason`
 
 Prompt stack examples:
 - greenfield:
   - `shared-repo-contract.prompt.md`
-  - `gpt-bootstrap-architect.prompt.md`
+  - `prompts/roles/architect.prompt.md`
+  - `prompts/phases/init.prompt.md`
   - `00_HANDOFF.template.md`
 - midstream:
   - `shared-repo-contract.prompt.md`
-  - `qwen-generalist-autopilot.prompt.md`
-  - `qwen-task-router.prompt.md` (task type classification before each batch)
-  - `qwen-skill-injector.prompt.md` (skill context loaded by the task router)
+  - `prompts/roles/generalist.prompt.md`
+  - `prompts/phases/execution.prompt.md`
 - midstream with active checkpoint need:
   - `shared-repo-contract.prompt.md`
-  - `qwen-supervisory-generalist.prompt.md`
+  - `prompts/roles/supervisor.prompt.md`
+  - `prompts/phases/checkpoint.prompt.md`
 - chaotic with real architecture trouble:
   - `shared-repo-contract.prompt.md`
-  - `qwen-supervisory-generalist.prompt.md`
+  - `prompts/roles/supervisor.prompt.md`
   - `ESCALATION_REQUEST.template.md`
-  - `gpt-optimizer-auditor.prompt.md`
+  - `prompts/roles/optimizer.prompt.md`
 
 Framework awareness:
-- run `qwen-framework-check.prompt.md` at the end of init to establish a baseline
+- run the framework-check prompt at the end of init to establish a baseline
 - write the result to `.ai/system/framework-update-advisory.md`
 - set `last_framework_check` in `.ai/system/ai-ltc-config.json` to today's date
 
 Guardrails:
-- Qwen should not recommend GPT just because GPT is stronger
-- Qwen should recommend GPT only when:
+- do not recommend architect/optimizer roles just because they are stronger
+- recommend architect/optimizer roles only when:
   - the project is still pre-architecture
   - or the current problem is clearly architecture-heavy
   - or a true escalation exists
-- Qwen should not spray absolute AI-LTC paths into multiple docs
+- do not spray absolute AI-LTC paths into multiple docs
 - if the source mode is unresolved, finish resolver setup before normal execution starts
 - if init status is `INITING`, resume from the recorded step instead of restarting blindly
 - if the target repository lacks the AI-LTC skeleton, copy the initial skeleton before normal init routing continues

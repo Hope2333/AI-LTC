@@ -6,4 +6,4 @@ Use for long-range replanning when the current lane abstraction no longer fits t
 - separate stable abstractions from experimental probes
 - leave a migration path, not only a critique
 
-This is a migration scaffold. Legacy compatibility entrypoint: `prompts/gpt-corrective-strategist.prompt.md`.
+This is the provider-neutral role scaffold. Legacy entrypoints are tracked in `prompts/_mapping/legacy-to-role-phase-adapter.md`.

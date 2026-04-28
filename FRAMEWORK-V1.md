@@ -6,25 +6,26 @@ Core logic:
 - specialists are called only on demand
 
 Role model:
-- GPT = architect or optimizer/auditor
-- Qwen = default generalist operator
+- architect role = initial structure, boundaries, and irreversible sequencing
+- generalist role = default ongoing execution and supervision
+- optimizer role = targeted audit or unblock intervention
 
 State-flow reference:
 - see `STATE-FLOWS.md` for the explicit `init -> handoff -> execution -> escalation -> optimizer return` route
 
 Lifecycle:
 1. Initial phase
-   - GPT acts as architect
+   - architect role defines the initial structure
    - defines skeleton, interfaces, folders, lane docs
    - must leave `00_HANDOFF.md`
    - exits after the handoff
 2. Middle phase
-   - Qwen acts as generalist engineer
+   - generalist role owns day-to-day execution
    - owns supervision, evaluation, and execution by default
    - may update docs as reality changes
-   - should not wake GPT unless escalation conditions are met
+   - should not invoke optimizer/architect intervention unless escalation conditions are met
 3. Late / exception phase
-   - GPT appears as optimizer or auditor
+   - optimizer role appears as bounded auditor or unblocker
    - reads `ESCALATION_REQUEST.md`
    - performs targeted intervention
    - exits after the fix or audit
@@ -33,12 +34,12 @@ Mandatory micro-controls:
 - Handoff protocol
   - architect must leave `00_HANDOFF.md`
 - Escalation trigger
-  - Qwen uses `@ARCHITECT_HELP`
-  - Qwen writes `ESCALATION_REQUEST.md`
+  - generalist role uses `@ARCHITECT_HELP`
+  - generalist role writes `ESCALATION_REQUEST.md`
 - Self-evolving docs
-  - Qwen may update lane/framework docs
+  - active operator may update lane/framework docs
   - add a note:
-    - `// Updated by Qwen on YYYY-MM-DD: <reason>`
+    - `// Updated by operator on YYYY-MM-DD: <reason>`
 
 Architecture layering:
 - Static = reusable framework constitution
@@ -47,8 +48,8 @@ Architecture layering:
 - see `ARCHITECTURE-LAYERS.md` for the full mapping
 
 Default policy:
-- for ongoing repos, default to Qwen first
-- use GPT only when:
+- for ongoing repos, default to the generalist role first
+- use architect/optimizer roles only when:
   - you explicitly want it
   - the project is still at an early architecture/bootstrap stage
-  - Qwen raises a real escalation
+  - the active generalist raises a real escalation

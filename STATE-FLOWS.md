@@ -1,7 +1,7 @@
 # STATE-FLOWS
 
 This document defines the normal state flow for AI-LTC v1.
-It explains how work should move from initialization into execution, when handoff is required, when escalation is justified, and how GPT should return control to Qwen after a narrow intervention.
+It explains how work should move from initialization into execution, when handoff is required, when escalation is justified, and how optimizer intervention returns control to the generalist role.
 
 ## Formal Kernel Reference
 
@@ -36,7 +36,7 @@ See `INIT-RECIPES.md` for the concrete rules that distinguish fresh init, resume
 Purpose:
 - classify project state
 - resolve AI-LTC source mode
-- decide whether GPT bootstrap is needed now
+- decide whether architect bootstrap is needed now
 - establish `.ai/system/ai-ltc-config.json`
 
 Typical entry conditions:
@@ -46,11 +46,11 @@ Typical entry conditions:
 - mixed or unclear AI source setup
 
 Primary operator:
-- `Qwen 3.5 Plus`
+- generalist-capable provider/model
 
 Prompt stack:
 1. `shared-repo-contract.prompt.md`
-2. `qwen-init-routing.prompt.md`
+2. `prompts/phases/init.prompt.md`
 3. `AI-LTC-INIT-QUESTIONNAIRE.template.md` when bounded user input is needed
 
 Required artifacts:
@@ -63,26 +63,26 @@ Exit conditions:
 - next primary operator chosen
 
 Next state:
-- `handoff-ready` when GPT bootstrap is required
-- `execution` when Qwen can begin directly
+- `handoff-ready` when architect bootstrap is required
+- `execution` when the generalist role can begin directly
 
 ## State 2: handoff-ready
 
 Purpose:
 - complete the architect-to-builder transfer
-- ensure Qwen receives a bounded, executable starting point
+- ensure the generalist role receives a bounded, executable starting point
 
 Typical entry conditions:
-- GPT bootstrap work finished
+- architect bootstrap work finished
 - initial skeleton is usable
 - a real lane can now be defined
 
 Primary operator:
-- `GPT-5.4`
+- architect-capable provider/model
 
 Prompt stack:
 1. `shared-repo-contract.prompt.md`
-2. `gpt-bootstrap-architect.prompt.md`
+2. `prompts/roles/architect.prompt.md`
 3. `00_HANDOFF.template.md`
 
 Required artifacts:
@@ -108,12 +108,13 @@ Purpose:
 - day-to-day corrections inside the current lane
 
 Primary operator:
-- `Qwen 3.5 Plus`
+- generalist-capable provider/model
 
 Prompt stack:
 1. `shared-repo-contract.prompt.md`
-2. `qwen-generalist-autopilot.prompt.md`
-3. optional `continue-execution.prompt.md`
+2. `prompts/roles/generalist.prompt.md`
+3. `prompts/phases/execution.prompt.md`
+4. optional `continue-execution.prompt.md`
 
 Required artifacts:
 - active `.ai/active-lane/*`
@@ -139,12 +140,13 @@ Purpose:
 - decide whether to continue, narrow, pause, or close the current batch
 
 Primary operator:
-- usually `Qwen 3.5 Plus`
+- usually supervisor/generalist-capable provider/model
 - optionally human-only if no AI review is needed
 
 Prompt stack:
 1. `shared-repo-contract.prompt.md`
-2. `qwen-supervisory-generalist.prompt.md`
+2. `prompts/roles/supervisor.prompt.md`
+3. `prompts/phases/checkpoint.prompt.md`
 
 Required artifacts:
 - current handoff/status/roadmap docs
@@ -164,7 +166,7 @@ Next state:
 
 Purpose:
 - package a real architecture-grade blocker for high-cost intervention
-- prevent GPT from being pulled into normal implementation churn
+- prevent optimizer/architect roles from being pulled into normal implementation churn
 
 Entry conditions:
 - repeated blocker
@@ -173,7 +175,7 @@ Entry conditions:
 - optimizer-level audit justified
 
 Primary operator:
-- `Qwen 3.5 Plus` prepares the escalation
+- generalist or supervisor role prepares the escalation
 
 Prompt stack:
 1. `shared-repo-contract.prompt.md`
@@ -187,7 +189,7 @@ Required artifacts:
 
 Exit conditions:
 - escalation package is complete
-- scope is narrow enough for GPT intervention
+- scope is narrow enough for optimizer intervention
 
 Next state:
 - `optimizer-intervention`
@@ -195,15 +197,15 @@ Next state:
 ## State 6: optimizer-intervention
 
 Purpose:
-- allow GPT to solve a narrow high-value problem
-- avoid turning GPT into the default ongoing operator again
+- allow the optimizer role to solve a narrow high-value problem
+- avoid turning optimizer intervention into the default ongoing operator again
 
 Primary operator:
-- `GPT-5.4`
+- optimizer-capable provider/model
 
 Prompt stack:
 1. `shared-repo-contract.prompt.md`
-2. `gpt-optimizer-auditor.prompt.md`
+2. `prompts/roles/optimizer.prompt.md`
 3. `ESCALATION_REQUEST.md`
 
 Required artifacts:
@@ -215,11 +217,11 @@ Allowed outputs:
 - narrow redesign
 - targeted audit
 - performance/security guidance
-- concrete return instructions for Qwen
+- concrete return instructions for the generalist role
 
 Exit conditions:
 - intervention result is documented
-- Qwen can resume with bounded next steps
+- the generalist role can resume with bounded next steps
 
 Next state:
 - `optimizer-return`
@@ -227,21 +229,21 @@ Next state:
 ## State 7: optimizer-return
 
 Purpose:
-- hand control back to Qwen cleanly
+- hand control back to the generalist role cleanly
 - prevent optimizer work from becoming a second long-lived execution lane
 
 Primary operator:
-- `GPT-5.4` writes the return guidance
-- `Qwen 3.5 Plus` resumes execution
+- optimizer role writes the return guidance
+- generalist role resumes execution
 
 Required artifacts:
 - updated `ESCALATION_REQUEST.md` or a short return note
 - updated lane docs when the plan changed
-- explicit next action for Qwen
+- explicit next action for the generalist role
 
 Return rule:
-- GPT should exit after the narrow intervention
-- Qwen becomes the default operator again
+- optimizer role should exit after the narrow intervention
+- generalist role becomes the default operator again
 - if the plan materially changed, update handoff/roadmap docs before resuming
 
 Next state:
@@ -254,8 +256,8 @@ Purpose:
 - preserve enough state that the next AI does not need to reconstruct context
 
 Primary operator:
-- `Qwen 3.5 Plus` by default
-- `GPT-5.4` only if a final audit or strategic checkpoint was explicitly requested
+- generalist/supervisor role by default
+- optimizer/strategist role only if a final audit or strategic checkpoint was explicitly requested
 
 Required artifacts:
 - current status in lane docs
@@ -271,19 +273,19 @@ Possible outcomes:
 ## Global Guardrails
 
 - do not skip `init` when resolver state is unclear
-- do not skip `handoff-ready` when GPT bootstrap created the skeleton
-- do not call GPT from normal `execution` just because GPT is stronger
+- do not skip `handoff-ready` when architect bootstrap created the skeleton
+- do not call architect/optimizer roles from normal `execution` just because they are stronger
 - always create `ESCALATION_REQUEST.md` before optimizer intervention
-- after optimizer intervention, always return to Qwen unless a human explicitly changes the model plan
+- after optimizer intervention, always return to the generalist role unless a human explicitly changes the model plan
 - prefer updating existing lane docs over creating parallel status files
 
 ## Quick Routing Summary
 
 - if no stable config exists: start at `init`
-- if GPT just built the skeleton: go to `handoff-ready`
+- if architect role just built the skeleton: go to `handoff-ready`
 - if normal work is ongoing: stay in `execution`
 - if meaningful evidence landed: pass through `review-gate`
 - if the blocker is architecture-grade: move to `escalation`
-- if GPT is solving a narrow high-value problem: use `optimizer-intervention`
-- when GPT is done: force `optimizer-return`
+- if optimizer role is solving a narrow high-value problem: use `optimizer-intervention`
+- when optimizer role is done: force `optimizer-return`
 - when a batch or lane is complete: use `checkpoint-closeout`

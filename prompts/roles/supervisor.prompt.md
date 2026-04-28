@@ -6,4 +6,4 @@ Use for bounded review, sequencing, checkpointing, and blocker handling.
 - prefer narrow proof paths
 - do not invent progress when the lane is blocked
 
-This is a migration scaffold. Legacy compatibility entrypoint: `prompts/qwen-supervisory-generalist.prompt.md`.
+This is the provider-neutral role scaffold. Legacy entrypoints are tracked in `prompts/_mapping/legacy-to-role-phase-adapter.md`.

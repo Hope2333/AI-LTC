@@ -1,296 +1,127 @@
-# Use Cases
-
-AI-LTC is designed for long-horizon AI-assisted software work.
-This document is the routing guide for choosing the right model, prompt stack, and control artifacts by project situation.
+# USE CASES
 
-## How To Read This File
-
-For each scenario, check:
-- when the scenario applies
-- the primary model choice
-- the recommended prompt stack
-- required control files or artifacts
-- when GPT should stay out
-- the normal stop condition
-
-## Global Routing Rules
-
-- default ongoing operator: `Qwen 3.5 Plus`
-- default escalation target: `GPT-5.4` in optimizer/auditor mode
-- local AI-LTC checkout should be preferred first
-- remote fallback should normally be `https://github.com/Hope2333/AI-LTC`
-- if the repository is a `v0 -> v1` migration or lacks `.ai/system/ai-ltc-config.json`, run init before normal execution
-- if a narrow GitHub Actions proof path exists, prefer it over a broad local build loop
-
-## Scenario 1: Brand-New Project
-
-When to use:
-- architecture is not settled
-- folder structure is not settled
-- lane docs do not exist yet
-- you want the initial system ceiling defined carefully
-
-Primary model:
-- `GPT-5.4`
-
-Fallback model:
-- `Qwen 3.5 Plus` only after the architect handoff exists
-
-Recommended prompt stack:
-1. `shared-repo-contract.prompt.md`
-2. `gpt-bootstrap-architect.prompt.md`
-3. `00_HANDOFF.template.md`
-
-Required artifacts:
-- `00_HANDOFF.md`
-- initial `docs/ai-relay.md`
-- initial `.ai/README.md`
-- initial lane handoff/status/roadmap files
-
-GPT should stay out after:
-- the skeleton is usable
-- the handoff is written
-- the first execution lane is defined
-
-Normal stop condition:
-- architect handoff completed and approved
+AI-LTC is role-first. Pick the role and phase needed for the work, then bind that role to a provider/model through an adapter or local runtime policy.
 
-## Scenario 2: v0 To v1 Migration
-
-When to use:
-- the repository already has an older AI-LTC style
-- prompts or docs still assume hardcoded paths
-- init resolver config does not exist
-- model roles are still ambiguous
+## Role Defaults
 
-Primary model:
-- `Qwen 3.5 Plus`
+| Situation | Default Role | Prompt Surface |
+|---|---|---|
+| New or unclear repository | Architect | `prompts/roles/architect.prompt.md` + `prompts/phases/init.prompt.md` |
+| Existing repository with clear next work | Generalist | `prompts/roles/generalist.prompt.md` + `prompts/phases/execution.prompt.md` |
+| Checkpoint, sequencing, or blocker review | Supervisor | `prompts/roles/supervisor.prompt.md` + `prompts/phases/checkpoint.prompt.md` |
+| Architecture drift or long-range replanning | Strategist | `prompts/roles/strategist.prompt.md` + `prompts/phases/review.prompt.md` |
+| Narrow high-value audit or unblock | Optimizer | `prompts/roles/optimizer.prompt.md` + `prompts/phases/review.prompt.md` |
 
-Fallback model:
-- `GPT-5.4` only if migration reveals architecture-level ambiguity
+Legacy provider-named prompt files remain compatibility entrypoints only. Their mappings live in `prompts/_mapping/legacy-to-role-phase-adapter.md`.
 
-Recommended prompt stack:
-1. `shared-repo-contract.prompt.md`
-2. `qwen-init-routing.prompt.md`
-3. `AI-LTC-INIT-QUESTIONNAIRE.template.md`
-4. `qwen-supervisory-generalist.prompt.md` when cleanup decisions are needed
+## Use Case 1: Greenfield Bootstrap
 
-Required artifacts:
-- `.ai/system/ai-ltc-config.json`
-- `.ai/system/init-status.md`
-- updated relay docs in the target repository
+Use when the repository does not yet have a stable skeleton, boundaries, or first lane.
 
-Key routing rule:
-- local AI-LTC first
-- remote fallback second
-- Qwen may refresh local AI-LTC only when needed and allowed
+Flow:
 
-Normal stop condition:
-- resolver config written and v1 route selected
+1. Run the architect role with the init phase.
+2. Produce `00_HANDOFF.md`.
+3. Define the first lane and executable next action.
+4. Hand off to the generalist role for execution.
 
-## Scenario 3: Midstream Project With Existing Structure
+Success condition:
 
-When to use:
-- the repository already has active code and docs
-- a lane exists or can be inferred
-- architecture is mostly settled
-- execution should resume quickly
+- skeleton exists
+- boundaries are explicit
+- first execution batch is small and testable
 
-Primary model:
-- `Qwen 3.5 Plus`
+## Use Case 2: Existing Repository Init
 
-Fallback model:
-- `GPT-5.4` only if Qwen emits `@ARCHITECT_HELP`
+Use when the repository already works but lacks AI-LTC state, resolver config, or clear lane documents.
 
-Recommended prompt stack:
-1. `shared-repo-contract.prompt.md`
-2. `qwen-init-routing.prompt.md` if classification is still needed
-3. `qwen-generalist-autopilot.prompt.md`
+Flow:
 
-Required artifacts:
-- active lane docs under `.ai/`
-- resolver config if AI-LTC source is not already clear
+1. Run init phase with a generalist or supervisor role.
+2. Classify project state.
+3. Write resolver/config facts.
+4. Start execution only after the current lane is explicit.
 
-Qwen should own:
-- execution
-- day-to-day supervision
-- relay upkeep
-- bounded iteration
+Success condition:
 
-Normal stop condition:
-- current batch reaches a green proof, review gate, or bounded-pass stop
+- source mode is known
+- next action is concrete
+- no architecture role is invoked without a real architecture need
 
-## Scenario 4: Ongoing Delivery Or Long Session Work
+## Use Case 3: Normal Daily Execution
 
-When to use:
-- the project already has a stable lane
-- work is mainly implementation or focused verification
-- you want a stronger replacement for a bare `continue.`
+Use when the next task is bounded implementation, cleanup, docs upkeep, or local verification.
 
-Primary model:
-- `Qwen 3.5 Plus`
+Flow:
 
-Recommended prompt stack:
-1. `shared-repo-contract.prompt.md`
-2. `qwen-generalist-autopilot.prompt.md`
-3. optional `continue-execution.prompt.md`
+1. Run the generalist role with the execution phase.
+2. Keep changes narrow.
+3. Verify with the smallest proof that supports the claim.
+4. Update lane docs only when the real sequence changes.
 
-Optional control artifacts:
-- `00_HANDOFF.md` if execution resumed after a GPT bootstrap
-- `.ai/active-lane/*`
+Success condition:
 
-Keep GPT out when:
-- blockers are implementation-level
-- the lane is still coherent
-- the next action is already obvious from the handoff
+- diff is scoped
+- verification evidence exists
+- no unnecessary role escalation occurred
 
-Normal stop condition:
-- `STOP_REVIEW_GATE_REACHED`, `STOP_BOUNDED_PASS_EXHAUSTED`, or a concrete green result
+## Use Case 4: Review Gate
 
-## Scenario 5: Checkpoint, Lane Review, Or Sequencing Decision
+Use after meaningful new evidence, a completed batch, or a possible blocker.
 
-When to use:
-- you need a status read
-- you need lane or phase judgment
-- you want to know whether to continue, narrow, pause, or escalate
+Flow:
 
-Primary model:
-- `Qwen 3.5 Plus`
+1. Run the supervisor role with checkpoint/review phase.
+2. Decide continue, narrow, pause, escalate, or close.
+3. Preserve evidence and the next action.
 
-Fallback model:
-- `GPT-5.4` only if the review reveals real architecture-heavy uncertainty
+Success condition:
 
-Recommended prompt stack:
-1. `shared-repo-contract.prompt.md`
-2. `qwen-supervisory-generalist.prompt.md`
+- blocker status is clear
+- next action is explicit
+- stale assumptions are removed
 
-Required artifacts:
-- active handoff/status/roadmap docs
-- recent proof evidence if available
+## Use Case 5: Escalation
 
-Normal stop condition:
-- a clear decision is recorded with `Status`, `Decision`, `Next Action`, and `Stop Reason`
+Use only when the active lane hits an architecture-grade blocker, repeated failure, or high-value audit need.
 
-## Scenario 6: Chaotic Repository, Broken Handoff, Or Mixed Sources Of Truth
+Flow:
 
-When to use:
-- docs disagree with each other
-- `.ai/` is missing or stale
-- lane ownership is unclear
-- the next AI would otherwise need to reconstruct too much state
+1. Generalist or supervisor writes `ESCALATION_REQUEST.md`.
+2. Optimizer or strategist reads only the narrowed evidence.
+3. Intervention returns a bounded plan or fix.
+4. Control returns to the generalist role.
 
-Primary model:
-- `Qwen 3.5 Plus`
+Success condition:
 
-Fallback model:
-- `GPT-5.4` only after a short Qwen cleanup/classification pass fails
+- escalation is narrow
+- intervention does not become an always-on execution lane
+- return instructions are actionable
 
-Recommended prompt stack:
-1. `shared-repo-contract.prompt.md`
-2. `qwen-init-routing.prompt.md`
-3. `qwen-supervisory-generalist.prompt.md`
+## Use Case 6: Evaluation Update
 
-Required artifacts:
-- `.ai/system/init-status.md`
-- repaired relay docs
-- updated `.ai/system/ai-ltc-config.json` when resolver confusion exists
+Use when a model, tool, prompt surface, or adapter claim needs dated evidence.
 
-Escalate only when:
-- the chaos is truly architecture-level
-- multiple sources of truth cannot be reconciled by bounded cleanup
+Flow:
 
-Normal stop condition:
-- source of truth repaired and next primary operator chosen
+1. Record the candidate in `evaluation/models/` or `evaluation/tools/`.
+2. Define or reuse a task from `evaluation/tasks/`.
+3. Record dated results in `evaluation/results/`.
+4. Run `make validate-evaluation`.
 
-## Scenario 7: Hard Refactor, Repeated Blocker, Or Architecture Deadlock
+Success condition:
 
-When to use:
-- Qwen has repeated the same blocker
-- the problem crosses module or architecture boundaries
-- a high-cost redesign or audit is justified
+- `tested_at` is present
+- source/evidence is traceable
+- raw results are not promoted into mainline policy without summary
 
-Primary model:
-- `GPT-5.4`
+## Routing Rule
 
-Entry requirement:
-- Qwen should first emit `@ARCHITECT_HELP`
-- write `ESCALATION_REQUEST.md`
+Do not choose a provider first. Choose:
 
-Recommended prompt stack:
-1. `shared-repo-contract.prompt.md`
-2. `ESCALATION_REQUEST.template.md`
-3. `gpt-optimizer-auditor.prompt.md`
+1. the role
+2. the phase
+3. the constraints
+4. the adapter/provider delta
 
-Required artifacts:
-- `ESCALATION_REQUEST.md`
-- current lane docs
-- narrowed evidence summary from Qwen
-
-Normal stop condition:
-- targeted architect intervention completed and handed back to Qwen
-
-## Scenario 8: Performance, Quality, Or Security Audit
-
-When to use:
-- you want a short, high-value review
-- delivery is moving, but you want a strategic or safety check
-- a sprint or milestone just ended
-
-Primary model:
-- `GPT-5.4`
-
-Fallback model:
-- `Qwen 3.5 Plus` for cheaper preliminary checkpointing before escalation
-
-Recommended prompt stack:
-1. `shared-repo-contract.prompt.md`
-2. `gpt-optimizer-auditor.prompt.md`
-
-Optional supporting artifacts:
-- `ESCALATION_REQUEST.md`
-- recent checkpoint summary
-- recent CI evidence
-
-Normal stop condition:
-- audit recommendations written and a new handoff path defined
-
-## Scenario 9: Public Template Bootstrap For Another Repository
-
-When to use:
-- you want to copy AI-LTC into a new repository
-- you want a clean reusable starting point instead of project residue
-
-Primary entry:
-- `examples/collaboration-system/README.md`
-- `examples/collaboration-system/install-example.md`
-- `examples/collaboration-system/bootstrap-checklist.md`
-- `examples/collaboration-system/ROLE-QUICK-REFERENCE.md`
-
-Then route to:
-- `qwen-init-routing.prompt.md` if the target repository should classify itself first
-- `gpt-bootstrap-architect.prompt.md` if the target repository is truly greenfield and needs a stronger first skeleton
-
-Required artifacts after copy:
-- `.ai/system/ai-ltc-config.json`
-- `.ai/system/init-status.md`
-- target-specific lane docs
-
-Normal stop condition:
-- target repository has a working relay surface and a chosen primary operator
-
-## Fast Decision Table
-
-- If the project is new and undefined: use `GPT-5.4` first.
-- If the project exists and mostly makes sense: use `Qwen 3.5 Plus` first.
-- If the repository is messy but recoverable: use `Qwen 3.5 Plus` to clean and classify first.
-- If the same architecture-grade blocker repeats: escalate to `GPT-5.4`.
-- If the repository is copying AI-LTC for the first time: use the example + init routing.
-- If AI-LTC source resolution is unclear: resolve `.ai/system/ai-ltc-config.json` before normal execution.
-
-## Summary
-
-- `GPT-5.4` defines the ceiling, audits, and intervenes narrowly.
-- `Qwen 3.5 Plus` is the default ongoing operator.
-- `qwen-init-routing.prompt.md` is the front door for classification and resolver setup.
-- `00_HANDOFF.md` and `ESCALATION_REQUEST.md` are the formal phase-transition artifacts.
-- `USE-CASES.md` should be treated as the routing layer, not just as an example list.
+Then run the smallest verification path that proves the result.

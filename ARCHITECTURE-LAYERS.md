@@ -66,12 +66,11 @@ Purpose:
 - reusable prompts that need periodic refinement
 
 Typical files:
-- `INIT-QWEN.md`
-- `qwen-init-routing.prompt.md`
-- `qwen-generalist-autopilot.prompt.md`
-- `qwen-supervisory-generalist.prompt.md`
-- `gpt-bootstrap-architect.prompt.md`
-- `gpt-optimizer-auditor.prompt.md`
+- `prompts/roles/`
+- `prompts/phases/`
+- `prompts/constraints/`
+- `prompts/adapters/`
+- `prompts/_mapping/`
 - `AI-LTC-INIT-QUESTIONNAIRE.template.md`
 - `ai-ltc-config.template.json`
 - `FORMAT-STRATEGY.md`
@@ -89,7 +88,7 @@ Properties:
 
 - `STATE-FLOWS.md` explains how work moves through `init`, `handoff-ready`, `execution`, `review-gate`, `escalation`, `optimizer-intervention`, `optimizer-return`, and `checkpoint-closeout`.
 - Layer definitions explain where information lives.
-- `STATE-FLOWS.md` explains when control should move between those layers and between GPT and Qwen.
+- `STATE-FLOWS.md` explains when control should move between those layers and between architect, generalist, supervisor, strategist, and optimizer roles.
 
 ## Four Operating Layers
 
@@ -113,15 +112,15 @@ Change class:
 
 Purpose:
 - define what each model should do in a given stage
-- keep GPT limited to architect/optimizer roles
-- keep Qwen as the default generalist operator
+- keep architect/optimizer intervention bounded
+- keep the generalist role as the default ongoing operator
 
 Main files:
-- `gpt-bootstrap-architect.prompt.md`
-- `gpt-optimizer-auditor.prompt.md`
-- `qwen-init-routing.prompt.md`
-- `qwen-generalist-autopilot.prompt.md`
-- `qwen-supervisory-generalist.prompt.md`
+- `prompts/roles/architect.prompt.md`
+- `prompts/roles/generalist.prompt.md`
+- `prompts/roles/supervisor.prompt.md`
+- `prompts/roles/strategist.prompt.md`
+- `prompts/roles/optimizer.prompt.md`
 
 Change class:
 - Static at the boundary level
@@ -165,14 +164,14 @@ Change class:
 
 ### Already Implemented In v1
 
-- staged GPT/Qwen operating model
+- staged role-based operating model
 - `A-B-O` lifecycle logic in practical form
 - `00_HANDOFF` protocol
 - `ESCALATION_REQUEST` protocol
-- self-evolving-doc rule for Qwen
+- self-evolving-doc rule for the active operator
 - bounded-pass and anti-loop guardrails
 - fixed stop phrases and fixed status fields
-- Qwen init routing
+- init routing
 - centralized resolver config via `.ai/system/ai-ltc-config.json`
 - local-first and remote-fallback AI-LTC source policy
 - reusable example skeleton

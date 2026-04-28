@@ -33,10 +33,10 @@ Current git branch carrying `Experimental`: `Experimental`.
 | `scripts/` | main | main only |
 | `adapters/` | Experimental | Experimental only |
 | `evaluation/` | Experimental | Experimental only until summarized |
-| Legacy root prompt files (`qwen-*.md`, `gpt-*.md`) | main | main only unless provider-specific |
+| Legacy root prompt files (`*.prompt.md`) | main | main only unless provider-specific |
 | `prompts/roles/`, `prompts/phases/`, `prompts/constraints/` | Experimental | Experimental first, then promote |
 | `prompts/adapters/` | Experimental | Experimental only |
-| `adapters/qwen36/*.md` | Experimental | Experimental only |
+| provider-specific adapter prompts | Experimental | Experimental only |
 
 ### Merge Rules
 
@@ -55,13 +55,13 @@ Current git branch carrying `Experimental`: `Experimental`.
 | Repo `VERSION` | `v1.5.15` |
 | Stable branch family | `main` |
 | Experimental branch family | `Experimental` |
-| Historical Experimental suffix | `-sqwen36pre` may appear in old tags only |
+| Historical Experimental suffixes | old provider-preview suffixes may appear in old tags only |
 
 ### Versioning Rules
 
 1. **Single source of truth**: `VERSION` file in repo root
 2. **main tags**: `v1.5.x` — increment by 1 for each kernel-level release
-3. **Experimental tags**: use the active `Experimental` branch; preserve `v1.5.x-sqwen36pre` only when referencing historical evidence trails
+3. **Experimental tags**: use the active `Experimental` branch; preserve old provider-preview suffixes only when referencing historical evidence trails
 4. **Experimental tags do NOT need to match main tags** — they evolve independently
 5. **When backporting to main**: main gets the stable tag, Experimental keeps its evidence trail
 6. **When merging main → Experimental**: Experimental merges and may get a new tag
@@ -76,7 +76,7 @@ Current git branch carrying `Experimental`: `Experimental`.
 
 1. `VERSION` — new version number
 2. `ai-ltc-config.template.json` — `framework_version` field
-3. `adapters/qwen36/adapter.yaml` — `min_framework_version` (preview only)
+3. provider adapter specs — `min_framework_version` where applicable
 4. `BRANCH-GOVERNANCE.md` — version alignment table
 5. `README.md` — version history table
 6. Consumer repos' `.ai/system/ai-ltc-config.json` — `framework_version` and `installed_framework_tag`
@@ -98,7 +98,7 @@ Current git branch carrying `Experimental`: `Experimental`.
 Add OML integration docs: bridge architecture, platform adapters, brain/body separation principles. Update README.
 Add cross-repo management: VERSION, registry, framework-check script.
 Add Claude Code leak insights: context overflow, circuit breakers, transition hooks, and memory system. Bump to v1.5.10.
-Refactor preview branch into adapter architecture: sessions → adapters/qwen36/.
+Refactor preview branch into adapter architecture: sessions → provider adapters.
 Add BRANCH-GOVERNANCE.md: dual-branch responsibilities and merge rules.
 ```
 
@@ -281,7 +281,7 @@ AI-LTC/
 │   ├── error_model.yaml                 # Error types + recovery
 │   └── arbitration.yaml                 # Conflict resolution
 ├── adapters/                            # Model-specific adapters (Experimental)
-│   └── qwen36/
+│   └── provider-specific adapters/
 │       ├── adapter.yaml
 │       ├── experimental-mode.prompt.md
 │       └── orchestrator.prompt.md

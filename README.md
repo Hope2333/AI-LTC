@@ -10,7 +10,7 @@
 
 Most AI coding workflows burn expensive models continuously, lose context between sessions, and have no recovery path when things go wrong. AI-LTC solves this with:
 
-- **Staged model分工**: GPT designs architecture, Qwen executes day-to-day, GPT returns only for audits
+- **Staged role separation**: architect roles handle structure, generalist roles execute day-to-day, optimizer roles return only for bounded audits
 - **File-based state**: Context lives in `.ai/state.json`, not in conversation history
 - **Kernel-verified transitions**: Every phase change validated against formal state machine rules
 - **Error recovery**: 6 error types with defined detection and recovery strategies
@@ -33,16 +33,16 @@ edit .ai/system/ai-ltc-config.json
 
 ### 2. Run init
 
-Apply `qwen-init-routing.prompt.md` to your AI operator. It will:
+Apply `prompts/phases/init.prompt.md` with the appropriate role and adapter fragments to your AI operator. It will:
 - Classify your project state (greenfield / midstream / chaotic)
 - Write resolver config
 - Recommend the next model and prompt
 
 ### 3. Start working
 
-- **Normal execution**: `qwen-generalist-autopilot.prompt.md`
-- **Architecture bootstrap**: `gpt-bootstrap-architect.prompt.md`
-- **Review/checkpoint**: `qwen-supervisory-generalist.prompt.md`
+- **Normal execution**: `prompts/roles/generalist.prompt.md` + `prompts/phases/execution.prompt.md`
+- **Architecture bootstrap**: `prompts/roles/architect.prompt.md` + `prompts/phases/init.prompt.md`
+- **Review/checkpoint**: `prompts/roles/supervisor.prompt.md` + `prompts/phases/checkpoint.prompt.md`
 
 Legacy prompt filenames remain supported. The Experimental lane now also seeds a role / phase / constraint / adapter prompt layout under `prompts/` for coexistence migration.
 
@@ -77,11 +77,11 @@ python -m pytest tests/test_main.py -v  # 8 tests, all passing
 ### Prompts (Roles)
 | Role | Prompt | When to Use |
 |---|---|---|
-| Architect | `gpt-bootstrap-architect.prompt.md` | Initial design, skeleton setup |
-| Generalist | `qwen-generalist-autopilot.prompt.md` | Day-to-day execution (default) |
-| Supervisor | `qwen-supervisory-generalist.prompt.md` | Checkpoints, sequencing |
-| Strategist | `gpt-corrective-strategist.prompt.md` | Architecture drift, long-range replanning |
-| Optimizer | `gpt-optimizer-auditor.prompt.md` | Narrow audits, hard blockers |
+| Architect | `prompts/roles/architect.prompt.md` | Initial design, skeleton setup |
+| Generalist | `prompts/roles/generalist.prompt.md` | Day-to-day execution (default) |
+| Supervisor | `prompts/roles/supervisor.prompt.md` | Checkpoints, sequencing |
+| Strategist | `prompts/roles/strategist.prompt.md` | Architecture drift, long-range replanning |
+| Optimizer | `prompts/roles/optimizer.prompt.md` | Narrow audits, hard blockers |
 
 Experimental migration references:
 - `docs/PROMPT-MIGRATION.md`
@@ -188,7 +188,7 @@ CI runs `make check` through `.github/workflows/check.yml`.
 | `v1.5.11` | OML bridge integration: bridge layer, platform adapters (OpenCode, Claude Code, Aider), memory/context bridge, deployment scripts |
 | `v1.5.12` | Enhanced task system (priority, tags, QA, evidence, timestamps), unified security model (hash chain, audit trail, secret detection, tamper detection, atomic writes) |
 | `v1.5.13` | enve-derived templates: cross-CLI adapter architecture, OML Core spec, AI-LTC integration plan |
-| `v1.5.14` | Upstream throttle retry (OpenCode Zen Alibaba routing), line rename to Qwen3.6-Plus-WITH-OMO, AI-LTC Todo Tasks document |
+| `v1.5.14` | Upstream throttle retry (OpenCode Zen Alibaba routing), provider line rename, AI-LTC Todo Tasks document |
 | `v1.5.15` | Reasoning efficiency kernel: Caveman Compression, Chain-of-Draft (Zoom), Think Deep Not Just Long (Google), Headroom. Prompts moved to `prompts/`. Intuition file system. |
 | `unreleased` | 2026-04-28 Experimental alignment: evaluation schema v0.2, legacy prompt mapping, harness/tool fields, model deployment-fit fields, and AI-LTC/OML evidence-flow clarification. |
 
@@ -198,10 +198,7 @@ CI runs `make check` through `.github/workflows/check.yml`.
 AI-LTC/
 ├── kernel/                    # Formal kernel (rules, schemas, state machine)
 ├── adapters/                    # Model-specific adapters (Experimental lane)
-│   ├── qwen36/                  # Qwen 3.6 Plus adapter
-│   ├── opencode/                # OpenCode plugin adapter
-│   ├── claude-code/             # Claude Code adapter
-│   ├── aider/                   # Aider adapter
+│   ├── */                       # Provider- or platform-specific adapters
 │   ├── registry.ts              # Platform adapter registry
 │   └── types.ts                 # Shared adapter types
 ├── evaluation/                  # Experimental registries, schemas, tasks, and dated results
@@ -231,8 +228,7 @@ AI-LTC/
 │   ├── constraints/           # Shared boundaries
 │   ├── adapters/              # Provider/platform deltas
 │   ├── _mapping/              # Legacy-to-role/phase/adapter coexistence map
-│   ├── qwen-*.prompt.md       # Legacy compatibility entrypoints
-│   └── gpt-*.prompt.md        # Legacy compatibility entrypoints
+│   └── *.prompt.md            # Legacy compatibility entrypoints
 ├── kernel/reasoning-policy.yaml  # Reasoning efficiency rules (Caveman, CoD, DTR, Headroom)
 ├── PROMPTS.md                 # Root prompt guide (minimal)
 ├── BRANCH-GOVERNANCE.md       # Dual-branch responsibilities and merge rule

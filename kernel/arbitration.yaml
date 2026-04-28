@@ -5,7 +5,7 @@
 
 ### 1. model_disagreement
 - **Scenario**: Two agents produce conflicting recommendations for the same problem
-- **Example**: Qwen says "refactor module X", GPT says "module X is fine, the issue is in module Y"
+- **Example**: Generalist says "refactor module X", optimizer says "module X is fine, the issue is in module Y"
 - **Resolution**:
   1. Escalate to the more expensive/capable model (per `config.json` model_strategy)
   2. If both are the same model tier, fall back to `system_rule`

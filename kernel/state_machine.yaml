@@ -10,7 +10,7 @@ INIT ──→ HANDOFF_READY ──→ EXECUTION ──→ REVIEW ──→ OPTI
   │            │                │             └─→ EXECUTION (review passed)
   │            │                └─→ REVIEW (task done)
   │            │                └─→ ESCALATION (blocked)
-  │            └─→ EXECUTION (no GPT bootstrap needed)
+  │            └─→ EXECUTION (no architect bootstrap needed)
   └─→ EXECUTION (midstream project, no handoff needed)
 ```
 
@@ -26,7 +26,7 @@ INIT ──→ HANDOFF_READY ──→ EXECUTION ──→ REVIEW ──→ OPTI
 - **Legal transitions**: → HANDOFF_READY, → EXECUTION
 
 ### HANDOFF_READY
-- **Entry**: GPT bootstrap work finished, initial skeleton is usable
+- **Entry**: Architect bootstrap work finished, initial skeleton is usable
 - **Required artifacts**: `00_HANDOFF.md`, lane handoff/status/roadmap docs
 - **Exit conditions**:
   - `00_HANDOFF.md` written with explicit next actions

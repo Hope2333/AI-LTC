@@ -10,7 +10,7 @@
 
 大多数 AI 编码工作流持续燃烧昂贵模型、会话间丢失上下文、出错时没有恢复路径。AI-LTC 通过以下方式解决：
 
-- **分阶段模型分工**：GPT 设计架构，Qwen 日常执行，GPT 只在审计时回归
+- **分阶段角色分工**：architect 角色负责结构，generalist 角色负责日常执行，optimizer 角色只在有边界的审计中回归
 - **文件化状态**：上下文存在 `.ai/state.json`，不在对话历史里
 - **内核验证转移**：每次阶段变更都经过形式化状态机规则验证
 - **错误恢复**：6 种错误类型，每种有定义好的检测和恢复策略
@@ -32,16 +32,16 @@ cp -r .ai/AI-LTC/.ai-template/* .ai/
 
 ### 2. 运行初始化
 
-对 AI 操作者应用 `qwen-init-routing.prompt.md`，它会：
+对 AI 操作者组合应用 `prompts/phases/init.prompt.md` 以及对应 role / adapter 片段，它会：
 - 分类项目状态（全新 / 半道 / 混沌）
 - 写入 resolver 配置
 - 推荐下一个模型和 prompt
 
 ### 3. 开始工作
 
-- **日常执行**：`qwen-generalist-autopilot.prompt.md`
-- **架构引导**：`gpt-bootstrap-architect.prompt.md`
-- **审查/检查点**：`qwen-supervisory-generalist.prompt.md`
+- **日常执行**：`prompts/roles/generalist.prompt.md` + `prompts/phases/execution.prompt.md`
+- **架构引导**：`prompts/roles/architect.prompt.md` + `prompts/phases/init.prompt.md`
+- **审查/检查点**：`prompts/roles/supervisor.prompt.md` + `prompts/phases/checkpoint.prompt.md`
 
 旧 prompt 文件名仍然保留作为兼容入口。Experimental 语义线已经开始在 `prompts/` 下并行引入 role / phase / constraint / adapter 结构。
 
@@ -76,11 +76,11 @@ python -m pytest tests/test_main.py -v  # 8 个测试，全部通过
 ### Prompts（角色）
 | 角色 | Prompt | 何时使用 |
 |---|---|---|
-| 架构师 | `gpt-bootstrap-architect.prompt.md` | 初始设计、骨架搭建 |
-| 全能工程师 | `qwen-generalist-autopilot.prompt.md` | 日常执行（默认） |
-| 监督员 | `qwen-supervisory-generalist.prompt.md` | 检查点、排序 |
-| 策略师 | `gpt-corrective-strategist.prompt.md` | 架构漂移、长期重规划 |
-| 优化师 | `gpt-optimizer-auditor.prompt.md` | 窄审计、硬阻塞 |
+| 架构师 | `prompts/roles/architect.prompt.md` | 初始设计、骨架搭建 |
+| 全能工程师 | `prompts/roles/generalist.prompt.md` | 日常执行（默认） |
+| 监督员 | `prompts/roles/supervisor.prompt.md` | 检查点、排序 |
+| 策略师 | `prompts/roles/strategist.prompt.md` | 架构漂移、长期重规划 |
+| 优化师 | `prompts/roles/optimizer.prompt.md` | 窄审计、硬阻塞 |
 
 Experimental 迁移参考：
 - `docs/PROMPT-MIGRATION.md`
@@ -191,10 +191,7 @@ CI 通过 `.github/workflows/check.yml` 运行 `make check`。
 AI-LTC/
 ├── kernel/                    # 形式化内核（规则、schema、状态机）
 ├── adapters/                  # 模型特定适配器（Experimental lane）
-│   ├── qwen36/                # Qwen 3.6 Plus adapter
-│   ├── opencode/              # OpenCode adapter
-│   ├── claude-code/           # Claude Code adapter
-│   └── aider/                 # Aider adapter
+│   └── */                     # provider / platform-specific adapters
 ├── evaluation/                # Experimental 评估注册表、schema、任务与结果
 │   ├── models/                # 带时间版本的模型候选
 │   ├── tools/                 # 工具 / harness surface 记录
@@ -224,8 +221,7 @@ AI-LTC/
 │   ├── constraints/           # 共享约束
 │   ├── adapters/              # 提供方/平台差异
 │   ├── _mapping/              # 旧入口到 role/phase/adapter 的映射
-│   ├── qwen-*.prompt.md       # 旧兼容入口
-│   └── gpt-*.prompt.md        # 旧兼容入口
+│   └── *.prompt.md            # 旧兼容入口
 ├── docs/PROMPT-DECOUPLING-PLAN.md # prompt 解耦设计
 ├── docs/EVALUATION-SCHEMA.md  # 评估数据结构要求
 ├── docs/AI-LTC-vs-OML-BOUNDARY.md # 规范版边界文档

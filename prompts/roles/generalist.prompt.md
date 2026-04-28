@@ -6,4 +6,4 @@ Use for day-to-day execution inside an active lane.
 - keep changes narrow and verifiable
 - update lane docs when the real sequence changes
 
-This is a migration scaffold. Legacy compatibility entrypoint: `prompts/qwen-generalist-autopilot.prompt.md`.
+This is the provider-neutral role scaffold. Legacy entrypoints are tracked in `prompts/_mapping/legacy-to-role-phase-adapter.md`.

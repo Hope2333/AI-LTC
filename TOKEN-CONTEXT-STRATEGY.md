@@ -28,7 +28,7 @@ This document defines the v1.5 strategy for long-session efficiency.
 - repeating full plans when only one step changed
 
 ### 2. Overusing Expensive Models
-- asking GPT to watch normal execution
+- asking architect/optimizer roles to watch normal execution
 - escalating before a blocker is clearly architecture-grade
 
 ### 3. Wrong Format Choice
@@ -74,9 +74,9 @@ This document defines the v1.5 strategy for long-session efficiency.
 ## Quota-Aware Model Routing
 
 ### Default
-- use `Qwen 3.5 Plus` for ongoing execution, bounded review, and init routing
+- use the cheapest capable provider/model behind the generalist role for ongoing execution, bounded review, and init routing
 
-### Upgrade To GPT Only When
+### Upgrade To Architect / Optimizer Only When
 - architecture is still undefined
 - repeated blocker is truly architecture-grade
 - a high-value audit or optimization pass is justified

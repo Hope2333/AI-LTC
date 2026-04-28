@@ -15,11 +15,11 @@ The next migration step is mapping, not deletion. Legacy entrypoints stay availa
 
 | Role | Prompt File |
 |------|-------------|
-| Sisyphus (orchestrator) | `prompts/qwen-generalist-autopilot.prompt.md` |
-| Supervisor | `prompts/qwen-supervisory-generalist.prompt.md` |
-| Architect | `prompts/gpt-bootstrap-architect.prompt.md` |
-| Auditor | `prompts/gpt-optimizer-auditor.prompt.md` |
-| Strategist | `prompts/gpt-corrective-strategist.prompt.md` |
+| Generalist | `prompts/roles/generalist.prompt.md` |
+| Supervisor | `prompts/roles/supervisor.prompt.md` |
+| Architect | `prompts/roles/architect.prompt.md` |
+| Optimizer | `prompts/roles/optimizer.prompt.md` |
+| Strategist | `prompts/roles/strategist.prompt.md` |
 
 ## Experimental Migration Map
 

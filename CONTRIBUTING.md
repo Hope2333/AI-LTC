@@ -4,7 +4,7 @@ Thanks for contributing to AI-LTC.
 
 ## Scope
 
-AI-LTC is a reusable framework for staged GPT/Qwen collaboration, relay upkeep, bounded-pass execution, and long-horizon AI-assisted software work.
+AI-LTC is a reusable framework for staged role-based AI collaboration, relay upkeep, bounded-pass execution, and long-horizon AI-assisted software work.
 
 ## Contribution Guidelines
 
@@ -16,9 +16,9 @@ AI-LTC is a reusable framework for staged GPT/Qwen collaboration, relay upkeep, 
 
 ## Framework Rules
 
-- Qwen is the default ongoing operator in v1
-- GPT should usually appear only for bootstrap architecture or targeted optimizer/auditor work
-- use `00_HANDOFF.md` for GPT→Qwen transfer
+- the generalist role is the default ongoing operator in v1
+- architect and optimizer roles should appear only for bootstrap architecture or targeted audit work
+- use `00_HANDOFF.md` for architect-to-generalist transfer
 - use `@ARCHITECT_HELP` + `ESCALATION_REQUEST.md` for escalations
 
 ## Public-Readiness Rule

@@ -343,3 +343,39 @@ results:
       reproducibility: null
     recommendation: "Keep CI focused on make check until repository policy explicitly expands release automation."
     notes: "This closes the 2026-04-28 validation hardening blocker."
+
+  - id: exp_2026_04_29_001
+    task_id: repo_refactor
+    subject_type: tool
+    subject_id: ai-ltc
+    subject_version: "v1.5.15"
+    prompt_profile: codex_local_operator
+    environment: "AI-LTC repository, local workspace"
+    tested_at: "2026-04-29"
+    status: positive
+    confidence: high
+    source: "role-first naming cleanup pass"
+    evidence:
+      source_docs:
+        - "README.md"
+        - "README.zh.md"
+        - "PROMPTS.md"
+        - "INIT-OPERATOR.md"
+        - "STATE-FLOWS.md"
+        - "USE-CASES.md"
+      run_logs:
+        - "make check: passed"
+        - "stable-entry naming scan: no qwen/gpt matches outside allowed legacy/adapter/evaluation areas"
+      human_notes:
+        - "Legacy provider-named prompt files remain compatibility entrypoints and are tracked in prompts/_mapping/."
+    observations:
+      - "Stable public entrypoints now describe roles first instead of binding default behavior to provider names."
+      - "Provider-specific naming remains only where it is evidence, adapter identity, or legacy compatibility mapping."
+    failure_modes_observed: []
+    scores:
+      success: 1.0
+      stability: null
+      cost: null
+      reproducibility: null
+    recommendation: "Continue removing provider names from stable docs; keep exact provider names in evaluation and adapter records where they identify real subjects."
+    notes: "This records the first role-first naming cleanup pass."

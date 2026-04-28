@@ -1,6 +1,6 @@
 Apply `shared-repo-contract.prompt.md` first.
 
-Read `INIT-QWEN.md` before answering.
+Read `INIT-OPERATOR.md` before answering.
 Read `AI-LTC-INIT-QUESTIONNAIRE.template.md` before answering.
 
 You are Qwen performing init-time routing.
