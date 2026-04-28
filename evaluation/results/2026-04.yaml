@@ -10,6 +10,11 @@ results:
     status: positive
     confidence: medium
     source: ".ai historical checkpoint and bridge/docs artifacts"
+    evidence:
+      source_docs:
+        - ".ai historical checkpoint and bridge/docs artifacts"
+      run_logs: []
+      human_notes: []
     observations:
       - "OML integration delivered bridge, adapter, and boundary artifacts with a bounded implementation pass."
     scores:
@@ -29,6 +34,11 @@ results:
     status: positive
     confidence: medium
     source: "git history and current tree"
+    evidence:
+      source_docs:
+        - "git history and current tree"
+      run_logs: []
+      human_notes: []
     observations:
       - "Prompt files were consolidated under the prompts directory, reducing root-level sprawl without breaking existing file naming."
     scores:
@@ -48,6 +58,11 @@ results:
     status: positive
     confidence: medium
     source: "working tree change set"
+    evidence:
+      source_docs:
+        - "working tree change set"
+      run_logs: []
+      human_notes: []
     observations:
       - "The repo reasserted .ai as local-only state and refreshed active-lane docs to reflect the real current iteration."
     scores:
@@ -67,13 +82,19 @@ results:
     status: positive
     confidence: low
     source: "governance and migration docs added in this pass"
+    evidence:
+      source_docs:
+        - "BRANCH-GOVERNANCE.md"
+        - "docs/BRANCH-SEMANTICS.md"
+      run_logs: []
+      human_notes: []
     observations:
-      - "A semantic Experimental layer can be documented and used immediately without forcing a risky git branch rename."
+      - "A semantic Experimental layer can be documented and used as the active experimental branch."
     scores:
       success: null
       stability: null
       cost: null
-    notes: "Use Experimental in conceptual docs first, then schedule an explicit branch rename separately."
+    notes: "Updated on 2026-04-28: Experimental is treated as established, not as a future rename target."
 
   - id: 2026-04-15-boundary-doc-bootstrap
     task_id: tool_integration
@@ -86,6 +107,11 @@ results:
     status: positive
     confidence: low
     source: "docs/AI-LTC-vs-OML-BOUNDARY.md"
+    evidence:
+      source_docs:
+        - "docs/AI-LTC-vs-OML-BOUNDARY.md"
+      run_logs: []
+      human_notes: []
     observations:
       - "The AI-LTC vs OML split can be expressed in a placement rule that separates thinking from running."
     scores:
@@ -105,6 +131,12 @@ results:
     status: positive
     confidence: high
     source: "bash scripts/framework-check.sh"
+    evidence:
+      source_docs:
+        - "scripts/framework-check.sh"
+      run_logs:
+        - "framework-check local run"
+      human_notes: []
     observations:
       - "Both enve and oh-my-litecode now resolve AI-LTC through repo_ref = Experimental."
       - "framework-check reports both consumer repos aligned at v1.5.15."
@@ -113,3 +145,201 @@ results:
       stability: null
       cost: null
     notes: "This is the first completed post-rename Experimental alignment proof across the local consumer set."
+
+  - id: exp_2026_04_28_001
+    task_id: repo_digest
+    subject_type: tool
+    subject_id: codex_cli
+    subject_version: "TBD"
+    prompt_profile: codex_local_operator
+    environment: "AI-LTC repository, local workspace"
+    tested_at: "2026-04-28"
+    status: positive
+    confidence: medium
+    source: "AI-LTC_daily_frontier_update_2026-04-28.md and AI-LTC_ALL_IN_ONE_2026-04-28.md"
+    evidence:
+      source_docs:
+        - "AI-LTC_daily_frontier_update_2026-04-28.md"
+        - "AI-LTC_ALL_IN_ONE_2026-04-28.md"
+        - "README.md"
+        - "BRANCH-GOVERNANCE.md"
+        - "docs/EVALUATION-SCHEMA.md"
+      run_logs: []
+      human_notes:
+        - "User requested推进 based on the two 2026-04-28 update documents."
+    observations:
+      - "The repository already contains main/Experimental semantics, evaluation registries, and prompt migration scaffolding."
+      - "The missing executable next step was v0.2 schema files plus legacy prompt mapping."
+    failure_modes_observed: []
+    scores:
+      success: null
+      stability: null
+      cost: null
+      reproducibility: null
+    recommendation: "Continue by validating new schema records against future OML runtime evidence before promoting routing principles to main."
+    notes: "Seed result for the 2026-04-28 schema/mapping push; qualitative only."
+
+  - id: exp_2026_04_28_002
+    task_id: repo_refactor
+    subject_type: tool
+    subject_id: ai-ltc
+    subject_version: "v1.5.15"
+    prompt_profile: codex_local_operator
+    environment: "AI-LTC repository, local workspace"
+    tested_at: "2026-04-28"
+    status: positive
+    confidence: high
+    source: "scripts/evaluation_validator.py and make validate-evaluation"
+    evidence:
+      source_docs:
+        - "scripts/evaluation_validator.py"
+        - "Makefile"
+        - "docs/EVALUATION-SCHEMA.md"
+        - "evaluation/README.md"
+      run_logs:
+        - "make validate-evaluation: OK: evaluation v0.2 registries validated"
+      human_notes:
+        - "Validation is intentionally shape/reference checking only; it does not automate evaluation scoring or routing."
+    observations:
+      - "Evaluation v0.2 registry maintenance now has a local consistency check."
+      - "The validator checks required fields, duplicate ids, result task references, subject references, and evidence list shape."
+    failure_modes_observed: []
+    scores:
+      success: 1.0
+      stability: null
+      cost: null
+      reproducibility: null
+    recommendation: "Run make validate-evaluation after editing evaluation schemas, registries, or dated results."
+    notes: "This records the validation hardening step without promoting raw evaluation data into framework truth."
+
+  - id: exp_2026_04_28_003
+    task_id: repo_refactor
+    subject_type: tool
+    subject_id: ai-ltc
+    subject_version: "v1.5.15"
+    prompt_profile: codex_local_operator
+    environment: "AI-LTC repository, local workspace"
+    tested_at: "2026-04-28"
+    status: positive
+    confidence: high
+    source: "scripts/prompt_mapping_validator.py and make validate-prompts"
+    evidence:
+      source_docs:
+        - "scripts/prompt_mapping_validator.py"
+        - "prompts/_mapping/legacy-to-role-phase-adapter.md"
+        - "docs/PROMPT-MIGRATION.md"
+        - "PROMPTS.md"
+      run_logs:
+        - "make validate-prompts: OK: prompt mapping validated"
+        - "make check: OK: evaluation and prompt validators passed; bridge smoke test passed"
+      human_notes:
+        - "Validation is intentionally reference checking only; it does not rewrite prompts or decide migration readiness."
+    observations:
+      - "Prompt migration mapping now has a local consistency check."
+      - "The validator checks mapped prompt paths, legacy prompt headings, legacy prompt existence, and migration status vocabulary."
+    failure_modes_observed:
+      - "Initial validator regex missed Markdown headings until multiline matching was enabled."
+    scores:
+      success: 1.0
+      stability: null
+      cost: null
+      reproducibility: null
+    recommendation: "Run make validate-prompts after editing prompts/_mapping/ or legacy prompt mapping entries."
+    notes: "This records prompt mapping validation without promoting mapped fragments as replacements for legacy entrypoints."
+
+  - id: exp_2026_04_28_004
+    task_id: repo_refactor
+    subject_type: tool
+    subject_id: ai-ltc
+    subject_version: "v1.5.15"
+    prompt_profile: codex_local_operator
+    environment: "AI-LTC repository, local workspace"
+    tested_at: "2026-04-28"
+    status: positive
+    confidence: high
+    source: "scripts/evaluation_validator.py freshness validation"
+    evidence:
+      source_docs:
+        - "scripts/evaluation_validator.py"
+        - "docs/EVALUATION-SCHEMA.md"
+        - "evaluation/README.md"
+      run_logs:
+        - "python scripts/evaluation_validator.py --as-of 2026-04-28: OK: evaluation v0.2 registries validated; 24 fresh, 0 referenceable, 0 stale"
+      human_notes:
+        - "Freshness is derived from tested_at, not commit date."
+    observations:
+      - "Evaluation validation now checks tested_at date format and reports freshness windows."
+      - "Future-dated tested_at values fail validation."
+    failure_modes_observed: []
+    scores:
+      success: 1.0
+      stability: null
+      cost: null
+      reproducibility: null
+    recommendation: "Use the freshness summary to decide which records need retesting before they influence routing or governance."
+    notes: "This hardens the existing freshness rule without adding automatic scoring."
+
+  - id: exp_2026_04_28_005
+    task_id: repo_refactor
+    subject_type: tool
+    subject_id: ai-ltc
+    subject_version: "v1.5.15"
+    prompt_profile: codex_local_operator
+    environment: "AI-LTC repository, local workspace"
+    tested_at: "2026-04-28"
+    status: positive
+    confidence: high
+    source: "scripts/evaluation_validator.py field-shape validation"
+    evidence:
+      source_docs:
+        - "scripts/evaluation_validator.py"
+        - "evaluation/schemas/tool.schema.yaml"
+        - "docs/EVALUATION-SCHEMA.md"
+      run_logs:
+        - "make validate-evaluation: OK after adding field-shape checks"
+      human_notes:
+        - "The validator checks selected schema-declared field shapes only; it is not a full schema engine."
+    observations:
+      - "Evaluation validation now checks selected enum, list, boolean/null, string/null, and number/null field shapes."
+      - "The first stricter run exposed that browser was missing from tool surface schema despite being used for Claude Code; the schema vocabulary was corrected."
+    failure_modes_observed:
+      - "Schema vocabulary drift between documented tool surfaces and registry records."
+    scores:
+      success: 1.0
+      stability: null
+      cost: null
+      reproducibility: null
+    recommendation: "Keep validator field-shape checks aligned with schema vocabulary when adding new record fields."
+    notes: "This hardens registry consistency without adopting a full schema validation dependency."
+
+  - id: exp_2026_04_28_006
+    task_id: repo_refactor
+    subject_type: tool
+    subject_id: ai-ltc
+    subject_version: "v1.5.15"
+    prompt_profile: codex_local_operator
+    environment: "AI-LTC repository, local workspace"
+    tested_at: "2026-04-28"
+    status: positive
+    confidence: medium
+    source: ".github/workflows/check.yml and local make check"
+    evidence:
+      source_docs:
+        - ".github/workflows/check.yml"
+        - "Makefile"
+        - "docs/AI-LTC-TODO-TASKS.md"
+      run_logs:
+        - "make check: evaluation validator passed; prompt mapping validator passed; bridge smoke test passed"
+      human_notes:
+        - "CI workflow installs PyYAML and runs make check on push and pull_request."
+    observations:
+      - "The local validation path is now represented in CI."
+      - "CI remains limited to checks; it does not publish, tag, deploy, or push."
+    failure_modes_observed: []
+    scores:
+      success: 1.0
+      stability: null
+      cost: null
+      reproducibility: null
+    recommendation: "Keep CI focused on make check until repository policy explicitly expands release automation."
+    notes: "This closes the 2026-04-28 validation hardening blocker."

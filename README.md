@@ -118,13 +118,63 @@ AI-LTC now distinguishes between:
 - `main`: stable framework layer
 - `Experimental`: the active experimental branch
 
+AI-LTC uses `main` as the stable framework branch and `Experimental` as the branch for prompt refactoring, adapter experiments, and time-versioned model/tool evaluation.
+
 The Experimental lane is where adapter work, prompt migration scaffolding, and time-scoped evaluation records land before they are abstracted into `main`.
 
-Canonical iter1 design references:
+### Current State: 2026-04-28
+
+- `Experimental` is established and should be treated as the active experimental branch, not a future rename target.
+- Prompt migration is in the mapping stage. Do not delete legacy prompt entrypoints yet.
+- Evaluation is on schema v0.2, with separate model, tool, task, and result schema drafts.
+- Tool evaluation records must distinguish surface, harness, access model, permission model, and known failure modes.
+- Model evaluation records must include deployment fit before they influence routing decisions.
+
+Canonical design references:
 - `docs/BRANCH-REFACTOR-PLAN.md`
 - `docs/PROMPT-DECOUPLING-PLAN.md`
 - `docs/EVALUATION-SCHEMA.md`
 - `docs/AI-LTC-vs-OML-BOUNDARY.md`
+- `prompts/_mapping/legacy-to-role-phase-adapter.md`
+
+## Evaluation v0.2
+
+Evaluation records live under `evaluation/` and stay experimental until summarized into stable framework conclusions.
+
+```text
+evaluation/
+├── models/registry.yaml
+├── tools/registry.yaml
+├── tasks/registry.yaml
+├── results/2026-04.yaml
+└── schemas/
+    ├── model.schema.yaml
+    ├── tool.schema.yaml
+    ├── task.schema.yaml
+    └── result.schema.yaml
+```
+
+Evidence flow:
+
+```text
+OML run evidence
+-> Experimental evaluation results
+-> AI-LTC main summary / routing principles
+```
+
+Body produces evidence. Brain interprets evidence. `main` absorbs only stable principles.
+
+Local validation:
+
+```bash
+make validate-evaluation
+make validate-prompts
+make check
+```
+
+`make validate-evaluation` validates schema shape, selected field types, references, `tested_at` dates, and freshness windows; it does not generate scores or automate evaluation. `make validate-prompts` validates legacy mapping references. `make check` runs both validations plus the existing bridge integration smoke test.
+
+CI runs `make check` through `.github/workflows/check.yml`.
 
 ## Version History
 
@@ -140,6 +190,7 @@ Canonical iter1 design references:
 | `v1.5.13` | enve-derived templates: cross-CLI adapter architecture, OML Core spec, AI-LTC integration plan |
 | `v1.5.14` | Upstream throttle retry (OpenCode Zen Alibaba routing), line rename to Qwen3.6-Plus-WITH-OMO, AI-LTC Todo Tasks document |
 | `v1.5.15` | Reasoning efficiency kernel: Caveman Compression, Chain-of-Draft (Zoom), Think Deep Not Just Long (Google), Headroom. Prompts moved to `prompts/`. Intuition file system. |
+| `unreleased` | 2026-04-28 Experimental alignment: evaluation schema v0.2, legacy prompt mapping, harness/tool fields, model deployment-fit fields, and AI-LTC/OML evidence-flow clarification. |
 
 ## Project Structure
 
@@ -147,13 +198,18 @@ Canonical iter1 design references:
 AI-LTC/
 ├── kernel/                    # Formal kernel (rules, schemas, state machine)
 ├── adapters/                    # Model-specific adapters (Experimental lane)
-│   ├── qwen36/                  # Qwen 3.6 Plus Preview adapter
+│   ├── qwen36/                  # Qwen 3.6 Plus adapter
 │   ├── opencode/                # OpenCode plugin adapter
 │   ├── claude-code/             # Claude Code adapter
 │   ├── aider/                   # Aider adapter
 │   ├── registry.ts              # Platform adapter registry
 │   └── types.ts                 # Shared adapter types
-├── evaluation/                  # Experimental registries and dated results
+├── evaluation/                  # Experimental registries, schemas, tasks, and dated results
+│   ├── models/                  # Time-versioned model candidates
+│   ├── tools/                   # Tool/harness surface records
+│   ├── tasks/                   # Reusable evaluation task definitions
+│   ├── results/                 # Dated experiment results
+│   └── schemas/                 # v0.2 record-family schema drafts
 ├── bridge/                      # OML integration bridge layer
 │   ├── index.ts                 # Bridge entry point
 │   ├── oml-bridge.ts            # Core bridge logic
@@ -174,6 +230,7 @@ AI-LTC/
 │   ├── phases/                # Phase fragments
 │   ├── constraints/           # Shared boundaries
 │   ├── adapters/              # Provider/platform deltas
+│   ├── _mapping/              # Legacy-to-role/phase/adapter coexistence map
 │   ├── qwen-*.prompt.md       # Legacy compatibility entrypoints
 │   └── gpt-*.prompt.md        # Legacy compatibility entrypoints
 ├── kernel/reasoning-policy.yaml  # Reasoning efficiency rules (Caveman, CoD, DTR, Headroom)

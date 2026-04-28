@@ -85,6 +85,7 @@ python -m pytest tests/test_main.py -v  # 8 个测试，全部通过
 Experimental 迁移参考：
 - `docs/PROMPT-MIGRATION.md`
 - `docs/PROMPT-DECOUPLING-PLAN.md`
+- `prompts/_mapping/legacy-to-role-phase-adapter.md`
 - `PROMPTS.md`
 
 ## 生命周期
@@ -99,6 +100,18 @@ INIT → HANDOFF_READY → EXECUTION → REVIEW → OPTIMIZER → EXECUTION
 
 每次转移都经过 `kernel/state_machine.yaml` 验证。非法转移会被拒绝。
 
+## OML 集成（v1.5.10+）
+
+AI-LTC 通过轻量 bridge 与 oh-my-litecode（OML）集成：
+
+- **AI-LTC = Brain**：状态机、记忆、错误恢复、跨仓库同步
+- **OML = Body**：插件加载、MCP 网关、会话管理、worker pool、hooks engine
+
+架构：`docs/OML-BRIDGE-ARCHITECTURE.md`
+集成计划：`docs/OML-INTEGRATION-PLAN.md`
+平台适配器：`docs/OML-PLUGIN-ADAPTER.md`
+设计原则：`docs/BRAIN-BODY-SEPARATION.md`
+
 ## Experimental 方向
 
 AI-LTC 现在区分两层语义：
@@ -106,13 +119,63 @@ AI-LTC 现在区分两层语义：
 - `main`：稳定框架层
 - `Experimental`：当前实际使用的实验分支
 
-Experimental 负责承载适配器工作、prompt 迁移骨架和带时间戳的评估记录，稳定后再回流 `main`。
+AI-LTC 使用 `main` 承载稳定框架，使用 `Experimental` 承载 prompt 重构、adapter 实验和带时间版本的模型/工具评估。
 
-iter1 规范文档：
+Experimental 负责承载适配器工作、prompt 迁移骨架和带时间戳的评估记录，稳定后再抽象回流 `main`。
+
+### 当前状态：2026-04-28
+
+- `Experimental` 已成立，应视为当前实验分支，不再作为未来重命名目标。
+- Prompt 迁移处于 mapping 阶段；暂不删除旧 prompt 入口。
+- Evaluation 已进入 schema v0.2，模型、工具、任务、结果分别有 schema 草案。
+- 工具评估必须区分 surface、harness、access model、permission model 和 known failure modes。
+- 模型评估必须记录 deployment fit，再影响 routing 判断。
+
+规范文档：
 - `docs/BRANCH-REFACTOR-PLAN.md`
 - `docs/PROMPT-DECOUPLING-PLAN.md`
 - `docs/EVALUATION-SCHEMA.md`
 - `docs/AI-LTC-vs-OML-BOUNDARY.md`
+- `prompts/_mapping/legacy-to-role-phase-adapter.md`
+
+## Evaluation v0.2
+
+评估记录位于 `evaluation/`。原始记录保持实验性质，只有被总结成稳定结论后才进入框架治理。
+
+```text
+evaluation/
+├── models/registry.yaml
+├── tools/registry.yaml
+├── tasks/registry.yaml
+├── results/2026-04.yaml
+└── schemas/
+    ├── model.schema.yaml
+    ├── tool.schema.yaml
+    ├── task.schema.yaml
+    └── result.schema.yaml
+```
+
+证据流：
+
+```text
+OML run evidence
+-> Experimental evaluation results
+-> AI-LTC main summary / routing principles
+```
+
+Body 产生证据。Brain 解释证据。`main` 只吸收稳定原则。
+
+本地校验：
+
+```bash
+make validate-evaluation
+make validate-prompts
+make check
+```
+
+`make validate-evaluation` 检查 schema 形状、部分字段类型、引用关系、`tested_at` 日期和 freshness 窗口，不生成评分，也不自动化 evaluation。`make validate-prompts` 校验旧 prompt mapping 的引用关系。`make check` 会同时运行两个校验和现有 bridge 集成冒烟测试。
+
+CI 通过 `.github/workflows/check.yml` 运行 `make check`。
 
 ## 版本历史
 
@@ -120,15 +183,33 @@ iter1 规范文档：
 |---|---|
 | `v1.5.3` | Kernel v0.1 + Runtime v0.1 + Demo CLI + public README rewrite |
 | `v1.5.4` | 分支治理 + 对照验证框架 + 多会话配置 |
+| `unreleased` | 2026-04-28 Experimental 对齐：evaluation schema v0.2、旧 prompt mapping、工具 harness 字段、模型 deployment-fit 字段、AI-LTC/OML 证据流澄清 |
 
 ## 项目结构
 
 ```
 AI-LTC/
 ├── kernel/                    # 形式化内核（规则、schema、状态机）
-├── adapters/                  # 模型特定适配器（见 BRANCH-GOVERNANCE.md）
-│   └── qwen36/                # Qwen 3.6 Plus Preview（当前由 Experimental 语义线承载）
-├── evaluation/                # Experimental 评估注册表与结果记录
+├── adapters/                  # 模型特定适配器（Experimental lane）
+│   ├── qwen36/                # Qwen 3.6 Plus adapter
+│   ├── opencode/              # OpenCode adapter
+│   ├── claude-code/           # Claude Code adapter
+│   └── aider/                 # Aider adapter
+├── evaluation/                # Experimental 评估注册表、schema、任务与结果
+│   ├── models/                # 带时间版本的模型候选
+│   ├── tools/                 # 工具 / harness surface 记录
+│   ├── tasks/                 # 可复用评估任务
+│   ├── results/               # 带日期的实验结果
+│   └── schemas/               # v0.2 schema 草案
+├── bridge/                    # OML 集成 bridge 层
+│   ├── index.ts               # Bridge 入口
+│   ├── oml-bridge.ts          # 核心 bridge 逻辑
+│   ├── event-map.yaml         # 事件映射表
+│   ├── capability-registry.ts # 插件能力注册表
+│   ├── memory-adapter.ts      # 记忆 bridge
+│   ├── context-compact.ts     # 上下文压缩
+│   ├── cross-session.ts       # 跨会话共享
+│   └── protocol.md            # Task/result 协议
 ├── .ai-template/              # 运行时模板（复制到目标项目的 .ai/）
 ├── examples/
 │   ├── demo-cli/              # 最小可运行 demo（8 个测试通过）
@@ -136,15 +217,16 @@ AI-LTC/
 │   └── benchmark/             # 跨模型对照任务
 ├── scripts/                   # 验证器和工具
 ├── BRANCH-GOVERNANCE.md       # 双分支职责和合并规则
-├── docs/BRANCH-REFACTOR-PLAN.md # iter1 分支重构设计
+├── docs/BRANCH-REFACTOR-PLAN.md # 分支重构设计
 ├── prompts/                   # 旧入口 + 新迁移骨架
 │   ├── roles/                 # 角色抽象
 │   ├── phases/                # 阶段片段
 │   ├── constraints/           # 共享约束
 │   ├── adapters/              # 提供方/平台差异
+│   ├── _mapping/              # 旧入口到 role/phase/adapter 的映射
 │   ├── qwen-*.prompt.md       # 旧兼容入口
 │   └── gpt-*.prompt.md        # 旧兼容入口
-├── docs/PROMPT-DECOUPLING-PLAN.md # iter1 prompt 解耦设计
+├── docs/PROMPT-DECOUPLING-PLAN.md # prompt 解耦设计
 ├── docs/EVALUATION-SCHEMA.md  # 评估数据结构要求
 ├── docs/AI-LTC-vs-OML-BOUNDARY.md # 规范版边界文档
 ├── *.template.md              # 交接、升级、问卷模板

@@ -3,6 +3,7 @@
 ## Status
 
 - Iteration: `iter1`
+- Schema version: `v0.2`
 - Purpose: define the minimum durable evaluation data model
 - Scope: schema and freshness rules, not automation
 
@@ -25,6 +26,13 @@ The evaluation layer has four primary record families:
 3. tasks
 4. results
 
+Record-family schema drafts:
+
+- `evaluation/schemas/model.schema.yaml`
+- `evaluation/schemas/tool.schema.yaml`
+- `evaluation/schemas/task.schema.yaml`
+- `evaluation/schemas/result.schema.yaml`
+
 ## Required Fields
 
 ### Models
@@ -34,6 +42,7 @@ Minimum required fields:
 - `id`
 - `name`
 - `provider`
+- `model_type`
 - `version`
 - `release_date`
 - `tested_at`
@@ -47,6 +56,7 @@ Recommended fields:
 - `context_length`
 - `size`
 - `capabilities`
+- `deployment_fit`
 - `strengths`
 - `weaknesses`
 - `scores`
@@ -59,6 +69,7 @@ Minimum required fields:
 - `id`
 - `name`
 - `category`
+- `provider`
 - `version`
 - `tested_at`
 - `status`
@@ -68,9 +79,15 @@ Minimum required fields:
 Recommended fields:
 
 - `installation_mode`
+- `surfaces`
+- `workspace_capabilities`
+- `access_model`
+- `harness_features`
+- `permission_model`
 - `capabilities`
 - `strengths`
 - `weaknesses`
+- `known_failure_modes`
 - `scores`
 - `boundary_notes`
 
@@ -99,6 +116,7 @@ Minimum required fields:
 - `tested_at`
 - `environment`
 - `source`
+- `evidence`
 - `notes`
 
 Recommended fields:
@@ -106,9 +124,11 @@ Recommended fields:
 - `prompt_profile`
 - `subject_version`
 - `observations`
+- `failure_modes_observed`
 - `scores`
 - `status`
 - `confidence`
+- `recommendation`
 
 ## Freshness Rules
 
@@ -129,6 +149,17 @@ Freshness is determined from `tested_at`, not from commit date alone.
 - every record needs a traceable `source`
 - acceptable sources include repo files, release notes, test logs, or clearly named local evidence
 - `source` should make later re-checking possible
+
+## Validation
+
+Run the local schema-shape validator before committing evaluation changes:
+
+```bash
+make validate-evaluation
+make check
+```
+
+`make validate-evaluation` validates YAML parsing, v0.2 required fields, duplicate ids, selected field types, `tested_at` date format, freshness windows, result task references, result subject references, and evidence list shape. It does not generate scores, weights, recommendations, or routing decisions. `make check` runs that validation plus the existing bridge integration smoke test.
 
 ## Status Vocabulary
 
@@ -159,7 +190,7 @@ Suggested model or tool scores:
 - `integration`
 - `reproducibility`
 
-## Non-Goals For Iteration 1
+## Non-Goals
 
 - no automatic score generation
 - no automatic routing

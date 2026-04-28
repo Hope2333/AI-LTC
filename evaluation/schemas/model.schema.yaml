@@ -1,0 +1,56 @@
+schema:
+  id: model.schema.v0.2
+  record_family: models
+  status: experimental
+  updated_at: "2026-04-28"
+  purpose: "Describe model candidates with dated evidence, deployment fit, and routing-relevant constraints."
+
+required_fields:
+  - id
+  - name
+  - provider
+  - model_type
+  - version
+  - release_date
+  - tested_at
+  - status
+  - source
+  - notes
+
+recommended_fields:
+  - architecture
+  - context_length
+  - size
+  - capabilities
+  - deployment_fit
+  - strengths
+  - weaknesses
+  - scores
+  - boundary_notes
+
+field_shapes:
+  model_type:
+    values:
+      - hosted
+      - open_weights
+      - local_runtime
+      - operator_surface
+      - role_family
+      - unknown
+  deployment_fit:
+    local_cpu: boolean_or_null
+    local_gpu: boolean_or_null
+    hosted_api: boolean_or_null
+    mobile_npu: boolean_or_null
+    always_on_agent: boolean_or_null
+  scores:
+    reasoning: number_or_null
+    coding: number_or_null
+    latency: number_or_null
+    cost_efficiency: number_or_null
+    context_reliability: number_or_null
+
+freshness_rule:
+  key: tested_at
+  fresh_days: 30
+  referenceable_days: 90

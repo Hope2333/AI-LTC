@@ -1,7 +1,7 @@
 # BRANCH-GOVERNANCE
 
 This document defines the responsibilities, boundaries, and merge rules for AI-LTC's dual-branch model.
-See `docs/BRANCH-SEMANTICS.md` for the short operational summary and `docs/BRANCH-REFACTOR-PLAN.md` for the canonical iter1 branch refactor design.
+See `docs/BRANCH-SEMANTICS.md` for the short operational summary and `docs/BRANCH-REFACTOR-PLAN.md` for the branch refactor design.
 
 ## Branch Roles
 
@@ -27,16 +27,17 @@ See `docs/BRANCH-SEMANTICS.md` for the short operational summary and `docs/BRANC
 - `adapters/` directory
 
 ### Experimental
-**Purpose**: Experimental lane for adapters, evaluations, migration scaffolding, and platform-specific runtime adjustments.
+**Purpose**: Active experimental branch for adapters, prompt refactoring, evaluation schema/data, migration scaffolding, and platform-specific runtime adjustments.
 **Audience**: Contributors validating new structures, adapters, and evidence before promotion to `main`.
-**Versioning**: `v1.5.x-sqwen36pre` tags.
+**Versioning**: `v1.5.x` experimental tags; historical preview suffixes may remain only for continuity.
 
 **What lives here**:
 - Everything from main (via merge)
 - `adapters/qwen36/` — current Qwen-specific experimental mode, orchestrator, sessions, adapter spec
 - additional adapter directories as future experiments require
-- `evaluation/` — dated registries and experiment records
+- `evaluation/` — dated registries, v0.2 schemas, task definitions, and experiment records
 - new prompt migration scaffolding under `prompts/roles/`, `prompts/phases/`, `prompts/constraints/`, and `prompts/adapters/`
+- prompt coexistence mapping under `prompts/_mapping/`
 - `experimental_mode` and `multi_session` blocks in `ai-ltc-config.template.json`
 - prompt modifications and adapters that leverage provider- or platform-specific capabilities
 
@@ -110,7 +111,8 @@ Every adapter in `adapters/{model}/` must include:
 
 - Current repo `VERSION`: `v1.5.15`
 - main tags remain `v1.5.x`
-- Experimental tags may continue using the current preview suffix for continuity with historical tags
+- Experimental is already the active experimental branch; do not describe it as a future rename target
+- Experimental tags may continue using historical preview suffixes only when preserving old evidence trails
 - Line name: **Qwen3.6-Plus-WITH-OMO**
 - Experimental tags do not need to numerically mirror main tags if the experimental lane evolves independently
 - When Experimental work is abstracted and promoted, main gets the stable tag; Experimental keeps its evidence trail

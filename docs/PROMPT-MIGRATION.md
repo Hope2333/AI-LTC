@@ -1,6 +1,6 @@
 # Prompt Migration
 
-Canonical iter1 design doc: `docs/PROMPT-DECOUPLING-PLAN.md`.
+Design doc: `docs/PROMPT-DECOUPLING-PLAN.md`.
 
 ## Goal
 
@@ -12,7 +12,7 @@ Move from provider-bound prompt filenames toward a composable structure:
 - adapters
 
 This migration is coexistence-first. Legacy prompt entrypoints stay available until the new structure proves itself.
-This file is the short operational summary; the full iter1 write-up lives in `docs/PROMPT-DECOUPLING-PLAN.md`.
+This file is the short operational summary; the full design write-up lives in `docs/PROMPT-DECOUPLING-PLAN.md`.
 
 ## Current Problem
 
@@ -32,7 +32,8 @@ prompts/
 ├── roles/
 ├── phases/
 ├── constraints/
-└── adapters/
+├── adapters/
+└── _mapping/
 ```
 
 ## Coexistence Rules
@@ -42,6 +43,17 @@ prompts/
 3. Put lifecycle-specific instructions into `prompts/phases/`.
 4. Put reusable boundaries into `prompts/constraints/`.
 5. Put provider or platform deltas only into `prompts/adapters/`.
+6. Record coexistence mappings in `prompts/_mapping/` before splitting or deleting legacy entrypoints.
+
+## Validation
+
+Run:
+
+```bash
+make validate-prompts
+```
+
+This checks that mapping references point to existing prompt files and that migration statuses use the expected vocabulary. It does not rewrite prompts or decide migration readiness.
 
 ## Mapping Seed
 

@@ -1,4 +1,23 @@
 tasks:
+  - id: repo_digest
+    name: Repository digest
+    description: "Read repository structure, README, and key governance docs to form an executable project-state summary."
+    success_criteria:
+      - identifies_core_dirs
+      - detects_branch_semantics
+      - distinguishes_stable_vs_experimental_assets
+      - produces_actionable_summary
+    preferred_roles:
+      - architect
+      - supervisor
+    preferred_signals:
+      - citation_quality
+      - structure_accuracy
+      - missing_risk_identification
+    evidence_expectations:
+      - repository_file_references
+      - dated_branch_or_status_observations
+
   - id: bootstrap
     name: Bootstrap
     description: "Initialize a repo's AI-LTC operating surface and first lane state."

@@ -3,11 +3,12 @@
 ## For the Execution Agent — Read This First
 
 This document contains all operational context needed to work on the AI-LTC repository correctly: versioning, branching, commit conventions, file ownership, evaluation scaffolding, and the OML integration plan.
-Canonical iter1 design references:
+Canonical design references:
 - `docs/BRANCH-REFACTOR-PLAN.md`
 - `docs/PROMPT-DECOUPLING-PLAN.md`
 - `docs/EVALUATION-SCHEMA.md`
 - `docs/AI-LTC-vs-OML-BOUNDARY.md`
+- `prompts/_mapping/legacy-to-role-phase-adapter.md`
 
 ---
 
@@ -18,7 +19,7 @@ Canonical iter1 design references:
 | Branch | Purpose | Version Tags | What Lives Here |
 |--------|---------|-------------|-----------------|
 | **main** | Stable framework layer | `v1.5.x` | `kernel/`, `.ai-template/`, `examples/`, `scripts/`, stable docs, promoted abstractions |
-| **Experimental** | Semantic name for the active experimental lane | `v1.5.x-sqwen36pre` | adapters, prompt migration scaffolding, evaluation, provider-specific work |
+| **Experimental** | Active experimental branch | `v1.5.x` experimental tags; historical preview suffixes only for continuity | adapters, prompt migration scaffolding, evaluation schemas/results, provider-specific work |
 
 Current git branch carrying `Experimental`: `Experimental`.
 
@@ -54,13 +55,13 @@ Current git branch carrying `Experimental`: `Experimental`.
 | Repo `VERSION` | `v1.5.15` |
 | Stable branch family | `main` |
 | Experimental branch family | `Experimental` |
-| Experimental suffix still in use | `-sqwen36pre` |
+| Historical Experimental suffix | `-sqwen36pre` may appear in old tags only |
 
 ### Versioning Rules
 
 1. **Single source of truth**: `VERSION` file in repo root
 2. **main tags**: `v1.5.x` — increment by 1 for each kernel-level release
-3. **Experimental tags**: may continue using `v1.5.x-sqwen36pre` until a deliberate rename plan lands
+3. **Experimental tags**: use the active `Experimental` branch; preserve `v1.5.x-sqwen36pre` only when referencing historical evidence trails
 4. **Experimental tags do NOT need to match main tags** — they evolve independently
 5. **When backporting to main**: main gets the stable tag, Experimental keeps its evidence trail
 6. **When merging main → Experimental**: Experimental merges and may get a new tag
@@ -106,7 +107,7 @@ Add BRANCH-GOVERNANCE.md: dual-branch responsibilities and merge rules.
 - **Never commit `.omx/` or `.ai/` directories**
 - **Never commit AI-LTC's own `.ai/` directory** (it's local-only workspace state)
 - **Commit to the correct branch** per the directory ownership matrix above
-- **Tag after significant commits** — use `git tag -a v1.5.x -m "description"` on main, `git tag -a v1.5.x-sqwen36pre -m "description"` on preview
+- **Tag after significant commits** — use `git tag -a v1.5.x -m "description"` on main, and an explicitly named Experimental tag on the `Experimental` branch
 
 ---
 
@@ -120,6 +121,10 @@ Add BRANCH-GOVERNANCE.md: dual-branch responsibilities and merge rules.
 | `docs/OML-BRIDGE-ARCHITECTURE.md` | Technical spec: event mapping, capability registry, task protocol, permissions |
 | `docs/OML-PLUGIN-ADAPTER.md` | Platform adapter guide: OpenCode, Claude Code, Aider, custom |
 | `docs/BRAIN-BODY-SEPARATION.md` | Design principles: mutual exclusion, two-tier state, deterministic hooks |
+
+### Evaluation Validation
+
+Run `make validate-evaluation` after editing `evaluation/`. This checks v0.2 shape, selected field types, references, `tested_at` dates, and freshness windows; it does not score records or automate routing. Run `make validate-prompts` after editing `prompts/_mapping/`. Run `make check` before handoff to include both validators and the existing bridge integration smoke test. CI also runs `make check` through `.github/workflows/check.yml`.
 
 ### What Needs to Be Built
 
@@ -280,7 +285,7 @@ AI-LTC/
 │       ├── adapter.yaml
 │       ├── experimental-mode.prompt.md
 │       └── orchestrator.prompt.md
-├── evaluation/                         # Experimental registries and dated results
+├── evaluation/                         # Experimental registries, schemas, tasks, and dated results
 ├── prompts/
 │   ├── roles/                          # Role scaffolds
 │   ├── phases/                         # Phase scaffolds
@@ -299,6 +304,8 @@ AI-LTC/
 │   └── BRAIN-BODY-SEPARATION.md
 ├── scripts/
 │   ├── framework-check.sh               # Cross-repo version validation
+│   ├── evaluation_validator.py          # Evaluation v0.2 shape/reference validation
+│   ├── prompt_mapping_validator.py      # Prompt migration mapping validation
 │   ├── integration-test.sh              # TODO - Phase 4
 │   └── deploy-adapter.sh                # TODO - Phase 4
 ├── .ai-template/                        # Runtime templates

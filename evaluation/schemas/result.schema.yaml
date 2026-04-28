@@ -1,0 +1,48 @@
+schema:
+  id: result.schema.v0.2
+  record_family: results
+  status: experimental
+  updated_at: "2026-04-28"
+  purpose: "Record dated observations with evidence pointers before promoting conclusions into framework policy."
+
+required_fields:
+  - id
+  - task_id
+  - subject_type
+  - subject_id
+  - tested_at
+  - environment
+  - evidence
+  - notes
+
+recommended_fields:
+  - prompt_profile
+  - subject_version
+  - observations
+  - failure_modes_observed
+  - scores
+  - status
+  - confidence
+  - recommendation
+
+field_shapes:
+  subject_type:
+    values:
+      - model
+      - tool
+      - task
+      - adapter
+      - prompt_profile
+  evidence:
+    source_docs: list_of_strings
+    run_logs: list_of_strings
+    human_notes: list_of_strings
+  scores:
+    success: number_or_null
+    stability: number_or_null
+    cost: number_or_null
+    reproducibility: number_or_null
+
+promotion_rule:
+  raw_results_do_not_become_framework_truth: true
+  requires_stable_summary: true

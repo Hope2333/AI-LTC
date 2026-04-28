@@ -7,6 +7,9 @@ Legacy prompt filenames remain active compatibility entrypoints. Experimental mi
 - `prompts/phases/`
 - `prompts/constraints/`
 - `prompts/adapters/`
+- `prompts/_mapping/`
+
+The next migration step is mapping, not deletion. Legacy entrypoints stay available until their behavior is covered by role / phase / constraint / adapter fragments.
 
 ## Quick Reference
 
@@ -28,7 +31,14 @@ Legacy prompt filenames remain active compatibility entrypoints. Experimental mi
 | Adapters | `prompts/adapters/` | Provider- or platform-specific deltas only |
 
 For the coexistence plan and file mapping, see `docs/PROMPT-MIGRATION.md`.
-For the canonical iter1 design write-up, see `docs/PROMPT-DECOUPLING-PLAN.md`.
+For the current legacy-to-role/phase/adapter mapping, see `prompts/_mapping/legacy-to-role-phase-adapter.md`.
+For the prompt decoupling design write-up, see `docs/PROMPT-DECOUPLING-PLAN.md`.
+
+Validate mapping references with:
+
+```bash
+make validate-prompts
+```
 
 ## Reasoning Rules (ALL agents)
 

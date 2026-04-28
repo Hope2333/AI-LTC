@@ -1,0 +1,23 @@
+schema:
+  id: task.schema.v0.2
+  record_family: tasks
+  status: experimental
+  updated_at: "2026-04-28"
+  purpose: "Define reusable evaluation tasks and the signals that make outcomes comparable."
+
+required_fields:
+  - id
+  - name
+  - description
+
+recommended_fields:
+  - success_criteria
+  - preferred_roles
+  - preferred_signals
+  - evidence_expectations
+
+field_shapes:
+  success_criteria: list_of_strings
+  preferred_roles: list_of_strings
+  preferred_signals: list_of_strings
+  evidence_expectations: list_of_strings

@@ -2,9 +2,9 @@
 
 ## Status
 
-- Iteration: `iter1`
+- Iteration: `v0.2`
 - Purpose: make Brain / Body ownership actionable
-- Scope: ownership and placement rules
+- Scope: ownership, placement rules, and evidence flow
 
 ## Core Framing
 
@@ -68,6 +68,16 @@ OML executes and captures runtime evidence
 -> stable conclusions return to AI-LTC mainline governance
 ```
 
-## Iteration 1 Success Condition
+## Evidence Flow
 
-This boundary is good enough for iter1 if a contributor can decide where a new feature belongs without inventing new philosophy each time.
+```text
+OML run evidence
+-> Experimental evaluation results
+-> AI-LTC main summary / routing principles
+```
+
+Body produces evidence. Brain interprets evidence. Main absorbs only stable principles.
+
+## v0.2 Success Condition
+
+This boundary is good enough for v0.2 if a contributor can decide where a new feature belongs and where its evidence should land without inventing new philosophy each time.

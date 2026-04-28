@@ -2,6 +2,7 @@ models:
   - id: qwen-3.6-plus-with-omo
     name: Qwen 3.6 Plus WITH-OMO
     provider: Alibaba
+    model_type: hosted
     version: "qwen-3.6-plus-free"
     release_date: "2026-03-30"
     tested_at: "2026-04-15"
@@ -14,6 +15,12 @@ models:
       - long_context
       - general_execution
       - tool_use
+    deployment_fit:
+      local_cpu: false
+      local_gpu: false
+      hosted_api: true
+      mobile_npu: null
+      always_on_agent: false
     strengths:
       - long context handling
       - strong tool orchestration
@@ -32,6 +39,7 @@ models:
   - id: openai-architecture-role-family
     name: GPT architecture / optimizer role family
     provider: OpenAI
+    model_type: role_family
     version: "unknown"
     release_date: "unknown"
     tested_at: "2026-04-15"
@@ -43,6 +51,12 @@ models:
     capabilities:
       - architecture_design
       - narrow_audit
+    deployment_fit:
+      local_cpu: false
+      local_gpu: false
+      hosted_api: true
+      mobile_npu: null
+      always_on_agent: false
     strengths:
       - design-oriented role framing
     weaknesses:
@@ -59,6 +73,7 @@ models:
   - id: codex-cli-operator
     name: Codex CLI operator surface
     provider: OpenAI
+    model_type: operator_surface
     version: "local-cli-2026-04-15"
     release_date: "unknown"
     tested_at: "2026-04-15"
@@ -70,6 +85,12 @@ models:
     capabilities:
       - repository_editing
       - local_validation
+    deployment_fit:
+      local_cpu: false
+      local_gpu: false
+      hosted_api: true
+      mobile_npu: null
+      always_on_agent: false
     strengths:
       - direct repository iteration
     weaknesses:
@@ -82,3 +103,115 @@ models:
     boundary_notes: "Local operator observations should not be generalized without dated evidence."
     source: "local execution context"
     notes: "Used for repository self-consumption cleanup and migration scaffolding work."
+
+  - id: qwen36_plus
+    name: Qwen3.6-Plus
+    provider: Alibaba
+    model_type: hosted
+    version: "TBD"
+    release_date: "2026-04-01"
+    tested_at: "2026-04-28"
+    status: experimental
+    architecture:
+      - transformer
+    context_length: "1M default"
+    size: "undisclosed"
+    capabilities:
+      - long_context
+      - agentic_execution
+      - general_reasoning
+      - code_assistance
+    deployment_fit:
+      local_cpu: false
+      local_gpu: false
+      hosted_api: true
+      mobile_npu: null
+      always_on_agent: false
+    strengths:
+      - long_context_default
+      - qwen_code_ecosystem_fit
+    weaknesses:
+      - hosted_cost_sensitive
+      - exact_size_unknown
+    scores:
+      reasoning: null
+      coding: null
+      latency: null
+      cost_efficiency: null
+      context_reliability: null
+    boundary_notes: "Useful for long-context execution and repo digestion, but cost and hosted dependency must be tracked."
+    source: "AI-LTC_ALL_IN_ONE_2026-04-28.md"
+    notes: "P0 Experimental evaluation object from the 2026-04-28 frontier update."
+
+  - id: qwen36_27b
+    name: Qwen3.6-27B
+    provider: Alibaba
+    model_type: open_weights
+    version: "TBD"
+    release_date: "2026-04"
+    tested_at: "2026-04-28"
+    status: experimental
+    architecture:
+      - transformer
+    context_length: "TBD"
+    size: "27B"
+    capabilities:
+      - general_reasoning
+      - code_assistance
+      - local_candidate
+    deployment_fit:
+      local_cpu: null
+      local_gpu: null
+      hosted_api: null
+      mobile_npu: null
+      always_on_agent: null
+    strengths:
+      - dense_open_model_candidate
+    weaknesses:
+      - local_runtime_fit_untested
+    scores:
+      reasoning: null
+      coding: null
+      latency: null
+      cost_efficiency: null
+      context_reliability: null
+    boundary_notes: "Track as a dense open-model candidate; do not route until runtime evidence exists."
+    source: "AI-LTC_ALL_IN_ONE_2026-04-28.md"
+    notes: "P0 Experimental model object; fields remain placeholders until direct evidence is captured."
+
+  - id: qwen36_35b_a3b
+    name: Qwen3.6-35B-A3B
+    provider: Alibaba
+    model_type: open_weights
+    version: "TBD"
+    release_date: "2026-04"
+    tested_at: "2026-04-28"
+    status: experimental
+    architecture:
+      - transformer
+      - sparse_moe
+    context_length: "TBD"
+    size: "35B total / 3B active"
+    capabilities:
+      - general_reasoning
+      - code_assistance
+      - sparse_inference_candidate
+    deployment_fit:
+      local_cpu: null
+      local_gpu: null
+      hosted_api: null
+      mobile_npu: null
+      always_on_agent: null
+    strengths:
+      - sparse_active_parameter_candidate
+    weaknesses:
+      - local_runtime_fit_untested
+    scores:
+      reasoning: null
+      coding: null
+      latency: null
+      cost_efficiency: null
+      context_reliability: null
+    boundary_notes: "Track as a sparse/MoE candidate; do not fold BitNet or always-on assumptions into v1.6 work."
+    source: "AI-LTC_ALL_IN_ONE_2026-04-28.md"
+    notes: "P0 Experimental model object; fields remain placeholders until direct evidence is captured."

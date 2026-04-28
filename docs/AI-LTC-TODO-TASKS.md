@@ -78,6 +78,35 @@
 
 ---
 
+## Task 4: 2026-04-28 Experimental Evaluation v0.2 Alignment
+
+**Priority**: High
+**Status**: In Progress
+**Description**: Convert the 2026-04-28 Experimental direction into concrete schema, mapping, evidence, and local validation surfaces.
+
+### Subtasks
+
+| # | Subtask | Status | File |
+|---|---------|--------|------|
+| 4.1 | Add evaluation v0.2 schema files | ✅ Done | `evaluation/schemas/*.schema.yaml` |
+| 4.2 | Add legacy prompt mapping | ✅ Done | `prompts/_mapping/legacy-to-role-phase-adapter.md` |
+| 4.3 | Update README / README.zh with Experimental current state | ✅ Done | `README.md`, `README.zh.md` |
+| 4.4 | Extend model/tool/task/result registries with v0.2 fields and seeds | ✅ Done | `evaluation/*/registry.yaml`, `evaluation/results/2026-04.yaml` |
+| 4.5 | Add evaluation registry validator | ✅ Done | `scripts/evaluation_validator.py` |
+| 4.6 | Add prompt mapping validator | ✅ Done | `scripts/prompt_mapping_validator.py` |
+| 4.7 | Add freshness and field-shape validation | ✅ Done | `scripts/evaluation_validator.py` |
+| 4.8 | Add CI workflow for `make check` | ✅ Done | `.github/workflows/check.yml` |
+
+### Verification Criteria
+
+- [x] `make validate-evaluation` passes
+- [x] `make validate-prompts` passes
+- [x] `make check` passes
+- [x] `git diff --check` passes
+- [x] CI runs `make check`
+
+---
+
 ## Current Blockers
 
 | ID | Description | Impact | Workaround |
@@ -86,10 +115,9 @@
 
 ## Next Action
 
-1. Complete Task 1.6-1.7 (tests + build verification)
-2. Complete Task 2.6-2.7 (README update + commit/tag)
-3. Complete Task 3.2 (commit this document)
-4. Push all changes to GitHub
+1. Complete Task 1.6-1.7 (tests + build verification) in the upstream runtime repo when that code is available.
+2. Complete Task 2.7 / Task 3.2 by committing the current documentation and validation changes.
+3. Push all changes to GitHub after review.
 
 ---
 

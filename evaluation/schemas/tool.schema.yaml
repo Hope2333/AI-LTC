@@ -1,0 +1,65 @@
+schema:
+  id: tool.schema.v0.2
+  record_family: tools
+  status: experimental
+  updated_at: "2026-04-28"
+  purpose: "Describe tool and coding-agent surfaces as harnesses, not just names."
+
+required_fields:
+  - id
+  - name
+  - category
+  - provider
+  - version
+  - tested_at
+  - status
+  - source
+  - notes
+
+recommended_fields:
+  - installation_mode
+  - surfaces
+  - workspace_capabilities
+  - access_model
+  - harness_features
+  - permission_model
+  - capabilities
+  - strengths
+  - weaknesses
+  - known_failure_modes
+  - scores
+  - boundary_notes
+
+field_shapes:
+  surfaces:
+    item_values:
+      - cli
+      - terminal
+      - web
+      - browser
+      - ide
+      - desktop
+      - api
+      - local_runtime
+      - repository
+  access_model:
+    subscription: boolean_or_null
+    rate_limit: string_or_null
+    credits: string_or_null
+    offline_capable: boolean_or_null
+  permission_model:
+    sandbox: string_or_null
+    approval_required: string_or_null
+    filesystem_scope: string_or_null
+    network_scope: string_or_null
+  scores:
+    code_editing: number_or_null
+    planning: number_or_null
+    reproducibility: number_or_null
+    integration: number_or_null
+    cost_stability: number_or_null
+
+freshness_rule:
+  key: tested_at
+  fresh_days: 30
+  referenceable_days: 90

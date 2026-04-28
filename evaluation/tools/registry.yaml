@@ -2,10 +2,31 @@ tools:
   - id: ai-ltc
     name: AI-LTC
     category: framework
+    provider: AI-LTC
     version: "v1.5.15"
     tested_at: "2026-04-15"
     status: active
     installation_mode: "git repository"
+    surfaces:
+      - repository
+    workspace_capabilities:
+      - interpret_evidence
+      - define_routing_principles
+      - maintain_framework_governance
+    access_model:
+      subscription: false
+      rate_limit: null
+      credits: null
+      offline_capable: true
+    harness_features:
+      - state_machine
+      - recovery_protocol
+      - evaluation_interpretation
+    permission_model:
+      sandbox: "not_applicable"
+      approval_required: "not_applicable"
+      filesystem_scope: "repository"
+      network_scope: "not_applicable"
     capabilities:
       - state_machine
       - handoff
@@ -15,6 +36,9 @@ tools:
       - framework-level coordination
     weaknesses:
       - historical provider-bound naming remains in legacy surfaces
+    known_failure_modes:
+      - boundary_drift
+      - stale_evaluation_truth
     scores:
       code_editing: null
       planning: null
@@ -27,10 +51,34 @@ tools:
   - id: oh-my-litecode
     name: oh-my-litecode
     category: runtime
+    provider: oh-my-litecode
     version: "unknown"
     tested_at: "2026-04-15"
     status: active
     installation_mode: "git repository"
+    surfaces:
+      - local_runtime
+      - cli
+    workspace_capabilities:
+      - plugin_loading
+      - hook_execution
+      - mcp_access
+      - worker_sessions
+    access_model:
+      subscription: false
+      rate_limit: null
+      credits: null
+      offline_capable: true
+    harness_features:
+      - plugin_loading
+      - hooks
+      - mcp_gateway
+      - session_management
+    permission_model:
+      sandbox: "runtime_defined"
+      approval_required: "runtime_defined"
+      filesystem_scope: "runtime_defined"
+      network_scope: "runtime_defined"
     capabilities:
       - plugin_loading
       - hooks
@@ -40,6 +88,9 @@ tools:
       - execution runtime breadth
     weaknesses:
       - boundary can appear too broad without explicit governance
+    known_failure_modes:
+      - strategy_boundary_drift
+      - evidence_export_gap
     scores:
       code_editing: null
       planning: null
@@ -52,10 +103,34 @@ tools:
   - id: oh-my-codex
     name: oh-my-codex
     category: operator
+    provider: oh-my-codex
     version: "local-2026-04-15"
     tested_at: "2026-04-15"
     status: active
     installation_mode: "local environment"
+    surfaces:
+      - cli
+      - local_runtime
+    workspace_capabilities:
+      - read_codebase
+      - edit_files
+      - run_commands
+      - spawn_specialists
+    access_model:
+      subscription: null
+      rate_limit: "environment_specific"
+      credits: "environment_specific"
+      offline_capable: false
+    harness_features:
+      - local_workspace
+      - tool_loop
+      - patch_generation
+      - mcp_access
+    permission_model:
+      sandbox: "workspace_write"
+      approval_required: "for_escalated_or_destructive_actions"
+      filesystem_scope: "workspace_and_writable_roots"
+      network_scope: "restricted_by_environment"
     capabilities:
       - local_operator_workflow
       - codex_integration
@@ -63,6 +138,9 @@ tools:
       - fast local iteration surface
     weaknesses:
       - environment-specific conclusions
+    known_failure_modes:
+      - context_packaging_failure
+      - local_environment_drift
     scores:
       code_editing: null
       planning: null
@@ -72,19 +150,95 @@ tools:
     source: "local execution context"
     notes: "Current local Codex execution environment used to iterate on this repository."
 
+  - id: codex_cli
+    name: Codex CLI
+    category: coding_agent
+    provider: OpenAI
+    version: "TBD"
+    tested_at: "2026-04-28"
+    status: experimental
+    installation_mode: "local CLI"
+    surfaces:
+      - cli
+    workspace_capabilities:
+      - read_codebase
+      - edit_files
+      - run_commands
+      - patch_generation
+    access_model:
+      subscription: true
+      rate_limit: "TBD"
+      credits: "TBD"
+      offline_capable: false
+    harness_features:
+      - local_workspace
+      - file_editing
+      - command_execution
+      - patch_generation
+      - tool_loop
+    permission_model:
+      sandbox: "TBD"
+      approval_required: "TBD"
+      filesystem_scope: "TBD"
+      network_scope: "TBD"
+    capabilities:
+      - repository_editing
+      - local_validation
+      - agentic_tool_loop
+    strengths:
+      - direct_repository_iteration
+      - patch_oriented_workflow
+    weaknesses:
+      - environment_specific_conclusions
+      - exact_access_terms_need_refresh
+    known_failure_modes:
+      - rate_limit_exhaustion
+      - context_packaging_failure
+      - overlong_rollout_failure
+    scores:
+      code_editing: null
+      planning: null
+      reproducibility: null
+      integration: null
+      cost_stability: null
+    boundary_notes: "Record as a harness/tool surface, not as a model capability claim."
+    source: "AI-LTC_daily_frontier_update_2026-04-28.md"
+    notes: "P0 tool evaluation object from the 2026-04-28 schema update."
+
   - id: aider
     name: Aider
     category: runtime
+    provider: Aider
     version: "unknown"
     tested_at: "2026-04-15"
     status: experimental
     installation_mode: "adapter target"
+    surfaces:
+      - cli
+    workspace_capabilities:
+      - edit_files
+      - run_commands
+    access_model:
+      subscription: null
+      rate_limit: "model_provider_dependent"
+      credits: "model_provider_dependent"
+      offline_capable: false
+    harness_features:
+      - repository_editing
+      - custom_commands
+    permission_model:
+      sandbox: "TBD"
+      approval_required: "TBD"
+      filesystem_scope: "TBD"
+      network_scope: "TBD"
     capabilities:
       - custom_commands
     strengths:
       - lightweight adapter target
     weaknesses:
       - limited evidence in this repo so far
+    known_failure_modes:
+      - adapter_evidence_gap
     scores:
       code_editing: null
       planning: null
@@ -97,10 +251,34 @@ tools:
   - id: opencode
     name: OpenCode
     category: runtime
+    provider: OpenCode
     version: "unknown"
     tested_at: "2026-04-15"
     status: experimental
     installation_mode: "adapter target"
+    surfaces:
+      - cli
+      - terminal
+    workspace_capabilities:
+      - read_codebase
+      - edit_files
+      - run_commands
+      - plugin_runtime
+    access_model:
+      subscription: null
+      rate_limit: "model_provider_dependent"
+      credits: "model_provider_dependent"
+      offline_capable: false
+    harness_features:
+      - build_agent
+      - plan_agent
+      - plugin_runtime
+      - hook_integration
+    permission_model:
+      sandbox: "TBD"
+      approval_required: "TBD"
+      filesystem_scope: "TBD"
+      network_scope: "TBD"
     capabilities:
       - plugin_runtime
       - hook_integration
@@ -108,6 +286,9 @@ tools:
       - strong plugin-oriented integration surface
     weaknesses:
       - evidence in AI-LTC remains mostly design-stage
+    known_failure_modes:
+      - build_plan_role_conflation
+      - adapter_evidence_gap
     scores:
       code_editing: null
       planning: null
@@ -120,10 +301,36 @@ tools:
   - id: claude-code
     name: Claude Code
     category: runtime
+    provider: Anthropic
     version: "unknown"
     tested_at: "2026-04-15"
     status: experimental
     installation_mode: "adapter target"
+    surfaces:
+      - terminal
+      - ide
+      - desktop
+      - browser
+    workspace_capabilities:
+      - read_codebase
+      - edit_files
+      - run_commands
+      - integrate_dev_tools
+    access_model:
+      subscription: null
+      rate_limit: "TBD"
+      credits: "TBD"
+      offline_capable: false
+    harness_features:
+      - skills
+      - hooks
+      - mcp_integration
+      - workspace_agent
+    permission_model:
+      sandbox: "TBD"
+      approval_required: "TBD"
+      filesystem_scope: "TBD"
+      network_scope: "TBD"
     capabilities:
       - skills
       - hooks
@@ -132,6 +339,9 @@ tools:
       - good fit for skills and hook-based adapter experiments
     weaknesses:
       - evidence in this repo remains partial
+    known_failure_modes:
+      - surface_mixing
+      - adapter_evidence_gap
     scores:
       code_editing: null
       planning: null
@@ -144,16 +354,40 @@ tools:
   - id: qwen-code
     name: Qwen Code
     category: operator
+    provider: Alibaba
     version: "unknown"
     tested_at: "2026-04-15"
     status: reference
     installation_mode: "operator surface"
+    surfaces:
+      - terminal
+      - cli
+    workspace_capabilities:
+      - read_codebase
+      - edit_files
+      - run_commands
+    access_model:
+      subscription: null
+      rate_limit: "TBD"
+      credits: "TBD"
+      offline_capable: false
+    harness_features:
+      - terminal_agent
+      - qwen_model_fit
+    permission_model:
+      sandbox: "TBD"
+      approval_required: "TBD"
+      filesystem_scope: "TBD"
+      network_scope: "TBD"
     capabilities:
       - general_execution
     strengths:
       - default-operator fit in v1 role model
     weaknesses:
       - historical provider-bound prompt naming around it
+    known_failure_modes:
+      - provider_name_leakage
+      - access_model_drift
     scores:
       code_editing: null
       planning: null
@@ -166,16 +400,36 @@ tools:
   - id: gemini-cli
     name: Gemini CLI
     category: operator
+    provider: Google
     version: "unknown"
     tested_at: "2026-04-15"
     status: reference
     installation_mode: "operator surface"
+    surfaces:
+      - cli
+      - terminal
+    workspace_capabilities:
+      - coding_agent
+    access_model:
+      subscription: null
+      rate_limit: "TBD"
+      credits: "TBD"
+      offline_capable: false
+    harness_features:
+      - terminal_agent
+    permission_model:
+      sandbox: "TBD"
+      approval_required: "TBD"
+      filesystem_scope: "TBD"
+      network_scope: "TBD"
     capabilities:
       - coding_agent
     strengths:
       - candidate comparison target for future evaluation
     weaknesses:
       - no direct in-repo evidence yet
+    known_failure_modes:
+      - evidence_gap
     scores:
       code_editing: null
       planning: null
