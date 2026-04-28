@@ -49,16 +49,17 @@
 | 2.3 | Bump VERSION to v1.5.14 | ✅ Done | `VERSION` |
 | 2.4 | Bump ai-ltc-config.template.json version | ✅ Done | `ai-ltc-config.template.json` |
 | 2.5 | Update enve's ai-ltc-config.json version | ✅ Done | `enve/.ai/system/ai-ltc-config.json` |
-| 2.6 | Update README.md version history | ⏸ Pending | `README.md` |
-| 2.7 | Commit and tag both branches | ⏸ Pending | git |
+| 2.6 | Update README.md version history | ✅ Done | `README.md` |
+| 2.7 | Commit and tag both branches | ⏸ Partial | git |
 
 ### Verification Criteria
 
-- [ ] All references to "Qwen3.6-Plus-Preview-WITH-OMO" updated to "Qwen3.6-Plus-WITH-OMO"
-- [ ] VERSION file shows v1.5.14
-- [ ] Config template shows v1.5.14
+- [x] All references to "Qwen3.6-Plus-Preview-WITH-OMO" updated to "Qwen3.6-Plus-WITH-OMO"
+- [x] VERSION file shows v1.5.14
+- [x] Config template shows v1.5.14
 - [ ] enve config shows v1.5.14
-- [ ] Both branches committed and tagged
+- [x] Current Experimental branch changes committed
+- [ ] Both branches tagged
 - [ ] Pushed to GitHub
 
 ---
@@ -74,14 +75,14 @@
 | # | Subtask | Status | File |
 |---|---------|--------|------|
 | 3.1 | Create Todo Tasks document | ✅ Done | This file |
-| 3.2 | Commit Todo Tasks document | ⏸ Pending | git |
+| 3.2 | Commit Todo Tasks document | ✅ Done | git |
 
 ---
 
 ## Task 4: 2026-04-28 Experimental Evaluation v0.2 Alignment
 
 **Priority**: High
-**Status**: In Progress
+**Status**: Complete
 **Description**: Convert the 2026-04-28 Experimental direction into concrete schema, mapping, evidence, and local validation surfaces.
 
 ### Subtasks
@@ -116,8 +117,12 @@
 ## Next Action
 
 1. Complete Task 1.6-1.7 (tests + build verification) in the upstream runtime repo when that code is available.
-2. Complete Task 2.7 / Task 3.2 by committing the current documentation and validation changes.
-3. Push all changes to GitHub after review.
+2. Decide whether to tag `Experimental` for the 2026-04-28 schema/mapping/validator checkpoint.
+3. Push committed changes and tags to GitHub after review.
+
+## Latest Local Commit
+
+- `0185278 Make Experimental evaluation evidence maintainable`
 
 ---
 
