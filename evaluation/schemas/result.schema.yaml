@@ -2,7 +2,7 @@ schema:
   id: result.schema.v0.2
   record_family: results
   status: experimental
-  updated_at: "2026-04-28"
+  updated_at: "2026-05-02"
   purpose: "Record dated observations with evidence pointers before promoting conclusions into framework policy."
 
 required_fields:
@@ -21,6 +21,7 @@ recommended_fields:
   - observations
   - failure_modes_observed
   - scores
+  - freshness_status
   - status
   - confidence
   - recommendation
@@ -42,6 +43,11 @@ field_shapes:
     stability: number_or_null
     cost: number_or_null
     reproducibility: number_or_null
+  freshness_status:
+    values:
+      - fresh
+      - referenceable
+      - stale
 
 promotion_rule:
   raw_results_do_not_become_framework_truth: true

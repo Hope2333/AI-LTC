@@ -154,8 +154,8 @@ tools:
     name: Codex CLI
     category: coding_agent
     provider: OpenAI
-    version: "TBD"
-    tested_at: "2026-04-28"
+    version: "0.128.0"
+    tested_at: "2026-05-02"
     status: experimental
     installation_mode: "local CLI"
     surfaces:
@@ -176,11 +176,14 @@ tools:
       - command_execution
       - patch_generation
       - tool_loop
+      - responses_api_loop
+      - websocket_transport
+      - connection_scoped_cache
     permission_model:
-      sandbox: "TBD"
-      approval_required: "TBD"
-      filesystem_scope: "TBD"
-      network_scope: "TBD"
+      sandbox: "environment_defined"
+      approval_required: "environment_defined"
+      filesystem_scope: "workspace_scoped"
+      network_scope: "environment_defined"
     capabilities:
       - repository_editing
       - local_validation
@@ -195,15 +198,17 @@ tools:
       - rate_limit_exhaustion
       - context_packaging_failure
       - overlong_rollout_failure
+      - tool_latency_or_transport_failure
     scores:
       code_editing: null
       planning: null
       reproducibility: null
       integration: null
       cost_stability: null
+    freshness_status: fresh
     boundary_notes: "Record as a harness/tool surface, not as a model capability claim."
-    source: "AI-LTC_daily_frontier_update_2026-04-28.md"
-    notes: "P0 tool evaluation object from the 2026-04-28 schema update."
+    source: "AI-LTC_daily_frontier_update_2026-05-02.md and AI-LTC_ALL_IN_ONE_2026-05-02.md"
+    notes: "P0 execution-environment object; records CLI harness features rather than model identity."
 
   - id: aider
     name: Aider
@@ -253,7 +258,7 @@ tools:
     category: runtime
     provider: OpenCode
     version: "unknown"
-    tested_at: "2026-04-15"
+    tested_at: "2026-05-02"
     status: experimental
     installation_mode: "adapter target"
     surfaces:
@@ -289,21 +294,22 @@ tools:
     known_failure_modes:
       - build_plan_role_conflation
       - adapter_evidence_gap
+    freshness_status: fresh
     scores:
       code_editing: null
       planning: null
       reproducibility: null
       integration: null
     boundary_notes: "Should stay on the OML/runtime side unless abstractions are promoted."
-    source: "adapters/opencode/index.ts"
-    notes: "Primary platform-adapter target in the current bridge plan."
+    source: "AI-LTC_ALL_IN_ONE_2026-05-02.md and adapters/opencode/index.ts"
+    notes: "Primary platform-adapter target; build/plan agents are role-phase mapping evidence, not AI-LTC's root abstraction."
 
   - id: claude-code
     name: Claude Code
     category: runtime
     provider: Anthropic
     version: "unknown"
-    tested_at: "2026-04-15"
+    tested_at: "2026-05-02"
     status: experimental
     installation_mode: "adapter target"
     surfaces:
@@ -326,6 +332,8 @@ tools:
       - hooks
       - mcp_integration
       - workspace_agent
+      - local_execution_mode
+      - managed_cloud_execution_mode
     permission_model:
       sandbox: "TBD"
       approval_required: "TBD"
@@ -342,22 +350,24 @@ tools:
     known_failure_modes:
       - surface_mixing
       - adapter_evidence_gap
+      - local_cloud_environment_drift
+    freshness_status: fresh
     scores:
       code_editing: null
       planning: null
       reproducibility: null
       integration: null
     boundary_notes: "Tracked as a runtime host, not as framework policy."
-    source: "adapters/claude-code/index.ts"
-    notes: "Secondary platform-adapter target in the current bridge plan."
+    source: "AI-LTC_ALL_IN_ONE_2026-05-02.md and adapters/claude-code/index.ts"
+    notes: "Secondary platform-adapter target; surfaces and local/cloud execution modes must be recorded separately."
 
   - id: qwen-code
     name: Qwen Code
     category: operator
     provider: Alibaba
     version: "unknown"
-    tested_at: "2026-04-15"
-    status: reference
+    tested_at: "2026-05-02"
+    status: experimental
     installation_mode: "operator surface"
     surfaces:
       - terminal
@@ -374,28 +384,33 @@ tools:
     harness_features:
       - terminal_agent
       - provider_model_fit
+      - mcp_based_web_search
+      - permission_modes
     permission_model:
-      sandbox: "TBD"
-      approval_required: "TBD"
-      filesystem_scope: "TBD"
-      network_scope: "TBD"
+      sandbox: "mode_dependent"
+      approval_required: "default_plan_auto_edit_yolo_modes"
+      filesystem_scope: "mode_dependent"
+      network_scope: "mcp_dependent"
     capabilities:
       - general_execution
     strengths:
       - operator fit in the v1 role model
+      - qwen_model_ecosystem_fit
     weaknesses:
       - historical provider-bound prompt naming around it
     known_failure_modes:
       - provider_name_leakage
       - access_model_drift
+      - permission_mode_misclassification
+    freshness_status: fresh
     scores:
       code_editing: null
       planning: null
       reproducibility: null
       integration: null
     boundary_notes: "Treat as an operator surface, not as a branch-naming anchor."
-    source: "README.md"
-    notes: "Captured as a provider-specific operator surface; the v1 operating model should stay role-first."
+    source: "AI-LTC_ALL_IN_ONE_2026-05-02.md"
+    notes: "P0 execution-environment object; permission modes and MCP-based web search are part of the tool surface."
 
   - id: gemini-cli
     name: Gemini CLI

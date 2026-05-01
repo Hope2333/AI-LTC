@@ -120,6 +120,31 @@
 
 ---
 
+## Task 5: 2026-05-02 Execution Environment Evaluation Alignment
+
+**Priority**: High
+**Status**: Complete
+**Description**: Apply the 2026-05-02 update documents by treating coding tools as execution environments with surfaces, harness features, permission models, freshness, and evidence.
+
+### Subtasks
+
+| # | Subtask | Status | File |
+|---|---------|--------|------|
+| 5.1 | Add explicit `freshness_status` schema and validator support | ✅ Done | `evaluation/schemas/*.schema.yaml`, `scripts/evaluation_validator.py` |
+| 5.2 | Refresh P0 tool execution-environment records | ✅ Done | `evaluation/tools/registry.yaml` |
+| 5.3 | Refresh P0 model observation dates and freshness | ✅ Done | `evaluation/models/registry.yaml` |
+| 5.4 | Add 2026-05 evidence result for the execution-environment direction | ✅ Done | `evaluation/results/2026-05.yaml` |
+| 5.5 | Update public evaluation docs for explicit freshness status | ✅ Done | `README.md`, `README.zh.md`, `docs/EVALUATION-SCHEMA.md`, `evaluation/README.md` |
+
+### Verification Criteria
+
+- [x] `make validate-evaluation` passes with 19 results
+- [x] `make validate-provider-naming` passes
+- [x] `make check` passes
+- [x] `git diff --check` passes
+
+---
+
 ## Current Repository Blockers
 
 | ID | Description | Impact | Workaround |
@@ -136,7 +161,7 @@
 - Local `make check`: passes, including all validators and 36 bridge smoke checks.
 - Local `git diff --check`: passes.
 - GitHub Actions `check` on `Experimental`: succeeds with zero annotations.
-- Latest pushed commit at the time of this refresh: `bd1cc1f Move CI actions onto Node 24`.
+- Latest pushed commit at the time of this refresh: `ba89554 Refresh tracker against verified Experimental state`.
 
 ## Historical Commit Note
 

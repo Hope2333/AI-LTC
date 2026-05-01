@@ -137,6 +137,7 @@ Recommended fields:
 - `90+` days: stale until re-tested
 
 Freshness is determined from `tested_at`, not from commit date alone.
+Records may include `freshness_status` as an explicit summary field. The validator accepts only `fresh`, `referenceable`, or `stale`, and the value must match the bucket derived from `tested_at`; it must not replace dated `tested_at` evidence.
 
 ## Version Rules
 
@@ -162,7 +163,7 @@ make validate-config-registry
 make check
 ```
 
-`make validate-evaluation` validates YAML parsing, v0.2 required fields, duplicate ids, selected field types, `tested_at` date format, freshness windows, result task references, result subject references, and evidence list shape. It does not generate scores, weights, recommendations, or routing decisions. `make validate-provider-naming` verifies provider-specific terms stay inside compatibility, adapter, mapping, or evidence surfaces. `make validate-ts-imports` verifies local TypeScript imports in bridge and adapter files without requiring a TypeScript compiler. `make validate-config-registry` verifies version alignment across `VERSION`, `cross-repo-registry.json`, and `ai-ltc-config.template.json`. `make check` runs all validators plus the existing bridge integration smoke test.
+`make validate-evaluation` validates YAML parsing, v0.2 required fields, duplicate ids, selected field types, `tested_at` date format, freshness windows, explicit `freshness_status` values and bucket consistency, result task references, result subject references, and evidence list shape. It does not generate scores, weights, recommendations, or routing decisions. `make validate-provider-naming` verifies provider-specific terms stay inside compatibility, adapter, mapping, or evidence surfaces. `make validate-ts-imports` verifies local TypeScript imports in bridge and adapter files without requiring a TypeScript compiler. `make validate-config-registry` verifies version alignment across `VERSION`, `cross-repo-registry.json`, and `ai-ltc-config.template.json`. `make check` runs all validators plus the existing bridge integration smoke test.
 
 ## Status Vocabulary
 

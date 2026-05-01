@@ -2,7 +2,7 @@ schema:
   id: tool.schema.v0.2
   record_family: tools
   status: experimental
-  updated_at: "2026-04-28"
+  updated_at: "2026-05-02"
   purpose: "Describe tool and coding-agent surfaces as harnesses, not just names."
 
 required_fields:
@@ -28,6 +28,7 @@ recommended_fields:
   - weaknesses
   - known_failure_modes
   - scores
+  - freshness_status
   - boundary_notes
 
 field_shapes:
@@ -58,6 +59,11 @@ field_shapes:
     reproducibility: number_or_null
     integration: number_or_null
     cost_stability: number_or_null
+  freshness_status:
+    values:
+      - fresh
+      - referenceable
+      - stale
 
 freshness_rule:
   key: tested_at

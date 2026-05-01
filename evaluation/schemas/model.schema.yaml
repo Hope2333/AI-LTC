@@ -2,7 +2,7 @@ schema:
   id: model.schema.v0.2
   record_family: models
   status: experimental
-  updated_at: "2026-04-28"
+  updated_at: "2026-05-02"
   purpose: "Describe model candidates with dated evidence, deployment fit, and routing-relevant constraints."
 
 required_fields:
@@ -26,6 +26,7 @@ recommended_fields:
   - strengths
   - weaknesses
   - scores
+  - freshness_status
   - boundary_notes
 
 field_shapes:
@@ -49,6 +50,11 @@ field_shapes:
     latency: number_or_null
     cost_efficiency: number_or_null
     context_reliability: number_or_null
+  freshness_status:
+    values:
+      - fresh
+      - referenceable
+      - stale
 
 freshness_rule:
   key: tested_at

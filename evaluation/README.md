@@ -16,7 +16,8 @@ evaluation/
 ├── tools/registry.yaml
 ├── tasks/registry.yaml
 ├── results/
-│   └── 2026-04.yaml
+│   ├── 2026-04.yaml
+│   └── 2026-05.yaml
 └── schemas/
     ├── model.schema.yaml
     ├── tool.schema.yaml
@@ -57,6 +58,8 @@ This checks YAML parsing, v0.2 required fields, duplicate ids, selected field ty
 - model records include deployment fit for hosted, local, mobile, and always-on use
 - result records keep evidence pointers separate from observations and recommendations
 - validators report freshness from `tested_at`: fresh (`0-30` days), referenceable (`31-90` days), stale (`90+` days)
+- records may carry explicit `freshness_status`; validators reject values outside `fresh`, `referenceable`, and `stale`, and reject values that do not match the `tested_at`-derived freshness bucket
+- tool records should describe execution environments: surfaces, harness features, access model, permission model, workspace capabilities, and known failure modes
 
 ## Promotion Rule
 

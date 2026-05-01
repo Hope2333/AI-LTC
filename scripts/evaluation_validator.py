@@ -81,6 +81,7 @@ TOOL_SCORE_KEYS = {
     "cost_stability",
 }
 RESULT_SCORE_KEYS = {"success", "stability", "cost", "reproducibility"}
+VALID_FRESHNESS_STATUS = {"fresh", "referenceable", "stale"}
 FRESH_DAYS = 30
 REFERENCEABLE_DAYS = 90
 
@@ -172,6 +173,11 @@ def validate_tested_at(
                 f"{registry_path}:{record_id}: tested_at {item['tested_at']!r} is after validation date {as_of.isoformat()}"
             )
         else:
+            if item.get("freshness_status") is not None and item["freshness_status"] != bucket:
+                errors.append(
+                    f"{registry_path}:{record_id}: freshness_status {item['freshness_status']!r} "
+                    f"does not match tested_at-derived bucket {bucket!r}"
+                )
             freshness_counts[bucket] = freshness_counts.get(bucket, 0) + 1
 
 
@@ -222,6 +228,21 @@ def validate_number_map(
             errors.append(f"{registry_path}:{record_id}: {field}.{key} must be a number or null")
 
 
+def validate_freshness_status(
+    errors: list[str],
+    registry_path: Path,
+    record_id: Any,
+    item: dict[str, Any],
+) -> None:
+    if "freshness_status" not in item:
+        return
+    value = item["freshness_status"]
+    if value not in VALID_FRESHNESS_STATUS:
+        errors.append(
+            f"{registry_path}:{record_id}: invalid freshness_status {value!r}"
+        )
+
+
 def validate_model_shapes(
     errors: list[str],
     registry_path: Path,
@@ -241,6 +262,7 @@ def validate_model_shapes(
             )
         for field in list_fields:
             validate_list_of_strings(errors, registry_path, record_id, item, field)
+        validate_freshness_status(errors, registry_path, record_id, item)
 
         deployment_fit = item.get("deployment_fit")
         if deployment_fit is not None:
@@ -274,6 +296,7 @@ def validate_tool_shapes(
         record_id = item.get("id", "<missing id>")
         for field in list_fields:
             validate_list_of_strings(errors, registry_path, record_id, item, field)
+        validate_freshness_status(errors, registry_path, record_id, item)
 
         for surface in item.get("surfaces", []):
             if surface not in VALID_TOOL_SURFACES:
@@ -331,6 +354,7 @@ def validate_result_shapes(
         result_id = item.get("id", "<missing id>")
         for field in ("observations", "failure_modes_observed"):
             validate_list_of_strings(errors, result_path, result_id, item, field)
+        validate_freshness_status(errors, result_path, result_id, item)
 
         evidence = item.get("evidence")
         if evidence is not None and not isinstance(evidence, dict):

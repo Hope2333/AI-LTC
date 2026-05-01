@@ -175,7 +175,7 @@ make validate-config-registry
 make check
 ```
 
-`make validate-evaluation` validates schema shape, selected field types, references, `tested_at` dates, and freshness windows; it does not generate scores or automate evaluation. `make validate-prompts` validates legacy mapping references. `make validate-provider-naming` checks that provider-specific terms stay inside compatibility, adapter, mapping, or evidence surfaces. `make validate-ts-imports` validates local TypeScript imports in bridge and adapter files without requiring a TypeScript toolchain. `make validate-config-registry` checks `VERSION`, `cross-repo-registry.json`, and `ai-ltc-config.template.json` stay aligned. `make check` runs all validations plus the existing bridge integration smoke test.
+`make validate-evaluation` validates schema shape, selected field types, references, `tested_at` dates, freshness windows, and explicit `freshness_status` bucket consistency; it does not generate scores or automate evaluation. `make validate-prompts` validates legacy mapping references. `make validate-provider-naming` checks that provider-specific terms stay inside compatibility, adapter, mapping, or evidence surfaces. `make validate-ts-imports` validates local TypeScript imports in bridge and adapter files without requiring a TypeScript toolchain. `make validate-config-registry` checks `VERSION`, `cross-repo-registry.json`, and `ai-ltc-config.template.json` stay aligned. `make check` runs all validations plus the existing bridge integration smoke test.
 
 CI runs `make check` through `.github/workflows/check.yml`.
 

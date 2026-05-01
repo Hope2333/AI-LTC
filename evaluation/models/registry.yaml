@@ -110,7 +110,7 @@ models:
     model_type: hosted
     version: "TBD"
     release_date: "2026-04-01"
-    tested_at: "2026-04-28"
+    tested_at: "2026-05-02"
     status: experimental
     architecture:
       - transformer
@@ -139,9 +139,10 @@ models:
       latency: null
       cost_efficiency: null
       context_reliability: null
+    freshness_status: fresh
     boundary_notes: "Useful for long-context execution and repo digestion, but cost and hosted dependency must be tracked."
-    source: "AI-LTC_ALL_IN_ONE_2026-04-28.md"
-    notes: "P0 Experimental evaluation object from the 2026-04-28 frontier update."
+    source: "AI-LTC_ALL_IN_ONE_2026-05-02.md"
+    notes: "P0 hosted long-context execution candidate; keep as observation until cost and hosted dependency are measured."
 
   - id: qwen36_27b
     name: Qwen3.6-27B
@@ -149,7 +150,7 @@ models:
     model_type: open_weights
     version: "TBD"
     release_date: "2026-04"
-    tested_at: "2026-04-28"
+    tested_at: "2026-05-02"
     status: experimental
     architecture:
       - transformer
@@ -175,8 +176,9 @@ models:
       latency: null
       cost_efficiency: null
       context_reliability: null
+    freshness_status: fresh
     boundary_notes: "Track as a dense open-model candidate; do not route until runtime evidence exists."
-    source: "AI-LTC_ALL_IN_ONE_2026-04-28.md"
+    source: "AI-LTC_ALL_IN_ONE_2026-05-02.md"
     notes: "P0 Experimental model object; fields remain placeholders until direct evidence is captured."
 
   - id: qwen36_35b_a3b
@@ -185,7 +187,7 @@ models:
     model_type: open_weights
     version: "TBD"
     release_date: "2026-04"
-    tested_at: "2026-04-28"
+    tested_at: "2026-05-02"
     status: experimental
     architecture:
       - transformer
@@ -212,6 +214,7 @@ models:
       latency: null
       cost_efficiency: null
       context_reliability: null
+    freshness_status: fresh
     boundary_notes: "Track as a sparse/MoE candidate; do not fold BitNet or always-on assumptions into v1.6 work."
-    source: "AI-LTC_ALL_IN_ONE_2026-04-28.md"
+    source: "AI-LTC_ALL_IN_ONE_2026-05-02.md"
     notes: "P0 Experimental model object; fields remain placeholders until direct evidence is captured."

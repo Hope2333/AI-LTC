@@ -1,0 +1,32 @@
+results:
+  - id: exp_2026_05_02_002
+    task_id: repo_digest
+    subject_type: tool
+    subject_id: codex_cli
+    prompt_profile: architect_init_v1
+    subject_version: "0.128.0"
+    environment: ai_ltc_experimental_repository
+    tested_at: "2026-05-02"
+    status: recorded
+    confidence: medium
+    evidence:
+      source_docs:
+        - "AI-LTC_daily_frontier_update_2026-05-02.md"
+        - "AI-LTC_ALL_IN_ONE_2026-05-02.md"
+      run_logs: []
+      human_notes:
+        - "Codex CLI should be evaluated as an execution environment with CLI surface, harness features, access model, permission model, workspace capabilities, and known failure modes."
+    observations:
+      - "Evaluation records need execution-environment fields, not only object names and scores."
+      - "Codex CLI is tracked as a harness/tool surface rather than a model identity."
+      - "Freshness status is now an explicit record field and remains derived from dated evidence."
+    failure_modes_observed:
+      - "stale_schema_without_execution_environment_fields"
+    scores:
+      success: null
+      stability: null
+      cost: null
+      reproducibility: null
+    freshness_status: fresh
+    recommendation: "Keep expanding execution-environment fields before adding large volumes of new model or tool records."
+    notes: "Records the 2026-05-02 direction: Experimental should become a schema, evidence, freshness, and mapping-backed knowledge store."
