@@ -7,8 +7,6 @@
     },
     "Experimental": {
       "version": "v1.5.15",
-      "tag_suffix": "-sqwen36pre",
-      "legacy_branch_name": "v1.5-superqwen36-preview",
       "description": "Experimental lane with adapters, evaluation records, and migration scaffolding."
     }
   },

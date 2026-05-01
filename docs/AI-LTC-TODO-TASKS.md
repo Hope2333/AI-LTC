@@ -1,8 +1,8 @@
-# AI-LTC Todo Tasks — Upstream Throttle Fix & Qwen3.6-Plus-WITH-OMO Rename
+# AI-LTC Todo Tasks — Historical Runtime And Experimental Alignment
 
 **Created**: 2026-04-06
 **AI-LTC Version**: v1.5.14
-**Line**: Qwen3.6-Plus-WITH-OMO (formerly Qwen3.6-Plus-Preview-WITH-OMO)
+**Line**: Historical provider-specific experimental adapter line
 
 ---
 
@@ -34,17 +34,17 @@
 
 ---
 
-## Task 2: Rename AI-LTC Line to Qwen3.6-Plus-WITH-OMO
+## Task 2: Rename AI-LTC Experimental Adapter Line
 
 **Priority**: Medium
 **Status**: In Progress
-**Description**: Rename the "Qwen3.6-Plus-Preview-WITH-OMO" line to "Qwen3.6-Plus-WITH-OMO" to reflect that this is the production line, not a preview.
+**Description**: Rename the provider-specific experimental adapter line to remove preview-era wording.
 
 ### Subtasks
 
 | # | Subtask | Status | File |
 |---|---------|--------|------|
-| 2.1 | Update adapter.yaml name and version | ✅ Done | `adapters/qwen36/adapter.yaml` |
+| 2.1 | Update provider adapter name and version | ✅ Done | provider adapter config |
 | 2.2 | Update BRANCH-GOVERNANCE.md line name | ✅ Done | `BRANCH-GOVERNANCE.md` |
 | 2.3 | Bump VERSION to v1.5.14 | ✅ Done | `VERSION` |
 | 2.4 | Bump ai-ltc-config.template.json version | ✅ Done | `ai-ltc-config.template.json` |
@@ -54,7 +54,7 @@
 
 ### Verification Criteria
 
-- [x] All references to "Qwen3.6-Plus-Preview-WITH-OMO" updated to "Qwen3.6-Plus-WITH-OMO"
+- [x] Preview-era provider line wording updated in active docs
 - [x] VERSION file shows v1.5.14
 - [x] Config template shows v1.5.14
 - [ ] enve config shows v1.5.14
@@ -120,9 +120,9 @@
 2. Decide whether to tag `Experimental` for the 2026-04-28 schema/mapping/validator checkpoint.
 3. Push committed changes and tags to GitHub after review.
 
-## Latest Local Commit
+## Historical Commit Note
 
-- `0185278 Make Experimental evaluation evidence maintainable`
+- This document is a historical tracker. Use `git log` for the current latest commit.
 
 ---
 

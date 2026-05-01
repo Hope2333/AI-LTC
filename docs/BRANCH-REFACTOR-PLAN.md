@@ -8,10 +8,10 @@
 
 ## Problem
 
-The repository already behaves like a framework plus experimental lane, but the public naming still over-exposes one provider:
+The repository already behaves like a framework plus experimental lane, but the earlier public naming over-exposed one provider:
 
 - `main` is stable enough to be called the framework layer
-- the former `v1.5-superqwen36-preview` branch was already carrying broader experimental assets than one provider adapter
+- the former provider-named preview branch was already carrying broader experimental assets than one provider adapter
 
 That mismatch makes the experimental lane look narrower than it really is.
 
