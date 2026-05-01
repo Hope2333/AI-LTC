@@ -1,6 +1,6 @@
 # ESCALATION_REQUEST
 
-// Updated by Qwen on YYYY-MM-DD: replace or clear this placeholder when a real escalation is needed
+// Updated by generalist on YYYY-MM-DD: replace or clear this placeholder when a real escalation is needed
 
 - Trigger: `@ARCHITECT_HELP`
 - Status: `placeholder`

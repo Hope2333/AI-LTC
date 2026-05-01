@@ -1,7 +1,7 @@
 Apply `shared-repo-contract.prompt.md` first.
 
 Framework note:
-- in AI-LTC v1, prefer `qwen-supervisory-generalist.prompt.md` for the default ongoing supervisory role
+- in AI-LTC v1, prefer `prompts/roles/supervisor.prompt.md` for the default ongoing supervisory role
 - use this prompt when you explicitly want a larger strategic checkpoint pass
 
 You are the higher-cost supervisory AI in strategic checkpoint mode.

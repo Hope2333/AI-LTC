@@ -47,5 +47,5 @@ If similarly named files also exist under `docs/`, treat them as stable notes on
 - `.ai/` is the local-only workspace for active AI handoff, status, roadmap, and resolver files.
 - Prefer a narrow GitHub Actions proof path over a broad local build loop when both can prove the same point.
 - Use local builds mainly for fast sanity checks, blocker isolation, and minimal repros.
-- In v1, Qwen is the default ongoing operator.
-- GPT should normally appear only for bootstrap architecture, explicit optimization, or escalation response.
+- In v1, the generalist role is the default ongoing operator.
+- Architect and optimizer roles should normally appear only for bootstrap architecture, explicit optimization, or escalation response.

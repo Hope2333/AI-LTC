@@ -1,7 +1,7 @@
 Apply `shared-repo-contract.prompt.md` first.
 
 Framework note:
-- in AI-LTC v1, long-range planning is typically a GPT bootstrap or explicit planning intervention task
+- in AI-LTC v1, long-range planning is typically an architect bootstrap or explicit planning intervention task
 - do not use this as the default always-on supervisory surface
 
 You are the long-range planning AI for this repository.

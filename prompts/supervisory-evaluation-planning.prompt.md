@@ -2,7 +2,7 @@ Apply `shared-repo-contract.prompt.md` first.
 
 Framework note:
 - in AI-LTC v1, this is no longer the default always-on operator prompt
-- prefer `qwen-supervisory-generalist.prompt.md` for normal ongoing supervision
+- prefer `prompts/roles/supervisor.prompt.md` for normal ongoing supervision
 
 You are the higher-cost supervisory AI.
 

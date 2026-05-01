@@ -33,7 +33,7 @@ See `docs/BRANCH-SEMANTICS.md` for the short operational summary and `docs/BRANC
 
 **What lives here**:
 - Everything from main (via merge)
-- `adapters/qwen36/` — current Qwen-specific experimental mode, orchestrator, sessions, adapter spec
+- `adapters/` — provider-specific experimental modes, orchestrators, sessions, and adapter specs
 - additional adapter directories as future experiments require
 - `evaluation/` — dated registries, v0.2 schemas, task definitions, and experiment records
 - new prompt migration scaffolding under `prompts/roles/`, `prompts/phases/`, `prompts/constraints/`, and `prompts/adapters/`
@@ -43,7 +43,7 @@ See `docs/BRANCH-SEMANTICS.md` for the short operational summary and `docs/BRANC
 
 **What does NOT live here**:
 - Modifications to `kernel/` files that change protocol rules (those go to main first)
-- Modifications to `.ai-template/` that are not Qwen-specific
+- Modifications to `.ai-template/` that are not provider-specific
 - unstable branch semantics that are undocumented
 
 ## Merge Rules
@@ -58,7 +58,7 @@ See `docs/BRANCH-SEMANTICS.md` for the short operational summary and `docs/BRANC
 
 **Not Allowed**:
 - Anything in `adapters/` directory
-- Prompt changes that rely on Qwen 3.6 specific capabilities
+- Prompt changes that rely on provider-specific capabilities
 - `experimental_mode` or `multi_session` config blocks
 - Session orchestration logic
 - experimental evaluation records without a stable summary or promotion rationale
@@ -97,7 +97,7 @@ Is this change model-agnostic?
 | legacy root prompt entrypoints | main | main only unless they become provider-specific |
 | `prompts/roles/`, `prompts/phases/`, `prompts/constraints/` | Experimental | Experimental first, then promote to main when stable |
 | `prompts/adapters/` | Experimental | Experimental only |
-| `adapters/qwen36/*.prompt.md` | Experimental | Experimental only |
+| `adapters/{provider}/*.prompt.md` | Experimental | Experimental only |
 
 ## Adapter Interface Contract
 
@@ -113,7 +113,7 @@ Every adapter in `adapters/{model}/` must include:
 - main tags remain `v1.5.x`
 - Experimental is already the active experimental branch; do not describe it as a future rename target
 - Experimental tags may continue using historical preview suffixes only when preserving old evidence trails
-- Line name: **Qwen3.6-Plus-WITH-OMO**
+- Line name: active provider-specific lines remain tracked in adapter and evaluation records
 - Experimental tags do not need to numerically mirror main tags if the experimental lane evolves independently
 - When Experimental work is abstracted and promoted, main gets the stable tag; Experimental keeps its evidence trail
 

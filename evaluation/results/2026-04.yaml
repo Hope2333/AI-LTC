@@ -379,3 +379,39 @@ results:
       reproducibility: null
     recommendation: "Continue removing provider names from stable docs; keep exact provider names in evaluation and adapter records where they identify real subjects."
     notes: "This records the first role-first naming cleanup pass."
+
+  - id: exp_2026_05_01_001
+    task_id: repo_refactor
+    subject_type: tool
+    subject_id: ai-ltc
+    subject_version: "v1.5.15"
+    prompt_profile: codex_local_operator
+    environment: "AI-LTC repository, local workspace"
+    tested_at: "2026-05-01"
+    status: positive
+    confidence: high
+    source: "template and example naming cleanup pass"
+    evidence:
+      source_docs:
+        - "00_HANDOFF.template.md"
+        - "ESCALATION_REQUEST.template.md"
+        - "AI-LTC-INIT-QUESTIONNAIRE.template.md"
+        - "examples/collaboration-system/"
+        - "BRANCH-GOVERNANCE.md"
+      run_logs:
+        - "non-compat naming scan: no qwen/gpt matches outside adapter, evaluation, mapping, and historical planning records"
+        - "make check: evaluation validator passed; prompt mapping validator passed; bridge smoke test passed"
+      human_notes:
+        - "Provider-named prompt filenames remain compatibility entrypoints; their content now delegates to role/phase prompts."
+    observations:
+      - "Copyable templates and collaboration-system examples now describe architect, generalist, supervisor, and optimizer roles instead of provider defaults."
+      - "Governance language now points to provider-specific adapter lines without promoting a single provider name as the branch identity."
+      - "Legacy prompt entrypoint content now delegates to role and phase prompts instead of repeating provider-bound role semantics."
+    failure_modes_observed: []
+    scores:
+      success: 1.0
+      stability: null
+      cost: null
+      reproducibility: null
+    recommendation: "Keep provider names only where they identify a concrete adapter, benchmark subject, historical record, or legacy compatibility filename."
+    notes: "This records the second role-first naming cleanup pass."

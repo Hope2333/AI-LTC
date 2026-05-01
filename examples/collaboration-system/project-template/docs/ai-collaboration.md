@@ -2,18 +2,18 @@
 
 ## Purpose
 
-Use Qwen as the default ongoing generalist operator for supervision and execution.
-Use GPT mainly for bootstrap architecture and later optimization/audit interventions.
+Use the generalist role as the default ongoing operator for supervision and execution.
+Use architect and optimizer roles mainly for bootstrap architecture and later optimization/audit interventions.
 
 ## Role Split
 
-### GPT Architect / Optimizer
+### Architect / Optimizer
 
 - Bootstrap architecture, interfaces, and initial skeleton
 - Short targeted optimization or audit after escalation
 - Must not remain the always-on operator by default
 
-### Qwen Generalist Operator
+### Generalist Operator
 
 - Owns the normal day-to-day flow
 - Performs checkpointing, sequencing, execution, verification, and relay upkeep
@@ -27,8 +27,8 @@ Use GPT mainly for bootstrap architecture and later optimization/audit intervent
 
 ## v1 Handoff And Escalation
 
-- GPT should leave `00_HANDOFF.md` when handing the project to Qwen.
-- Qwen should read `00_HANDOFF.md` before first execution when it exists.
+- The architect role should leave `00_HANDOFF.md` when handing the project to the generalist role.
+- The generalist role should read `00_HANDOFF.md` before first execution when it exists.
 - If repeated failure or architecture deadlock exceeds the current batch:
   - emit `@ARCHITECT_HELP`
   - create or refresh `ESCALATION_REQUEST.md`
@@ -36,9 +36,9 @@ Use GPT mainly for bootstrap architecture and later optimization/audit intervent
 
 ## Self-Evolving Docs
 
-- Qwen may directly update lane/framework docs as real execution changes the truth.
+- The active operator may directly update lane/framework docs as real execution changes the truth.
 - When changing framework or governance docs, add:
-  - `// Updated by Qwen on YYYY-MM-DD: <reason>`
+  - `// Updated by operator on YYYY-MM-DD: <reason>`
 
 ## Bounded-Pass Rule
 

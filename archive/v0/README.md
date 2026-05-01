@@ -17,7 +17,7 @@ Files:
 - `examples/collaboration-system/CHANGELOG.md`
 - `shared-repo-contract.prompt.md`
 - `lower-cost-execution.prompt.md`
-- `qwen-lower-cost-autopilot.prompt.md`
+- `lower-cost-autopilot.prompt.md`
 - `checkpoint-review.prompt.md`
 - `supervisory-evaluation-planning.prompt.md`
 - `strategic-checkpoint-long-horizon.prompt.md`
@@ -59,8 +59,8 @@ Standard status fields:
 A copyable collaboration-system example lives under `examples/collaboration-system/`.
 
 Project default:
-- for this repository, prefer `qwen-lower-cost-autopilot.prompt.md` on the execution side
-- use the GPT-5.4 planning prompts for checkpoint, evaluation, and long-range planning roles
+- for this repository, prefer `lower-cost-autopilot.prompt.md` on the execution side
+- use high-reasoning planning prompts for checkpoint, evaluation, and long-range planning roles
 - prefer narrow GitHub Actions validation over long local full builds when both can prove the same point
 - keep local builds short and scoped for sanity checks, blocker isolation, and minimal repros
 

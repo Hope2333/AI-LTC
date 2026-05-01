@@ -67,8 +67,8 @@ Specifically confirm:
 - `.ai/system/ai-ltc-config.json` contains human-language routing fields such as `human_summary_language` and `human_input_language_policy`
 - GitHub Actions first guidance is present if the target project uses CI
 - v1 role split is clear:
-  - GPT for architecture / optimization only
-  - Qwen as default generalist operator
+  - architect / optimizer roles for architecture and optimization only
+  - generalist role as default operator
 
 ## 6. Adapt To The New Project's CI Reality
 
@@ -102,7 +102,7 @@ The first higher-cost supervisory pass should answer:
 - what the next 1 to 3 actions are
 - what must stay out of scope
 - whether the copied protocol needs project-specific adjustment
-- whether Qwen should become the default operator immediately or only after an initial GPT bootstrap pass
+- whether the generalist role should become the default operator immediately or only after an initial architect bootstrap pass
 
 ## 10. First Execution Pass
 

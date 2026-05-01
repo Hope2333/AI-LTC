@@ -25,7 +25,7 @@ Run the **same task** through the **same state machine** with **different models
 
 ### Task 3: Architecture Design
 **Scope**: Design a plugin system for an existing CLI tool
-**Expected**: 5-8 iterations, GPT-level reasoning, handoff required
+**Expected**: 5-8 iterations, architect-level reasoning, handoff required
 **Tests**: Multi-phase transitions, handoff quality, optimizer intervention
 
 ## Metrics
@@ -42,20 +42,20 @@ Run the **same task** through the **same state machine** with **different models
 
 ## Model Profiles
 
-### Qwen 3.6 Plus Preview
-- **Adapter**: `adapters/qwen36/adapter.yaml`
+### Provider Adapter Under Test
+- **Adapter**: provider-specific adapter under `adapters/`
 - **Branch**: `Experimental`
 - **Config**: `experimental_mode.enabled = true`
 
-### Qwen 3.5 Plus (Baseline)
+### Model-Agnostic Baseline
 - **Adapter**: none (model-agnostic)
 - **Branch**: `main`
 - **Config**: `experimental_mode.enabled = false`
 
-### GPT-5.4 (Reference)
-- **Adapter**: not yet implemented
+### High-Reasoning Reference
+- **Adapter**: optional provider-specific adapter
 - **Branch**: `main`
-- **Config**: GPT role prompts only
+- **Config**: role prompts only
 
 ## Running a Benchmark
 
@@ -69,7 +69,7 @@ Run the **same task** through the **same state machine** with **different models
 ## Results Storage
 
 Results are stored in `examples/benchmark/results/`:
-- `results/qwen36-task1.json`
-- `results/qwen35-task1.json`
-- `results/gpt54-task1.json`
+- `results/provider-adapter-task1.json`
+- `results/model-agnostic-task1.json`
+- `results/high-reasoning-reference-task1.json`
 - `results/comparison.md` (auto-generated)

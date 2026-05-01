@@ -81,8 +81,8 @@
   现在明确要求：尽量优先窄的 GitHub Actions 构建/验证路径，本地构建主要用于快速 sanity 和 blocker 隔离。
   同时要求在提前停止时输出固定 `Stop Reason`，并尽量提供固定状态字段。
 
-- `qwen-lower-cost-autopilot.prompt.md`
-  Qwen 3.5 Plus 的强化执行版。
+- `lower-cost-autopilot.prompt.md`
+  lower-cost 执行角色的强化执行版。
   这个仓库的执行侧默认优先用它。
   现在也明确限制了单次 pass、等待次数、循环风险，并把 GitHub Actions 设为优先证明路径。
   同时要求在停止时输出固定 `Stop Reason`，并尽量提供固定状态字段。

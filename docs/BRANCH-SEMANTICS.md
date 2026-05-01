@@ -23,7 +23,7 @@ The repository has already outgrown a purely model-named branch story:
 - evaluation data needs a neutral home
 - AI-LTC / OML boundary work spans more than one provider
 
-Using `Experimental` as the semantic name clarifies that the lane is for controlled experiments, not a permanent Qwen-only silo.
+Using `Experimental` as the semantic name clarifies that the lane is for controlled experiments, not a permanent provider-only silo.
 
 ## Rules
 

@@ -2,7 +2,7 @@ Apply `shared-repo-contract.prompt.md` first.
 
 Framework note:
 - this is a legacy generic execution prompt kept for compatibility
-- prefer `qwen-generalist-autopilot.prompt.md` for v1 default use
+- prefer `prompts/roles/generalist.prompt.md` for v1 default use
 
 You are the lower-cost execution AI.
 

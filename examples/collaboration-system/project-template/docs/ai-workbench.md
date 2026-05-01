@@ -10,16 +10,16 @@ If you only want one document to look at before talking to an AI, use this one.
 
 - Global relay rules: `docs/ai-relay.md`
 - AI role split and detailed contracts: `docs/ai-collaboration.md`
-- Optional GPT→Qwen handoff: `00_HANDOFF.md`
-- Optional Qwen→GPT escalation summary: `ESCALATION_REQUEST.md`
+- Optional architect-to-generalist handoff: `00_HANDOFF.md`
+- Optional generalist-to-architect escalation summary: `ESCALATION_REQUEST.md`
 - Active lane handoff: local-only `.ai/active-lane/ai-handoff.md`
 - Active status summary: local-only `.ai/active-lane/current-status.md`
 - Active roadmap: local-only `.ai/active-lane/roadmap.md`
 
 ## Stable Protocol Defaults
 
-- In v1, Qwen is the default ongoing operator.
-- GPT should normally appear only for bootstrap architecture or explicit escalation/optimization work.
+- In v1, the generalist role is the default ongoing operator.
+- Architect and optimizer roles should normally appear only for bootstrap architecture or explicit escalation/optimization work.
 - Treat one AI invocation as one bounded pass.
 - Prefer narrow GitHub Actions validation over long local full builds when both can prove the same point.
 - Keep local builds short and scoped for sanity checks, blocker isolation, and minimal repros.
@@ -37,8 +37,8 @@ If you only want one document to look at before talking to an AI, use this one.
 
 ## Human Control Pattern
 
-- If the project is still at the very beginning, start with GPT as architect.
-- Once the skeleton exists, switch to Qwen as the default generalist operator.
-- Only wake GPT again when:
+- If the project is still at the very beginning, start with the architect role.
+- Once the skeleton exists, switch to the generalist role as the default operator.
+- Only wake architect or optimizer roles again when:
   - you explicitly want a high-cost audit or redesign
-  - Qwen has emitted `@ARCHITECT_HELP`
+  - the generalist role has emitted `@ARCHITECT_HELP`

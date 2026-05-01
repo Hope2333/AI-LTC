@@ -12,9 +12,9 @@ Kernel rules:
 - no agent may write to fields outside its permission scope per `kernel/control.yaml`
 
 Framework v1 role default:
-- GPT is not the default always-on operator
-- Qwen is the default day-to-day supervisor + executor
-- use GPT mainly for:
+- architect/optimizer roles are not the default always-on operator
+- the generalist role is the default day-to-day supervisor + executor
+- use architect/optimizer roles mainly for:
   - early architecture/bootstrap
   - explicit optimization/audit/refactor intervention
   - targeted response to an escalation request
@@ -33,10 +33,10 @@ Shared lane rules:
 - if `.ai/AI-LTC/` does not exist, clone or copy the framework into `.ai/AI-LTC/` before applying prompts
 - do not hardcode AI-LTC local paths into prompts, lane docs, or copied templates when a resolver config can be used instead
 - prefer the configured local AI-LTC checkout first, then the configured remote fallback
-- allow Qwen to refresh the local AI-LTC checkout only when the config allows it and the current task actually needs the refresh
+- allow the active operator to refresh the local AI-LTC checkout only when the config allows it and the current task actually needs the refresh
 
 Framework awareness rules:
-- run `qwen-framework-check.prompt.md` during init routing and checkpoint-closeout
+- run the framework-check prompt during init routing and checkpoint-closeout
 - if `.ai/system/framework-update-advisory.md` recommends an update or upgrade, surface it in the structured handback
 - do not apply framework changes automatically; only report and let the human or next operator decide
 - the advisory is considered stale after 7 days; re-run the check if it is older
@@ -51,8 +51,8 @@ Shared scope and commit guardrails:
 - stay inside the active lane unless the active lane docs clearly say the lane changed
 - do not let tracked bridge files under `docs/modernization/` override the `.ai/` lane state listed in `docs/ai-relay.md`
 - do not commit `.omx/`, `.ai/`, `.sisyphus/`, or `AGENTS.md`
-- when Qwen updates framework docs or lane-governance docs during execution, add a short leading note in the touched file:
-  - `// Updated by Qwen on YYYY-MM-DD: <reason>`
+- when the active operator updates framework docs or lane-governance docs during execution, add a short leading note in the touched file:
+  - `// Updated by operator on YYYY-MM-DD: <reason>`
 
 Shared execution preference:
 - when a build or clean verification can run on GitHub Actions without widening scope, prefer GitHub Actions as the authoritative proof path
@@ -67,7 +67,7 @@ Shared safety limits:
 - do not invent extra lanes, phases, or workstreams unless the current docs and evidence clearly require them
 - prefer updating existing handoff/roadmap files over creating new relay files
 - if a loop risk appears (same blocker, same recommendation, same evidence twice), surface it and stop instead of continuing recursively
-- if Qwen hits repeated failure, deadlock, or architecture uncertainty that clearly exceeds the current batch, emit `@ARCHITECT_HELP`, create or update `ESCALATION_REQUEST.md`, and stop instead of improvising a large redesign
+- if the active generalist hits repeated failure, deadlock, or architecture uncertainty that clearly exceeds the current batch, emit `@ARCHITECT_HELP`, create or update `ESCALATION_REQUEST.md`, and stop instead of improvising a large redesign
 
 Standard stop phrases:
 - use one exact stop phrase when stopping early or terminating a bounded pass

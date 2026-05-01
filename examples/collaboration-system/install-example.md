@@ -42,7 +42,7 @@ It does not rewrite project-specific facts for you.
 ## Safe Follow-Up Order
 
 1. run through `bootstrap-checklist.md`
-2. decide whether GPT bootstrap is needed or Qwen can start immediately
+2. decide whether architect bootstrap is needed or the generalist role can start immediately
 3. decide the first active lane
 4. rewrite placeholder lane docs
 5. run the first supervisory pass

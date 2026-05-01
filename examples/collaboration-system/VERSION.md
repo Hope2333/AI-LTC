@@ -19,7 +19,7 @@ Increment:
 - bounded-pass rule
 - GitHub Actions first for narrow clean proof paths when available
 - local-only active state under `.ai/`
-- GPT/Qwen staged framework (`v1`)
+- role-based staged framework (`v1`)
 - `00_HANDOFF.md` handoff protocol
 - `ESCALATION_REQUEST.md` escalation protocol
-- Qwen-led self-evolving docs rule
+- operator-led self-evolving docs rule

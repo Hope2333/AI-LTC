@@ -6,7 +6,7 @@ Current example version: `v1`
 
 Use it when you want to bootstrap another repository with:
 - a relay entrypoint
-- a GPT/Qwen staged operating model
+- a role-based staged operating model
 - fixed stop phrases
 - fixed status fields
 - local-only active lane state under `.ai/`
@@ -51,12 +51,12 @@ Use `bootstrap-checklist.md` before the first real AI run in the target reposito
 
 1. Copy `project-template/` into the new repository root.
 2. Rename the placeholder lane paths if needed.
-3. Fill `.ai/system/ai-ltc-config.json` or let Qwen init write it.
+3. Fill `.ai/system/ai-ltc-config.json` or let the init operator write it.
 4. Replace placeholder lane facts with real project facts.
 5. Keep `.ai/` local-only in the target project.
 6. Point prompts to `docs/ai-relay.md` instead of hardcoding lane files.
-7. Use `00_HANDOFF.md` for GPT-to-Qwen transfer.
-8. Use `ESCALATION_REQUEST.md` only when Qwen triggers an architecture escalation.
+7. Use `00_HANDOFF.md` for architect-to-generalist transfer.
+8. Use `ESCALATION_REQUEST.md` only when the generalist operator triggers an architecture escalation.
 9. Use `ROLE-QUICK-REFERENCE.md` when you want the shortest role-selection reminder.
 
 ## What Not To Copy Blindly

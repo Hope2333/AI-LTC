@@ -1,8 +1,8 @@
 # 00_HANDOFF
 
-// Created by GPT on YYYY-MM-DD: initial architecture handoff to Qwen
+// Created by architect on YYYY-MM-DD: initial architecture handoff to generalist
 
-- Status: `ready_for_qwen`
+- Status: `ready_for_generalist`
 - Decision: `handoff`
 - Stop Reason: `STOP_REVIEW_GATE_REACHED`
 - Next Action: Start from the top pending task, not from fresh architecture analysis.
@@ -20,7 +20,7 @@
 ## Risks And Watchpoints
 - architecture assumptions that may break
 - known technical debt accepted for speed
-- boundaries that Qwen must not cross without escalation
+- boundaries that the generalist role must not cross without escalation
 
 ## Execution Guardrails
 - keep scope inside the selected lane

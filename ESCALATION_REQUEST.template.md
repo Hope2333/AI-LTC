@@ -1,12 +1,12 @@
 # ESCALATION_REQUEST
 
-// Updated by Qwen on YYYY-MM-DD: architecture help requested
+// Updated by generalist on YYYY-MM-DD: architecture help requested
 
 - Trigger: `@ARCHITECT_HELP`
 - Status: `blocked`
 - Decision: `escalate`
 - Stop Reason: `STOP_REPEATED_BLOCKER`
-- Next Action: GPT should read this file first and solve the narrow architecture problem only.
+- Next Action: optimizer/architect role should read this file first and solve the narrow architecture problem only.
 
 ## Problem Summary
 - what is blocked

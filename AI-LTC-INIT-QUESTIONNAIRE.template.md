@@ -1,7 +1,7 @@
 # AI-LTC Init Questionnaire Template
 
 Purpose:
-- use this bounded intake when Qwen is initializing AI-LTC in a target repository
+- use this bounded intake when the active operator is initializing AI-LTC in a target repository
 - keep the intake small and structured
 - use the answers to populate `.ai/system/ai-ltc-config.json`
 
@@ -26,16 +26,16 @@ Suggested questions:
 
 4. `Remote Fallback And Refresh Policy`
 - remote repo URL or cloud reference
-- whether Qwen may refresh the local checkout when needed
+- whether the active operator may refresh the local checkout when needed
 
 5. `Project State`
 - `greenfield`
 - `midstream`
 - `chaotic`
 
-6. `Default Operator Model, GPT Bootstrap Need, And Human Input Policy`
-- usually `qwen-3.5-plus`
-- whether GPT bootstrap is needed now
+6. `Default Operator Role, Architect Bootstrap Need, And Human Input Policy`
+- preferred default provider/model for the generalist role
+- whether architect bootstrap is needed now
 - input language policy for human requests
 
 Writeback rule:

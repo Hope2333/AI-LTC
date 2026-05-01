@@ -7,13 +7,13 @@ Upgraded the collaboration-system example to the AI-LTC v1 framework.
 Added:
 - `project-template/00_HANDOFF.md`
 - `project-template/ESCALATION_REQUEST.md`
-- GPT bootstrap / Qwen default / GPT optimizer role model
+- architect bootstrap / generalist default / optimizer role model
 - handoff protocol and escalation protocol wording
 - self-evolving docs rule in the template-level protocol docs
 
 Changed:
-- example README and bootstrap docs now describe Qwen as the default ongoing operator
-- copied project template docs now describe GPT as architecture/optimization-only by default
+- example README and bootstrap docs now describe the generalist role as the default ongoing operator
+- copied project template docs now describe architect and optimizer roles as architecture/optimization-only by default
 - install flow now includes `00_HANDOFF.md` and `ESCALATION_REQUEST.md`
 
 ## 0.1.0
