@@ -1,15 +1,16 @@
 # AI-LTC Todo Tasks — Historical Runtime And Experimental Alignment
 
 **Created**: 2026-04-06
-**AI-LTC Version**: v1.5.14
-**Line**: Historical provider-specific experimental adapter line
+**Last Updated**: 2026-05-02
+**AI-LTC Version**: v1.5.15
+**Line**: Experimental framework, evaluation, bridge validation, and historical runtime alignment
 
 ---
 
 ## Task 1: Fix OpenCode Zen Upstream Throttle Blocking
 
 **Priority**: High
-**Status**: In Progress
+**Status**: External Runtime Follow-Up
 **Description**: The "Upstream error from Alibaba: Request rate increased too quickly" message blocks ULW-Loop and Agent tasks. This is NOT a real API error — it's an upstream routing text message that should trigger forced retry at 3s intervals, NOT model fallback.
 
 ### Subtasks
@@ -21,23 +22,25 @@
 | 1.3 | Add `upstream_throttle` error type to `classifyErrorType()` | ✅ Done | `error-classifier.ts` |
 | 1.4 | Implement `handleUpstreamThrottleRetry()` with 3s interval, 30 max retries | ✅ Done | `message-update-handler.ts` |
 | 1.5 | Add upstream throttle detection before normal fallback flow | ✅ Done | `message-update-handler.ts` |
-| 1.6 | Add test cases for upstream throttle retry | ⏸ Pending | `index.test.ts` |
-| 1.7 | Build and verify TypeScript compilation | ⏸ Pending | `npm run build` |
+| 1.6 | Add test cases for upstream throttle retry | ⏭ External follow-up | upstream runtime repo |
+| 1.7 | Build and verify TypeScript compilation | ⏭ External follow-up | upstream runtime repo |
 
 ### Verification Criteria
 
-- [ ] Upstream throttle error triggers retry same model at 3s intervals
-- [ ] Max 30 retries before falling back to normal model fallback
-- [ ] No model fallback occurs during upstream throttle retry
-- [ ] TypeScript compilation passes with no errors
-- [ ] Existing tests still pass
+- [ ] Upstream runtime repo proves throttle error triggers retry on the same model at 3s intervals
+- [ ] Upstream runtime repo proves max 30 retries before normal fallback resumes
+- [ ] Upstream runtime repo proves no model fallback occurs during upstream throttle retry
+- [ ] Upstream runtime TypeScript compilation passes with no errors
+- [ ] Upstream runtime existing tests still pass
+
+**AI-LTC boundary**: The implementation files listed above are not present in this repository. AI-LTC tracks the requirement and verification criteria, but the executable tests/build belong in the upstream runtime repository.
 
 ---
 
 ## Task 2: Rename AI-LTC Experimental Adapter Line
 
 **Priority**: Medium
-**Status**: In Progress
+**Status**: Complete for Experimental
 **Description**: Rename the provider-specific experimental adapter line to remove preview-era wording.
 
 ### Subtasks
@@ -46,29 +49,30 @@
 |---|---------|--------|------|
 | 2.1 | Update provider adapter name and version | ✅ Done | provider adapter config |
 | 2.2 | Update BRANCH-GOVERNANCE.md line name | ✅ Done | `BRANCH-GOVERNANCE.md` |
-| 2.3 | Bump VERSION to v1.5.14 | ✅ Done | `VERSION` |
+| 2.3 | Bump VERSION to v1.5.15 | ✅ Done | `VERSION` |
 | 2.4 | Bump ai-ltc-config.template.json version | ✅ Done | `ai-ltc-config.template.json` |
-| 2.5 | Update enve's ai-ltc-config.json version | ✅ Done | `enve/.ai/system/ai-ltc-config.json` |
+| 2.5 | Align consumer registry expected versions | ✅ Done | `cross-repo-registry.json` |
 | 2.6 | Update README.md version history | ✅ Done | `README.md` |
-| 2.7 | Commit and tag both branches | ⏸ Partial | git |
+| 2.7 | Commit and push Experimental branch | ✅ Done | git |
+| 2.8 | Tag Experimental provider naming checkpoint | ✅ Done | `v1.5.15-exp-provider-naming-boundary` |
 
 ### Verification Criteria
 
 - [x] Preview-era provider line wording updated in active docs
-- [x] VERSION file shows v1.5.14
-- [x] Config template shows v1.5.14
-- [ ] enve config shows v1.5.14
+- [x] VERSION file shows v1.5.15
+- [x] Config template shows v1.5.15
+- [x] Registry expects v1.5.15 for consumer repos
 - [x] Current Experimental branch changes committed
-- [ ] Both branches tagged
-- [ ] Pushed to GitHub
+- [x] Experimental branch pushed to GitHub
+- [x] Experimental checkpoint tag pushed to GitHub
 
 ---
 
 ## Task 3: Update AI-LTC Todo Tasks Document
 
 **Priority**: Low
-**Status**: In Progress
-**Description**: This document itself — tracking all tasks and their status.
+**Status**: Current
+**Description**: This document itself — tracking historical task state without contradicting current repository facts.
 
 ### Subtasks
 
@@ -76,6 +80,7 @@
 |---|---------|--------|------|
 | 3.1 | Create Todo Tasks document | ✅ Done | This file |
 | 3.2 | Commit Todo Tasks document | ✅ Done | git |
+| 3.3 | Refresh tracker for v1.5.15, pushed CI, and external-runtime boundaries | ✅ Done | This file |
 
 ---
 
@@ -97,32 +102,45 @@
 | 4.6 | Add prompt mapping validator | ✅ Done | `scripts/prompt_mapping_validator.py` |
 | 4.7 | Add freshness and field-shape validation | ✅ Done | `scripts/evaluation_validator.py` |
 | 4.8 | Add CI workflow for `make check` | ✅ Done | `.github/workflows/check.yml` |
+| 4.9 | Split CI checks into diagnosable validator steps | ✅ Done | `.github/workflows/check.yml` |
+| 4.10 | Stabilize CI freshness validation timezone | ✅ Done | `.github/workflows/check.yml` |
+| 4.11 | Move GitHub Actions JavaScript actions to Node 24-compatible v6 lines | ✅ Done | `.github/workflows/check.yml` |
 
 ### Verification Criteria
 
 - [x] `make validate-evaluation` passes
 - [x] `make validate-prompts` passes
+- [x] `make validate-provider-naming` passes
+- [x] `make validate-ts-imports` passes
+- [x] `make validate-config-registry` passes
 - [x] `make check` passes
 - [x] `git diff --check` passes
-- [x] CI runs `make check`
+- [x] CI runs all `make check` components
+- [x] GitHub Actions check-run succeeds with zero annotations
 
 ---
 
-## Current Blockers
+## Current Repository Blockers
 
 | ID | Description | Impact | Workaround |
 |----|-------------|--------|------------|
 | None | — | — | — |
 
-## Next Action
+## External Follow-ups
 
-1. Complete Task 1.6-1.7 (tests + build verification) in the upstream runtime repo when that code is available.
-2. Decide whether to tag `Experimental` for the 2026-04-28 schema/mapping/validator checkpoint.
-3. Push committed changes and tags to GitHub after review.
+1. Complete Task 1.6-1.7 in the upstream runtime repo that owns `constants.ts`, `error-classifier.ts`, `message-update-handler.ts`, and `index.test.ts`.
+2. Decide separately whether a main-branch release tag is needed. Experimental is already committed, tagged for the provider-naming boundary checkpoint, pushed, and CI-verified.
+
+## Current AI-LTC Verification Snapshot
+
+- Local `make check`: passes, including all validators and 36 bridge smoke checks.
+- Local `git diff --check`: passes.
+- GitHub Actions `check` on `Experimental`: succeeds with zero annotations.
+- Latest pushed commit at the time of this refresh: `bd1cc1f Move CI actions onto Node 24`.
 
 ## Historical Commit Note
 
-- This document is a historical tracker. Use `git log` for the current latest commit.
+- This document is a historical tracker. Use `git log` and GitHub Actions for current commit and CI evidence.
 
 ---
 
