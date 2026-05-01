@@ -449,3 +449,38 @@ results:
       reproducibility: null
     recommendation: "Run make validate-provider-naming after edits that touch docs, templates, examples, prompts, adapters, or evaluation records."
     notes: "This records the naming boundary validator added after the cleanup pass."
+
+  - id: exp_2026_05_01_003
+    task_id: tool_integration
+    subject_type: tool
+    subject_id: ai-ltc
+    subject_version: "v1.5.15"
+    prompt_profile: codex_local_operator
+    environment: "AI-LTC repository, local workspace"
+    tested_at: "2026-05-01"
+    status: positive
+    confidence: high
+    source: "bridge integration smoke test hardening"
+    evidence:
+      source_docs:
+        - "scripts/integration-test.sh"
+        - "bridge/event-map.yaml"
+        - "bridge/capability-registry.ts"
+        - "bridge/protocol.md"
+      run_logs:
+        - "bash scripts/integration-test.sh: 36 passed, 0 failed"
+        - "make check: evaluation validator passed; prompt mapping validator passed; provider naming validator passed; bridge smoke test passed"
+      human_notes:
+        - "The smoke test now checks key bridge and adapter contract strings rather than only file existence."
+    observations:
+      - "Bridge integration validation now catches missing event hooks, protocol fields, core bridge classes, and adapter install/invoke APIs."
+      - "The stronger smoke test remains dependency-light and still runs inside make check."
+    failure_modes_observed:
+      - "Initial hardening guessed class names for context and cross-session helpers; tests were corrected to match actual API names."
+    scores:
+      success: 1.0
+      stability: null
+      cost: null
+      reproducibility: null
+    recommendation: "Keep integration-test.sh focused on stable bridge contracts until deeper runtime fixtures are available."
+    notes: "This records the first content-level bridge smoke test pass."
