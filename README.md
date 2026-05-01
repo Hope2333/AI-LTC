@@ -169,10 +169,11 @@ Local validation:
 ```bash
 make validate-evaluation
 make validate-prompts
+make validate-provider-naming
 make check
 ```
 
-`make validate-evaluation` validates schema shape, selected field types, references, `tested_at` dates, and freshness windows; it does not generate scores or automate evaluation. `make validate-prompts` validates legacy mapping references. `make check` runs both validations plus the existing bridge integration smoke test.
+`make validate-evaluation` validates schema shape, selected field types, references, `tested_at` dates, and freshness windows; it does not generate scores or automate evaluation. `make validate-prompts` validates legacy mapping references. `make validate-provider-naming` checks that provider-specific terms stay inside compatibility, adapter, mapping, or evidence surfaces. `make check` runs all validations plus the existing bridge integration smoke test.
 
 CI runs `make check` through `.github/workflows/check.yml`.
 

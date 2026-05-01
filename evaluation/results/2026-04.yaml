@@ -399,7 +399,7 @@ results:
         - "examples/collaboration-system/"
         - "BRANCH-GOVERNANCE.md"
       run_logs:
-        - "non-compat naming scan: no qwen/gpt matches outside adapter, evaluation, mapping, and historical planning records"
+        - "non-compat naming scan: no provider-specific matches outside adapter, evaluation, mapping, and historical planning records"
         - "make check: evaluation validator passed; prompt mapping validator passed; bridge smoke test passed"
       human_notes:
         - "Provider-named prompt filenames remain compatibility entrypoints; their content now delegates to role/phase prompts."
@@ -415,3 +415,37 @@ results:
       reproducibility: null
     recommendation: "Keep provider names only where they identify a concrete adapter, benchmark subject, historical record, or legacy compatibility filename."
     notes: "This records the second role-first naming cleanup pass."
+
+  - id: exp_2026_05_01_002
+    task_id: repo_refactor
+    subject_type: tool
+    subject_id: ai-ltc
+    subject_version: "v1.5.15"
+    prompt_profile: codex_local_operator
+    environment: "AI-LTC repository, local workspace"
+    tested_at: "2026-05-01"
+    status: positive
+    confidence: high
+    source: "provider naming boundary validator"
+    evidence:
+      source_docs:
+        - "scripts/provider_naming_validator.py"
+        - "Makefile"
+        - "README.md"
+      run_logs:
+        - "make validate-provider-naming: passed"
+        - "make check: evaluation validator passed; prompt mapping validator passed; provider naming validator passed; bridge smoke test passed"
+      human_notes:
+        - "The validator intentionally allows concrete provider names inside adapter, evaluation, mapping, and prompt migration surfaces."
+    observations:
+      - "Provider naming boundaries are now executable instead of relying on an ad hoc grep command."
+      - "The validation target keeps stable and copyable surfaces role-first while preserving compatibility and evidence records."
+    failure_modes_observed:
+      - "A validator that searches provider-name patterns must avoid reporting its own pattern literals."
+    scores:
+      success: 1.0
+      stability: null
+      cost: null
+      reproducibility: null
+    recommendation: "Run make validate-provider-naming after edits that touch docs, templates, examples, prompts, adapters, or evaluation records."
+    notes: "This records the naming boundary validator added after the cleanup pass."
