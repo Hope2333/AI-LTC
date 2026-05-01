@@ -23,8 +23,8 @@ Maps to:
 - `prompts/constraints/safety-boundary.prompt.md`
 - `prompts/adapters/qwen.adapter.md`
 
-Migration status: pending
-Risk: Qwen-specific execution behavior may be mixed into generalist role logic.
+Migration status: in_progress
+Risk: legacy filename is now a thin compatibility entrypoint; provider-specific execution behavior should stay in adapter layers, not generalist role logic.
 
 ### qwen-supervisory-generalist.prompt.md
 
@@ -36,8 +36,8 @@ Maps to:
 - `prompts/constraints/output-format.prompt.md`
 - `prompts/adapters/qwen.adapter.md`
 
-Migration status: pending
-Risk: supervision, checkpointing, and provider-specific formatting may be coupled.
+Migration status: in_progress
+Risk: legacy filename is now a thin compatibility entrypoint; supervision, checkpointing, and provider-specific formatting may be coupled.
 
 ### gpt-bootstrap-architect.prompt.md
 
@@ -48,8 +48,8 @@ Maps to:
 - `prompts/constraints/safety-boundary.prompt.md`
 - `prompts/adapters/openai.adapter.md`
 
-Migration status: pending
-Risk: architecture role behavior may be tied to historical GPT naming.
+Migration status: in_progress
+Risk: legacy filename is now a thin compatibility entrypoint; architecture role behavior should stay role-first.
 
 ### gpt-corrective-strategist.prompt.md
 
@@ -60,8 +60,8 @@ Maps to:
 - `prompts/constraints/token-context.prompt.md`
 - `prompts/adapters/openai.adapter.md`
 
-Migration status: pending
-Risk: corrective strategy and provider assumptions may be mixed.
+Migration status: in_progress
+Risk: legacy filename is now a thin compatibility entrypoint; corrective strategy and provider assumptions may be mixed.
 
 ### gpt-optimizer-auditor.prompt.md
 
@@ -72,8 +72,8 @@ Maps to:
 - `prompts/constraints/output-format.prompt.md`
 - `prompts/adapters/openai.adapter.md`
 
-Migration status: pending
-Risk: narrow audit behavior may be hidden behind legacy provider naming.
+Migration status: in_progress
+Risk: legacy filename is now a thin compatibility entrypoint; narrow audit behavior may be hidden behind legacy provider naming.
 
 ## Adapter Samples
 

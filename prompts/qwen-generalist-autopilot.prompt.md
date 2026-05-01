@@ -8,7 +8,7 @@ Use this file only when an existing workflow still references the legacy filenam
 For new integrations, call the role and phase prompts directly.
 
 Required behavior:
-- act as the default generalist operator for normal project flow
+- act as the generalist operator for normal project flow
 - own planning inside the active lane, execution, verification, and relay upkeep
 - use the configured human-facing summary language for final human summaries
 - read `00_HANDOFF.md` when present

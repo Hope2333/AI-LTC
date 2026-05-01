@@ -373,7 +373,7 @@ tools:
       offline_capable: false
     harness_features:
       - terminal_agent
-      - qwen_model_fit
+      - provider_model_fit
     permission_model:
       sandbox: "TBD"
       approval_required: "TBD"
@@ -382,7 +382,7 @@ tools:
     capabilities:
       - general_execution
     strengths:
-      - default-operator fit in v1 role model
+      - operator fit in the v1 role model
     weaknesses:
       - historical provider-bound prompt naming around it
     known_failure_modes:
@@ -395,7 +395,7 @@ tools:
       integration: null
     boundary_notes: "Treat as an operator surface, not as a branch-naming anchor."
     source: "README.md"
-    notes: "Captured because the v1 operating model still centers Qwen as default generalist."
+    notes: "Captured as a provider-specific operator surface; the v1 operating model should stay role-first."
 
   - id: gemini-cli
     name: Gemini CLI

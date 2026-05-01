@@ -34,10 +34,10 @@ models:
       cost_efficiency: null
     boundary_notes: "Provider-specific behavior should stay in adapters and prompt adapter layers."
     source: "adapters/qwen36/adapter.yaml"
-    notes: "Current experimental default operator in this repository's preview branch family."
+    notes: "Concrete experimental model subject; do not use this name as the stable role identity."
 
   - id: openai-architecture-role-family
-    name: GPT architecture / optimizer role family
+    name: OpenAI architecture / optimizer role family
     provider: OpenAI
     model_type: role_family
     version: "unknown"
@@ -68,7 +68,7 @@ models:
       cost_efficiency: null
     boundary_notes: "This is tracked as a role family reference, not a precise model release."
     source: "prompts/gpt-bootstrap-architect.prompt.md"
-    notes: "Used as the architecture and narrow-audit reference surface in the current prompt system."
+    notes: "Used as an architecture and narrow-audit reference surface; stable docs should prefer role names."
 
   - id: codex-cli-operator
     name: Codex CLI operator surface

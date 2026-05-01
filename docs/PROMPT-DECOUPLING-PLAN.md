@@ -6,9 +6,9 @@
 - Purpose: abstract prompts away from provider-bound filenames
 - Scope: design, mapping, and scaffold definition
 
-## Current Problem
+## Original Problem
 
-Several prompt files encode multiple concerns in one filename:
+Several legacy prompt files encoded multiple concerns in one filename:
 
 - provider identity
 - role identity
@@ -22,10 +22,10 @@ Examples:
 - `gpt-bootstrap-architect.prompt.md`
 - `gpt-corrective-strategist.prompt.md`
 
-This creates a structural contradiction:
+This created a structural contradiction:
 
 - the kernel is moving toward role and state abstractions
-- the prompt layer still looks model-bound
+- the prompt layer could still look model-bound
 
 ## Refactor Goal
 
@@ -95,6 +95,8 @@ Contains provider or platform deltas only:
 2. add provider-neutral files in parallel
 3. move stable content out of legacy files over time
 4. leave only thin adapter-specific deltas in provider-named files
+
+Current state: the legacy entrypoint contents are thin compatibility surfaces that delegate to role and phase prompts. Their filenames remain for compatibility and mapping validation.
 
 ## Mapping Table
 
