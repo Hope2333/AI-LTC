@@ -44,9 +44,10 @@ Run:
 
 ```bash
 make validate-evaluation
+make validate-provider-naming
 ```
 
-This checks YAML parsing, v0.2 required fields, duplicate ids, selected field types, `tested_at` date format, freshness windows, result task references, result subject references, and evidence list shape. It does not score records or automate evaluation.
+This checks YAML parsing, v0.2 required fields, duplicate ids, selected field types, `tested_at` date format, freshness windows, result task references, result subject references, evidence list shape, and provider naming boundaries. It does not score records or automate evaluation.
 
 ## v0.2 Additions
 

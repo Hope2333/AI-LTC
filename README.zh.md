@@ -170,10 +170,11 @@ Body 产生证据。Brain 解释证据。`main` 只吸收稳定原则。
 ```bash
 make validate-evaluation
 make validate-prompts
+make validate-provider-naming
 make check
 ```
 
-`make validate-evaluation` 检查 schema 形状、部分字段类型、引用关系、`tested_at` 日期和 freshness 窗口，不生成评分，也不自动化 evaluation。`make validate-prompts` 校验旧 prompt mapping 的引用关系。`make check` 会同时运行两个校验和现有 bridge 集成冒烟测试。
+`make validate-evaluation` 检查 schema 形状、部分字段类型、引用关系、`tested_at` 日期和 freshness 窗口，不生成评分，也不自动化 evaluation。`make validate-prompts` 校验旧 prompt mapping 的引用关系。`make validate-provider-naming` 校验 provider-specific 术语只出现在兼容、adapter、mapping 或证据表面。`make check` 会运行全部校验和现有 bridge 集成冒烟测试。
 
 CI 通过 `.github/workflows/check.yml` 运行 `make check`。
 
