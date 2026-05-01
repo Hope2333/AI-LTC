@@ -1,6 +1,6 @@
 # SESSION-COORDINATION-PROTOCOL
 
-This document defines how multi-session parallel execution works in AI-LTC SuperQwen mode.
+This document defines how multi-session parallel execution works in the AI-LTC experimental adapter mode.
 
 ## Architecture
 

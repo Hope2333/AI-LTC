@@ -37,11 +37,11 @@ quirks:
     mitigation: Use context_summary refresh at each phase transition; prefer compressed context format
 
 experimental_features:
-  - name: gpt_prompt_access
-    description: Qwen may load GPT-designated prompts without escalation
+  - name: role_prompt_access
+    description: The adapter may load role-designated prompts without escalation
     prompt_file: adapters/qwen36/experimental-mode.prompt.md
     risk: medium
-    mitigation: Log all GPT-prompt usage to .ai/system/superqwen-activity-log.md
+    mitigation: Log all role-prompt usage to .ai/system/experimental-adapter-activity-log.md
   - name: multi_session_orchestration
     description: Parallel independent sessions via OpenCode task()
     prompt_file: adapters/qwen36/orchestrator.prompt.md
@@ -51,9 +51,9 @@ experimental_features:
 
 routing:
   default_operator: qwen-3.6-plus-free
-  architect: qwen-3.6-plus-free (with gpt-bootstrap-architect prompt via experimental mode)
-  optimizer: qwen-3.6-plus-free (with gpt-optimizer-auditor prompt via experimental mode)
-  escalation_target: human (no GPT fallback in pure experimental mode)
+  architect: qwen-3.6-plus-free (with architect role prompt via experimental mode)
+  optimizer: qwen-3.6-plus-free (with optimizer role prompt via experimental mode)
+  escalation_target: human (no separate model fallback in pure experimental mode)
 
 validation:
   state_schema: kernel/state_schema.json
