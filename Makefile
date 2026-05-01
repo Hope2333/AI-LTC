@@ -1,4 +1,4 @@
-.PHONY: bridge test check validate-evaluation validate-prompts validate-provider-naming deploy-opencode deploy-claude deploy-all clean
+.PHONY: bridge test check validate-evaluation validate-prompts validate-provider-naming validate-ts-imports deploy-opencode deploy-claude deploy-all clean
 
 bridge:
 	@echo "Building bridge TypeScript files..."
@@ -7,7 +7,7 @@ bridge:
 test:
 	@bash scripts/integration-test.sh
 
-check: validate-evaluation validate-prompts validate-provider-naming test
+check: validate-evaluation validate-prompts validate-provider-naming validate-ts-imports test
 
 validate-evaluation:
 	@python scripts/evaluation_validator.py
@@ -17,6 +17,9 @@ validate-prompts:
 
 validate-provider-naming:
 	@python scripts/provider_naming_validator.py
+
+validate-ts-imports:
+	@python scripts/ts_import_validator.py
 
 deploy-opencode:
 	@bash scripts/deploy-adapter.sh opencode $(TARGET_REPO)

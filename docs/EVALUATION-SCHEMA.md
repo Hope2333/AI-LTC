@@ -157,10 +157,11 @@ Run the local schema-shape validator before committing evaluation changes:
 ```bash
 make validate-evaluation
 make validate-provider-naming
+make validate-ts-imports
 make check
 ```
 
-`make validate-evaluation` validates YAML parsing, v0.2 required fields, duplicate ids, selected field types, `tested_at` date format, freshness windows, result task references, result subject references, and evidence list shape. It does not generate scores, weights, recommendations, or routing decisions. `make validate-provider-naming` verifies provider-specific terms stay inside compatibility, adapter, mapping, or evidence surfaces. `make check` runs all validators plus the existing bridge integration smoke test.
+`make validate-evaluation` validates YAML parsing, v0.2 required fields, duplicate ids, selected field types, `tested_at` date format, freshness windows, result task references, result subject references, and evidence list shape. It does not generate scores, weights, recommendations, or routing decisions. `make validate-provider-naming` verifies provider-specific terms stay inside compatibility, adapter, mapping, or evidence surfaces. `make validate-ts-imports` verifies local TypeScript imports in bridge and adapter files without requiring a TypeScript compiler. `make check` runs all validators plus the existing bridge integration smoke test.
 
 ## Status Vocabulary
 

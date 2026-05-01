@@ -484,3 +484,37 @@ results:
       reproducibility: null
     recommendation: "Keep integration-test.sh focused on stable bridge contracts until deeper runtime fixtures are available."
     notes: "This records the first content-level bridge smoke test pass."
+
+  - id: exp_2026_05_01_004
+    task_id: tool_integration
+    subject_type: tool
+    subject_id: ai-ltc
+    subject_version: "v1.5.15"
+    prompt_profile: codex_local_operator
+    environment: "AI-LTC repository, local workspace"
+    tested_at: "2026-05-01"
+    status: positive
+    confidence: high
+    source: "TypeScript local import validator"
+    evidence:
+      source_docs:
+        - "scripts/ts_import_validator.py"
+        - "Makefile"
+        - "bridge/index.ts"
+        - "adapters/types.ts"
+      run_logs:
+        - "make validate-ts-imports: 11 files, 11 imports"
+        - "make check: evaluation validator passed; prompt mapping validator passed; provider naming validator passed; TypeScript import validator passed; bridge smoke test passed"
+      human_notes:
+        - "The repository has no local TypeScript toolchain; this validator catches broken local imports without adding dependencies."
+    observations:
+      - "Bridge and adapter TypeScript files now have dependency-light local import validation in make check."
+      - "This does not replace a compiler, but it closes the obvious broken-relative-import gap."
+    failure_modes_observed: []
+    scores:
+      success: 1.0
+      stability: null
+      cost: null
+      reproducibility: null
+    recommendation: "Keep this validator until a pinned TypeScript toolchain or tsconfig is added."
+    notes: "This records the local TypeScript import validation checkpoint."
