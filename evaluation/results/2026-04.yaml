@@ -518,3 +518,38 @@ results:
       reproducibility: null
     recommendation: "Keep this validator until a pinned TypeScript toolchain or tsconfig is added."
     notes: "This records the local TypeScript import validation checkpoint."
+
+  - id: exp_2026_05_02_001
+    task_id: repo_refactor
+    subject_type: tool
+    subject_id: ai-ltc
+    subject_version: "v1.5.15"
+    prompt_profile: codex_local_operator
+    environment: "AI-LTC repository, local workspace"
+    tested_at: "2026-05-02"
+    status: positive
+    confidence: high
+    source: "config and registry alignment validator"
+    evidence:
+      source_docs:
+        - "scripts/config_registry_validator.py"
+        - "Makefile"
+        - "cross-repo-registry.json"
+        - "ai-ltc-config.template.json"
+      run_logs:
+        - "make validate-config-registry: version v1.5.15, 2 consumer repos"
+        - "make check: evaluation validator passed; prompt mapping validator passed; provider naming validator passed; TypeScript import validator passed; config registry validator passed; bridge smoke test passed"
+      human_notes:
+        - "The template framework_version was corrected from v1.5.14 to v1.5.15."
+    observations:
+      - "Version alignment across VERSION, cross-repo-registry.json, and ai-ltc-config.template.json is now executable."
+      - "The validator also checks required registry consumer fields and template source-mode fields."
+    failure_modes_observed:
+      - "ai-ltc-config.template.json lagged behind VERSION after previous version updates."
+    scores:
+      success: 1.0
+      stability: null
+      cost: null
+      reproducibility: null
+    recommendation: "Run make validate-config-registry after version bumps, registry edits, or config template edits."
+    notes: "This records the config/registry alignment validation checkpoint."

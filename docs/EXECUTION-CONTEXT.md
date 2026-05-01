@@ -124,7 +124,7 @@ Add BRANCH-GOVERNANCE.md: dual-branch responsibilities and merge rules.
 
 ### Evaluation Validation
 
-Run `make validate-evaluation` after editing `evaluation/`. This checks v0.2 shape, selected field types, references, `tested_at` dates, and freshness windows; it does not score records or automate routing. Run `make validate-prompts` after editing `prompts/_mapping/`. Run `make validate-provider-naming` after edits that may expose provider-specific terms outside compatibility, adapter, mapping, or evidence surfaces. Run `make validate-ts-imports` after editing bridge or adapter TypeScript imports. Run `make check` before handoff to include all validators and the existing bridge integration smoke test. CI also runs `make check` through `.github/workflows/check.yml`.
+Run `make validate-evaluation` after editing `evaluation/`. This checks v0.2 shape, selected field types, references, `tested_at` dates, and freshness windows; it does not score records or automate routing. Run `make validate-prompts` after editing `prompts/_mapping/`. Run `make validate-provider-naming` after edits that may expose provider-specific terms outside compatibility, adapter, mapping, or evidence surfaces. Run `make validate-ts-imports` after editing bridge or adapter TypeScript imports. Run `make validate-config-registry` after editing `VERSION`, `cross-repo-registry.json`, or `ai-ltc-config.template.json`. Run `make check` before handoff to include all validators and the existing bridge integration smoke test. CI also runs `make check` through `.github/workflows/check.yml`.
 
 ### What Needs to Be Built
 
