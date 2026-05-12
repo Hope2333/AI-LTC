@@ -173,10 +173,11 @@ make validate-prompts
 make validate-provider-naming
 make validate-ts-imports
 make validate-config-registry
+make validate-handoff-template
 make check
 ```
 
-`make validate-evaluation` 检查 schema 形状、部分字段类型、引用关系、`tested_at` 日期、freshness 窗口和显式 `freshness_status` bucket 一致性，不生成评分，也不自动化 evaluation。`make validate-prompts` 校验旧 prompt mapping 的引用关系。`make validate-provider-naming` 校验 provider-specific 术语只出现在兼容、adapter、mapping 或证据表面。`make validate-ts-imports` 在不依赖 TypeScript toolchain 的情况下校验 bridge 和 adapter 文件里的本地 TypeScript import。`make validate-config-registry` 校验 `VERSION`、`cross-repo-registry.json` 和 `ai-ltc-config.template.json` 版本一致。`make check` 会运行全部校验和现有 bridge 集成冒烟测试。
+`make validate-evaluation` 检查 schema 形状、部分字段类型、引用关系、`tested_at` 日期、freshness 窗口和显式 `freshness_status` bucket 一致性，不生成评分，也不自动化 evaluation。`make validate-prompts` 校验旧 prompt mapping 的引用关系。`make validate-provider-naming` 校验 provider-specific 术语只出现在兼容、adapter、mapping 或证据表面。`make validate-ts-imports` 在不依赖 TypeScript toolchain 的情况下校验 bridge 和 adapter 文件里的本地 TypeScript import。`make validate-config-registry` 校验 `VERSION`、`cross-repo-registry.json` 和 `ai-ltc-config.template.json` 版本一致。`make validate-handoff-template` 校验示例项目模板的 `.ai`-only handoff bundle。`make check` 会运行全部校验和现有 bridge 集成冒烟测试。
 
 CI 通过 `.github/workflows/check.yml` 运行 `make check`。
 
@@ -186,6 +187,7 @@ CI 通过 `.github/workflows/check.yml` 运行 `make check`。
 |---|---|
 | `v1.5.3` | Kernel v0.1 + Runtime v0.1 + Demo CLI + public README rewrite |
 | `v1.5.4` | 分支治理 + 对照验证框架 + 多会话配置 |
+| `v1.5.16-exp-handoff-boundary` | `.ai/state.json` 作为第一性 handoff state；活跃 handoff 面留在 `.ai/`；根部 `00_HANDOFF` 仅为 legacy 兼容；目标项目 `docs/` 不承载临时 AI-LTC handoff packet。 |
 | `unreleased` | 2026-04-28 Experimental 对齐：evaluation schema v0.2、旧 prompt mapping、工具 harness 字段、模型 deployment-fit 字段、AI-LTC/OML 证据流澄清 |
 
 ## 项目结构

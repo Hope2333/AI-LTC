@@ -9,6 +9,8 @@
 - Latest confirmed commit: `<commit>`
 - Active local worktree delta:
   - <delta or `none`>
+- Executor packet: `<.ai path or none>`
+- Canonical task state: `.ai/state.json`
 
 ## Stable Facts
 
@@ -29,6 +31,8 @@
 
 - Stay inside this lane.
 - Do not open a new lane unless fresh evidence clearly requires it.
+- If an executor packet conflicts with `.ai/state.json` or this handoff,
+  stop and report the conflict.
 - If repeated failure exceeds the lane boundary, trigger `@ARCHITECT_HELP` and create `ESCALATION_REQUEST.md`.
 
 ## Immediate Next Actions

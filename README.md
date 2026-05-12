@@ -172,10 +172,11 @@ make validate-prompts
 make validate-provider-naming
 make validate-ts-imports
 make validate-config-registry
+make validate-handoff-template
 make check
 ```
 
-`make validate-evaluation` validates schema shape, selected field types, references, `tested_at` dates, freshness windows, and explicit `freshness_status` bucket consistency; it does not generate scores or automate evaluation. `make validate-prompts` validates legacy mapping references. `make validate-provider-naming` checks that provider-specific terms stay inside compatibility, adapter, mapping, or evidence surfaces. `make validate-ts-imports` validates local TypeScript imports in bridge and adapter files without requiring a TypeScript toolchain. `make validate-config-registry` checks `VERSION`, `cross-repo-registry.json`, and `ai-ltc-config.template.json` stay aligned. `make check` runs all validations plus the existing bridge integration smoke test.
+`make validate-evaluation` validates schema shape, selected field types, references, `tested_at` dates, freshness windows, and explicit `freshness_status` bucket consistency; it does not generate scores or automate evaluation. `make validate-prompts` validates legacy mapping references. `make validate-provider-naming` checks that provider-specific terms stay inside compatibility, adapter, mapping, or evidence surfaces. `make validate-ts-imports` validates local TypeScript imports in bridge and adapter files without requiring a TypeScript toolchain. `make validate-config-registry` checks `VERSION`, `cross-repo-registry.json`, and `ai-ltc-config.template.json` stay aligned. `make validate-handoff-template` validates the example project template's `.ai`-only handoff bundle. `make check` runs all validations plus the existing bridge integration smoke test.
 
 CI runs `make check` through `.github/workflows/check.yml`.
 
@@ -193,6 +194,7 @@ CI runs `make check` through `.github/workflows/check.yml`.
 | `v1.5.13` | enve-derived templates: cross-CLI adapter architecture, OML Core spec, AI-LTC integration plan |
 | `v1.5.14` | Upstream throttle retry (OpenCode Zen Alibaba routing), provider line rename, AI-LTC Todo Tasks document |
 | `v1.5.15` | Reasoning efficiency kernel: Caveman Compression, Chain-of-Draft (Zoom), Think Deep Not Just Long (Google), Headroom. Prompts moved to `prompts/`. Intuition file system. |
+| `v1.5.16-exp-handoff-boundary` | `.ai/state.json` is first-order handoff state; active handoff surfaces stay under `.ai/`; root `00_HANDOFF` is legacy compatibility only; target project `docs/` stays free of transient AI-LTC handoff packets. |
 | `unreleased` | 2026-04-28 Experimental alignment: evaluation schema v0.2, legacy prompt mapping, harness/tool fields, model deployment-fit fields, and AI-LTC/OML evidence-flow clarification. |
 
 ## Project Structure

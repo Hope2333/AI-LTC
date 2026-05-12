@@ -27,10 +27,13 @@ INIT ──→ HANDOFF_READY ──→ EXECUTION ──→ REVIEW ──→ OPTI
 
 ### HANDOFF_READY
 - **Entry**: Architect bootstrap work finished, initial skeleton is usable
-- **Required artifacts**: `00_HANDOFF.md`, lane handoff/status/roadmap docs
+- **Required artifacts**: `.ai/state.json`, `.ai/active-lane/ai-handoff.md`, lane status/current-status/roadmap docs
 - **Exit conditions**:
-  - `00_HANDOFF.md` written with explicit next actions
+  - `.ai/state.json` names the next action and current context
+  - `.ai/active-lane/ai-handoff.md` points to `.ai/state.json`
   - Initial lane docs exist
+  - Active-lane status summarizes current work without duplicating stale task tables
+  - Active handoff and executor packets stay under `.ai/`, not project `docs/`
   - Next execution batch is defined
 - **Legal transitions**: → EXECUTION
 
@@ -77,6 +80,7 @@ Before any transition:
 2. All required artifacts for target state must exist or be created as part of the transition
 3. `context_summary` must be updated to reflect the new phase
 4. Transition must be logged to `.ai/logs/state.log`
+5. `.ai/state.json` remains the first-order task source when supplemental handoff files disagree
 
 ## Transition Hooks
 

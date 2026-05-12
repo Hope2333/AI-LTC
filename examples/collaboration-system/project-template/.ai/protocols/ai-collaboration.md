@@ -27,8 +27,9 @@ Use architect and optimizer roles mainly for bootstrap architecture and later op
 
 ## v1 Handoff And Escalation
 
-- The architect role should leave `00_HANDOFF.md` when handing the project to the generalist role.
-- The generalist role should read `00_HANDOFF.md` before first execution when it exists.
+- The architect role should update `.ai/state.json` first when handing the project to the generalist role.
+- The generalist role should read `.ai/state.json`, `.ai/active-lane/ai-handoff.md`, and the active lane packet before first execution.
+- Legacy `00_HANDOFF.md` files are compatibility notes only, not new handoff requirements.
 - If repeated failure or architecture deadlock exceeds the current batch:
   - emit `@ARCHITECT_HELP`
   - create or refresh `ESCALATION_REQUEST.md`

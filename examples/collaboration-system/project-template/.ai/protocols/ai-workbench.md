@@ -8,13 +8,15 @@ If you only want one document to look at before talking to an AI, use this one.
 
 ## Current System
 
-- Global relay rules: `docs/ai-relay.md`
-- AI role split and detailed contracts: `docs/ai-collaboration.md`
-- Optional architect-to-generalist handoff: `00_HANDOFF.md`
-- Optional generalist-to-architect escalation summary: `ESCALATION_REQUEST.md`
+- Global relay rules: `.ai/protocols/ai-relay.md`
+- AI role split and detailed contracts: `.ai/protocols/ai-collaboration.md`
+- Canonical task state: local-only `.ai/state.json`
 - Active lane handoff: local-only `.ai/active-lane/ai-handoff.md`
-- Active status summary: local-only `.ai/active-lane/current-status.md`
+- Active status summary: local-only `.ai/active-lane/status.md`
+- Compatibility status summary: local-only `.ai/active-lane/current-status.md`
 - Active roadmap: local-only `.ai/active-lane/roadmap.md`
+- Legacy architect-to-generalist handoff: `legacy/00_HANDOFF.md`
+- Optional generalist-to-architect escalation summary: `ESCALATION_REQUEST.md`
 
 ## Stable Protocol Defaults
 

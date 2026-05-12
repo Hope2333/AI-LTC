@@ -1,0 +1,11 @@
+{
+  "schema_version": "ai-ltc-state-v1",
+  "phase": "HANDOFF_READY",
+  "tasks": [],
+  "next_action": "Replace this placeholder with the next concrete execution action.",
+  "iteration": 0,
+  "max_iterations": 10,
+  "status": "idle",
+  "last_update": "YYYY-MM-DDTHH:MM:SSZ",
+  "context_summary": "Template state. Replace with current repository context before dispatching executor work."
+}

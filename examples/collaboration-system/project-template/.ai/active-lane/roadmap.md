@@ -8,6 +8,7 @@
 
 - Status: `active`
 - Decision: `continue`
+- Canonical task state: `.ai/state.json`
 - <starting fact 1>
 - <starting fact 2>
 - Note whether Qwen is the default operator for this lane.

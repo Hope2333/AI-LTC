@@ -93,6 +93,29 @@ Typical usage:
 python3 scripts/state_pack_validator.py /path/to/state-pack.md
 ```
 
+### 6. `scripts/handoff_bundle_validator.py`
+
+Purpose:
+- validate the live AI-LTC handoff surface in a target repository
+
+Checks:
+- `.ai/state.json` exists and is valid JSON
+- `.ai/active-lane/ai-handoff.md` exists
+- active-lane status/current-status/roadmap files exist
+- handoff files include status, decision, stop reason, and next action
+- active-lane handoff and status point back to `.ai/state.json`
+- active-lane status fails when it duplicates a full task table instead of
+  pointing at the canonical state
+- root `00_HANDOFF.md` and docs-hosted executor packets are rejected for new
+  handoff surfaces
+
+Typical usage:
+
+```sh
+python3 scripts/handoff_bundle_validator.py /path/to/target-repo
+make validate-handoff TARGET_REPO=/path/to/target-repo
+```
+
 ## Recommended Order
 
 For a target repository:
@@ -102,6 +125,7 @@ For a target repository:
 3. `upgrade_validator.py`
 4. `state_pack_generator.py`
 5. `state_pack_validator.py`
+6. `handoff_bundle_validator.py` when dispatching or reviewing delegated work
 
 ## Operating Principle
 

@@ -1,5 +1,8 @@
 # Current Status
 
+This file is a compatibility summary. `.ai/state.json` is the first-order task
+state, and `.ai/active-lane/status.md` is the lane summary.
+
 - Status: `active`
 - Decision: `continue`
 - Stop Reason: `STOP_BOUNDED_PASS_EXHAUSTED`
@@ -16,6 +19,7 @@
 
 - <state item 1>
 - <state item 2>
+- Canonical task state: `.ai/state.json`
 
 ## Active Blocker
 

@@ -19,7 +19,7 @@ Typical files:
 - `README.md`
 - `README.zh.md`
 - `shared-repo-contract.prompt.md`
-- `00_HANDOFF.template.md`
+- `legacy/00_HANDOFF.template.md`
 - `ESCALATION_REQUEST.template.md`
 - `USE-CASES.md`
 - `FORMAT-STRATEGY.md`
@@ -45,9 +45,10 @@ Typical files in a target repository:
 - `.ai/active-lane/ai-handoff.md`
 - `.ai/active-lane/current-status.md`
 - `.ai/active-lane/roadmap.md`
+- `.ai/active-lane/status.md`
+- `.ai/state.json`
 - `.ai/system/ai-ltc-config.json`
 - `.ai/system/init-status.md`
-- `00_HANDOFF.md`
 - `ESCALATION_REQUEST.md`
 
 Properties:
@@ -55,6 +56,8 @@ Properties:
 - strongly project-specific
 - should normally remain local-only
 - should not be copied blindly between repositories
+- should avoid duplicating full task tables when a canonical state file exists
+- should keep active handoff, packets, and round state under `.ai/`
 
 ### 3. Self-Evolving
 
@@ -134,10 +137,11 @@ Purpose:
 
 Main files:
 - `examples/collaboration-system/project-template/AGENTS.md`
-- `examples/collaboration-system/project-template/docs/ai-relay.md`
-- `examples/collaboration-system/project-template/docs/ai-collaboration.md`
-- `examples/collaboration-system/project-template/docs/ai-workbench.md`
+- `examples/collaboration-system/project-template/.ai/protocols/ai-relay.md`
+- `examples/collaboration-system/project-template/.ai/protocols/ai-collaboration.md`
+- `examples/collaboration-system/project-template/.ai/protocols/ai-workbench.md`
 - `examples/collaboration-system/project-template/.ai/README.md`
+- `examples/collaboration-system/project-template/.ai/state.json`
 - `examples/collaboration-system/project-template/.ai/system/ai-ltc-config.json`
 
 Change class:
@@ -154,7 +158,7 @@ Purpose:
 Main files in a target repository:
 - `.ai/active-lane/*`
 - `.ai/system/*`
-- `00_HANDOFF.md`
+- `.ai/state.json`
 - `ESCALATION_REQUEST.md`
 
 Change class:
@@ -166,7 +170,7 @@ Change class:
 
 - staged role-based operating model
 - `A-B-O` lifecycle logic in practical form
-- `00_HANDOFF` protocol
+- `.ai`-only handoff protocol
 - `ESCALATION_REQUEST` protocol
 - self-evolving-doc rule for the active operator
 - bounded-pass and anti-loop guardrails

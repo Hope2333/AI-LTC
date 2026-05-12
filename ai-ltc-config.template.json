@@ -1,6 +1,6 @@
 {
   "schema_version": "1",
-  "framework_version": "v1.5.15",
+  "framework_version": "v1.5.16-exp-handoff-boundary",
   "source_mode": "folder",
   "source_priority": ["folder", "git_repo", "cloud_reference"],
   "folder_root": ".ai/AI-LTC",

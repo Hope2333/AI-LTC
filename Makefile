@@ -1,4 +1,4 @@
-.PHONY: bridge test check validate-evaluation validate-prompts validate-provider-naming validate-ts-imports validate-config-registry deploy-opencode deploy-claude deploy-all clean
+.PHONY: bridge test check validate-evaluation validate-prompts validate-provider-naming validate-ts-imports validate-config-registry validate-handoff-template validate-handoff deploy-opencode deploy-claude deploy-all clean
 
 bridge:
 	@echo "Building bridge TypeScript files..."
@@ -7,7 +7,7 @@ bridge:
 test:
 	@bash scripts/integration-test.sh
 
-check: validate-evaluation validate-prompts validate-provider-naming validate-ts-imports validate-config-registry test
+check: validate-evaluation validate-prompts validate-provider-naming validate-ts-imports validate-config-registry validate-handoff-template test
 
 validate-evaluation:
 	@python scripts/evaluation_validator.py
@@ -23,6 +23,13 @@ validate-ts-imports:
 
 validate-config-registry:
 	@python scripts/config_registry_validator.py
+
+validate-handoff-template:
+	@python scripts/handoff_bundle_validator.py examples/collaboration-system/project-template
+
+validate-handoff:
+	@test -n "$(TARGET_REPO)" || (echo "TARGET_REPO is required" && exit 1)
+	@python scripts/handoff_bundle_validator.py $(TARGET_REPO)
 
 deploy-opencode:
 	@bash scripts/deploy-adapter.sh opencode $(TARGET_REPO)
