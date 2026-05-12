@@ -100,6 +100,62 @@ tools:
     source: "docs/OML-INTEGRATION-PLAN.md"
     notes: "Body layer for plugin loading, MCP access, hooks, sessions, and workers."
 
+  - id: openclaw
+    name: OpenClaw
+    category: runtime
+    provider: OpenClaw
+    version: "2026.4.14"
+    tested_at: "2026-04-16"
+    status: experimental
+    installation_mode: "local Arch package from npm release"
+    surfaces:
+      - cli
+      - local_runtime
+    workspace_capabilities:
+      - inspect_local_runtime
+      - plan_sandboxed_personal_automation
+      - expose_bubblewrap_wrapper
+    access_model:
+      subscription: false
+      rate_limit: null
+      credits: null
+      offline_capable: true
+    harness_features:
+      - version_probe
+      - help_probe
+      - doctor_command
+      - bubblewrap_wrapper
+    permission_model:
+      sandbox: "bubblewrap wrapper is available; task dispatch still requires OML evidence capture first"
+      approval_required: "required for H2+ tasks and all personal-data or external-actuation surfaces"
+      filesystem_scope: "must be constrained to a fake home or explicit workspace before task dispatch"
+      network_scope: "unknown; treat network access as blocked until OML captures an allowlist"
+    capabilities:
+      - local_agent_substrate
+      - personal_automation
+      - bubblewrap_wrapper
+    strengths:
+      - broad Home-level automation surface
+      - system-visible installation path on Arch
+    weaknesses:
+      - powerful runtime with prompt-injection and personal-data exposure risks
+      - packaged dependency tree is large
+    known_failure_modes:
+      - missing_gateway_configuration
+      - missing_user_level_state_initialization
+      - prompt_injection_against_personal_context
+      - overbroad_filesystem_or_network_scope
+    scores:
+      code_editing: null
+      planning: null
+      reproducibility: null
+      integration: null
+      cost_stability: null
+    freshness_status: fresh
+    boundary_notes: "Treat as an execution substrate behind OML evidence capture; AI-LTC decides task allowance and risk tier."
+    source: "docs/HOME-AI-CONSUMER-FRAMEWORK.md"
+    notes: "Installed locally as openclaw-bin 2026.4.14-1 from ~/develop/packing/openclaw-bin."
+
   - id: oh-my-codex
     name: oh-my-codex
     category: operator

@@ -135,6 +135,7 @@ Canonical design references:
 - `docs/PROMPT-DECOUPLING-PLAN.md`
 - `docs/EVALUATION-SCHEMA.md`
 - `docs/AI-LTC-vs-OML-BOUNDARY.md`
+- `docs/HOME-AI-CONSUMER-FRAMEWORK.md`
 - `prompts/_mapping/legacy-to-role-phase-adapter.md`
 
 ## Evaluation v0.2

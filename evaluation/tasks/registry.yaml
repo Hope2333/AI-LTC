@@ -84,6 +84,26 @@ tasks:
       - ownership_clarity
       - implementation_readiness
 
+  - id: home_ai_consumer_framework
+    name: Home AI consumer framework
+    description: "Evaluate a local Home-level .ai runtime stack where AI-LTC governs policy and OML captures execution evidence."
+    success_criteria:
+      - home_risk_tiers_are_explicit
+      - runtime_evidence_is_captured
+      - sandbox_default_is_defined
+      - direct_actuation_is_blocked_by_default
+    preferred_roles:
+      - architect
+      - supervisor
+    preferred_signals:
+      - safety_boundary_clarity
+      - evidence_quality
+    evidence_expectations:
+      - local_runtime_version_probe
+      - runtime_help_or_doctor_output
+      - oml_evidence_record
+      - blocked_high_risk_case
+
   - id: repo_refactor
     name: Repository refactor
     description: "Restructure docs, prompts, or governance without changing the core protocol."

@@ -146,6 +146,42 @@ results:
       cost: null
     notes: "This is the first completed post-rename Experimental alignment proof across the local consumer set."
 
+  - id: 2026-04-16-home-ai-openclaw-oml-slice
+    task_id: home_ai_consumer_framework
+    subject_type: tool
+    subject_id: openclaw
+    subject_version: "2026.4.14"
+    prompt_profile: codex_local_operator
+    environment: "Arch workstation, AI-LTC Experimental, OML main"
+    tested_at: "2026-04-16"
+    status: mixed
+    confidence: medium
+    source: "docs/HOME-AI-CONSUMER-FRAMEWORK.md and OML OpenClaw adapter slice"
+    evidence:
+      source_docs:
+        - "docs/HOME-AI-CONSUMER-FRAMEWORK.md"
+      run_logs:
+        - "openclaw --version: OpenClaw 2026.4.14"
+        - "openclaw-bwrap --help: works"
+        - "openclaw doctor: missing gateway configuration and user-level state initialization"
+      human_notes:
+        - "AUR openclaw-git was too expensive for the first local pass; local openclaw-bin Arch package from npm release installed successfully."
+    observations:
+      - "OpenClaw can be installed and inspected locally, but is not ready for direct task dispatch."
+      - "Home-level AI-LTC exploration needs explicit H0-H4 risk tiers before OpenClaw direct execution is allowed."
+      - "OML can begin with detection, sandbox planning, and evidence capture without dispatching arbitrary OpenClaw tasks."
+    failure_modes_observed:
+      - "missing_gateway_configuration"
+      - "missing_user_level_state_initialization"
+      - "high_risk_direct_personal_automation_surface"
+    scores:
+      success: null
+      stability: null
+      cost: null
+      reproducibility: null
+    recommendation: "Promote only after a sandboxed OpenClaw task and captured OML evidence record exist."
+    notes: "This record keeps Home-level OpenClaw use inside Experimental until a sandboxed task proves the safety model."
+
   - id: exp_2026_04_28_001
     task_id: repo_digest
     subject_type: tool
